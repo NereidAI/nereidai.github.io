@@ -129,9 +129,8 @@ plugins:
             Integration: 集成
             System: 系统
 
-# Site analytics. Both ids are public client-side values, safe to commit.
-# Fill in once provided; Google Analytics 4 measurement id (G-XXXXXXXXXX)
-# and the Baidu Tongji site id (the hex token after hm.js?).
+# Site analytics. Both ids are public client-side values, safe to commit:
+# Google Analytics 4 (Material built-in) and Baidu Tongji (override template).
 extra:
   social:
     - icon: fontawesome/brands/github
