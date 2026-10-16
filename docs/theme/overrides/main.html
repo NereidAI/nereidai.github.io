@@ -1,0 +1,33 @@
+{# Copyright (C) 2026 YIQISOFT
+   SPDX-License-Identifier: Apache-2.0
+
+   Theme override: inject Baidu Tongji (百度统计) alongside Material's
+   built-in analytics block. The site id is configured in mkdocs.yml
+   (extra.baidu_tongji.id); when it is empty no script is emitted. #}
+{% extends "base.html" %}
+
+{% block htmltitle %}
+{%- set url = page.url | default('') -%}
+{%- if url == '' or url == 'zh/' -%}
+  {%- if url == 'zh/' -%}
+<title>NereidAI｜在数据海洋中导航：从设备、到模型、到边缘智能 · 私有化多芯片 AIoT 平台</title>
+  {%- else -%}
+<title>NereidAI — Navigate the Sea of Data: Devices, Models, Edge Intelligence | Air-gapped Multi-silicon AIoT Platform</title>
+  {%- endif -%}
+{%- else -%}{{ super() }}{%- endif -%}
+{% endblock %}
+
+{% block analytics %}
+{{ super() }}
+{% if config.extra.baidu_tongji and config.extra.baidu_tongji.id %}
+<script>
+var _hmt = _hmt || [];
+(function () {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?{{ config.extra.baidu_tongji.id }}";
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+{% endif %}
+{% endblock %}

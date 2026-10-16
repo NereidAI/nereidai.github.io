@@ -1,0 +1,312 @@
+# Copyright (C) 2026 YIQISOFT
+# SPDX-License-Identifier: Apache-2.0
+
+site_name: NereidAI
+site_description: >-
+  Navigate the sea of data — from devices to models to edge intelligence. An
+  end-to-end, air-gapped, multi-silicon AIoT platform: VLM-assisted annotation,
+  LLM/VLM and vision-model training, quantization, multi-vendor export, offline
+  edge distribution and inference feedback. IoT and AI in one private loop.
+site_url: https://nereidai.github.io
+repo_url: https://github.com/NereidAI
+repo_name: NereidAI
+edit_uri: ''
+copyright: Copyright &copy; 2026 YIQISOFT — Apache License 2.0
+
+docs_dir: docs
+site_dir: site
+
+theme:
+  name: material
+  custom_dir: docs/theme/overrides
+  language: en
+  logo: assets/logo.png
+  favicon: assets/favicon.png
+  features:
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.sections
+    - navigation.top
+    - navigation.tracking
+    - navigation.footer
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+    - content.tabs.link
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: indigo
+      accent: teal
+      toggle:
+        icon: material/weather-night
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: indigo
+      accent: teal
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to light mode
+
+extra_css:
+  - theme/custom.css
+
+extra_javascript:
+  - assets/guide-scope.js
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - md_in_html
+  - tables
+  - footnotes
+  - toc:
+      permalink: true
+  - pymdownx.details
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+
+plugins:
+  - search
+  - glightbox
+  - i18n:
+      docs_structure: folder
+      fallback_to_default: true
+      reconfigure_material: true
+      reconfigure_search: true
+      languages:
+        - locale: en
+          default: true
+          name: English
+          build: true
+        - locale: zh
+          name: 中文
+          build: true
+          nav_translations:
+            首页: 首页
+            Products: 产品
+            Suite Overview: 套件总览
+            Solutions: 商业解决方案
+            Architecture: 架构
+            Overview: 概览
+            Topology: 部署拓扑
+            Cross-Product Contracts: 跨产品契约
+            Deployment: 部署
+            Air-Gapped Install: 气隙安装
+            Kubernetes & Helm: Kubernetes 与 Helm
+            Edge Delivery: 边缘分发
+            Security: 安全
+            SSO & OIDC: SSO 与 OIDC
+            RBAC: RBAC 权限模型
+            Development: 开发
+            Getting Started: 快速开始
+            Contributing: 贡献指南
+            Conventions: 代码规范
+            Community & Support: 社区与支持
+            License: 开源许可
+            Community vs Enterprise: 社区版与企业版
+            Roadmap: 路线图
+            Support: 支持
+            Reference: 参考
+            Naming & Abbreviations: 命名与简写
+            Glossary: 术语表
+            About: 关于
+            About NereidAI: 关于 NereidAI
+            Guides: 使用指南
+            Monitoring: 监控
+            Devices: 设备
+            Configuration: 配置
+            Operations: 运营
+            Integration: 集成
+            System: 系统
+
+# Site analytics. Both ids are public client-side values, safe to commit.
+# Fill in once provided; Google Analytics 4 measurement id (G-XXXXXXXXXX)
+# and the Baidu Tongji site id (the hex token after hm.js?).
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/NereidAI
+  generator: false
+  analytics:
+    provider: google
+    property: G-LY0H7TXKXG
+  baidu_tongji:
+    id: 269d4b8dfd17fe64f979e29c094ed716
+
+nav:
+  - Home: index.md
+
+  - Products:
+    - Suite Overview: products/index.md
+    - NereidSphere: products/nereidsphere.md
+    - NereidIdentity: products/nereididentity.md
+    - NereidLink: products/nereidlink.md
+    - NereidForge: products/nereidforge.md
+    - NereidHorizon: products/nereidhorizon.md
+    - NereidEdge: products/nereidedge.md
+    - NereidFleet: products/nereidfleet.md
+    - NereidMobile: products/nereidmobile.md
+
+  - Guides:
+    - Overview: guides/index.md
+    - NereidSphere:
+      - Getting Started: guides/sphere/getting-started.md
+      - guides/sphere/portal-overview.md
+      - guides/sphere/sso-login.md
+      - guides/sphere/product-sso.md
+      - guides/sphere/session-and-logout.md
+      - guides/sphere/admin-users.md
+      - guides/sphere/connection-status.md
+      - guides/sphere/troubleshooting.md
+      - Glossary:
+        - guides/sphere/glossary/gateway.md
+        - guides/sphere/glossary/identity-provider.md
+        - guides/sphere/glossary/ns-ticket.md
+        - guides/sphere/glossary/session.md
+        - guides/sphere/glossary/sso.md
+    - NereidIdentity:
+      - Getting Started: guides/identity/getting-started.md
+    - NereidLink:
+      - Getting Started: guides/link/getting-started.md
+      - Monitoring:
+        - guides/link/overview.md
+        - guides/link/stats.md
+        - guides/link/dashboards.md
+      - Devices:
+        - guides/link/devices.md
+        - guides/link/device-detail.md
+        - guides/link/device-shadow.md
+        - guides/link/credentials.md
+        - guides/link/quarantine.md
+        - guides/link/customers.md
+        - guides/link/connectors.md
+        - guides/link/edge-profiles.md
+        - guides/link/link-health.md
+      - Configuration:
+        - guides/link/profiles.md
+        - guides/link/device-services.md
+        - guides/link/edge-secret-types.md
+        - guides/link/edge-secrets.md
+        - guides/link/gateway-operations.md
+        - guides/link/data-quality.md
+        - guides/link/rule-chains.md
+        - guides/link/rule-chain-editor.md
+        - guides/link/forwarders.md
+        - guides/link/escalation-chains.md
+        - guides/link/storage-hooks.md
+      - Operations:
+        - guides/link/commands.md
+        - guides/link/probes.md
+        - guides/link/alarms.md
+        - guides/link/notifications.md
+        - guides/link/dlq.md
+        - guides/link/firmware.md
+        - guides/link/ota-tasks.md
+      - Integration:
+        - guides/link/integrate-direct-device.md
+        - guides/link/integrate-gateway.md
+      - System:
+        - guides/link/system-tenants.md
+        - guides/link/system-audit.md
+        - guides/link/system-cas.md
+        - guides/link/system-ops-orders.md
+        - guides/link/system-license.md
+        - guides/link/system-users.md
+        - guides/link/account-security.md
+      - Glossary:
+        - guides/link/glossary/connector.md
+        - guides/link/glossary/edge-secret.md
+        - guides/link/glossary/gateway.md
+        - guides/link/glossary/gateway-operation.md
+        - guides/link/glossary/health-check.md
+        - guides/link/glossary/lifecycle.md
+        - guides/link/glossary/presence.md
+        - guides/link/glossary/probe.md
+        - guides/link/glossary/profile.md
+        - guides/link/glossary/quarantine.md
+        - guides/link/glossary/rule-chain.md
+        - guides/link/glossary/shadow.md
+        - guides/link/glossary/subdevice.md
+        - guides/link/glossary/telemetry.md
+    - NereidForge:
+      - Getting Started: guides/forge/getting-started.md
+      - guides/forge/datasets.md
+      - guides/forge/annotations.md
+      - guides/forge/training.md
+      - guides/forge/optimization.md
+      - guides/forge/evaluation.md
+      - guides/forge/models.md
+      - guides/forge/mlbackend.md
+    - NereidHorizon:
+      - Getting Started: guides/horizon/getting-started.md
+      - guides/horizon/dashboard.md
+      - guides/horizon/nodes.md
+      - guides/horizon/services.md
+      - guides/horizon/patterns.md
+      - guides/horizon/policies.md
+      - guides/horizon/mgmtpolicies.md
+      - guides/horizon/agbots.md
+      - guides/horizon/apikeys.md
+      - guides/horizon/hagroups.md
+      - guides/horizon/users.md
+      - guides/horizon/organizations.md
+      - guides/horizon/catalog.md
+      - guides/horizon/agentfileversion.md
+      - guides/horizon/node_registration.md
+      - guides/horizon/auditlog.md
+      - guides/horizon/bffUsers.md
+    - NereidEdge:
+      - Getting Started: guides/edge/getting-started.md
+    - NereidFleet:
+      - Getting Started: guides/fleet/getting-started.md
+    - NereidMobile:
+      - Getting Started: guides/mobile/getting-started.md
+
+  - Solutions:
+    - Overview: solutions/index.md
+    - NereidFactory: solutions/nereidfactory.md
+    - NereidSentinel: solutions/nereidsentinel.md
+    - NereidMedical: solutions/nereidmedical.md
+
+  - Architecture:
+    - Overview: architecture/overview.md
+    - Topology: architecture/topology.md
+    - Cross-Product Contracts: architecture/contracts.md
+
+  - Deployment:
+    - Air-Gapped Install: deployment/air-gapped.md
+    - Kubernetes & Helm: deployment/kubernetes.md
+    - Edge Delivery: deployment/edge-delivery.md
+
+  - Security:
+    - Overview: security/index.md
+    - SSO & OIDC: security/sso-oidc.md
+    - RBAC: security/rbac.md
+
+  - Development:
+    - Getting Started: development/getting-started.md
+    - Contributing: development/contributing.md
+    - Conventions: development/conventions.md
+
+  - Community & Support:
+    - License: community/license.md
+    - Community vs Enterprise: community/community-vs-enterprise.md
+    - Roadmap: community/roadmap.md
+    - Support: community/support.md
+
+  - Reference:
+    - Naming & Abbreviations: reference/naming.md
+    - Glossary: reference/glossary.md
+
+  - About:
+    - About NereidAI: about/index.md
