@@ -108,6 +108,8 @@ plugins:
             SSO & OIDC: SSO 与 OIDC
             RBAC: RBAC 权限模型
             Development: 开发
+            API Integration: API 对接
+            Authentication Flows: 认证流程
             Getting Started: 快速开始
             Contributing: 贡献指南
             Conventions: 代码规范
@@ -300,6 +302,9 @@ nav:
     - RBAC: security/rbac.md
 
   - Development:
+    - API Integration:
+      - Overview: development/api-integration.md
+      - Authentication Flows: development/authentication-flows.md
     - Getting Started: development/getting-started.md
     - Contributing: development/contributing.md
     - Conventions: development/conventions.md
