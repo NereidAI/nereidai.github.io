@@ -139,74 +139,26 @@ SHARED 属性。
 - 平台计算 `delta`（reported 与 desired 不一致的键）并标记 `in_sync`，二者都可通过
   REST/WebSocket 读取。
 
-### 媒体：图片、视频、文本等二进制
+### 媒体：图片、文档等二进制
 
-二进制值绝不进入时序行（无 bytea 列、不内联载荷）。字节存入平台 blob 后端，点上只保留
-字符串引用 `blob://<key>`，读侧把引用解析为短时效签名 URL。提供两种上报方式。
+遥测不只可以带标量，也可以携带二进制媒体——相机图片、巡检照片、扫描文档。字节绝不进入
+时序行或消息总线：NereidLink 把它存入 S3 兼容的 blob 后端（MinIO、SeaweedFS、
+AWS S3……），点位中只保留 `blob://media/<租户>/<设备>/<uuid>`。有两种上行方式：
 
-**方式一 —— 帧标记（遥测帧内 base64）。** 将标量值替换为如下对象：
+1. **帧标记（marker）**——在标量位置放
+   `{"blob":true,"content_type":…,"filename":…,"data":"<base64>"}` 对象，可走
+   MQTT（`v1/me/telemetry`）或 HTTP（`POST /v1/me/telemetry`）。`data` 只能是
+   base64；marker 可与普通测量同帧。
+2. **HTTP 原始直传**——`POST /v1/me/blob?key=<名称>` 直接流式上传原始文件（无
+   base64），再由平台发布引用点位。
 
-```json
-{
-  "photo": {
-    "blob": true,
-    "content_type": "image/jpeg",
-    "filename": "camera-01.jpg",
-    "data": "/9j/4AAQ..."
-  },
-  "temperature": 23.4
-}
-```
+单对象大小（默认 10 MiB）与内容类型白名单（默认 `image/*`，接收文档需加入
+`application/pdf` 等）在服务端统一执行。归属设备用 `GET /v1/me/blob` 下载；控制台/API
+通过 `GET /v1/tenants/{tenant}/blob/sign?key=…` 把引用换成短时签名 URL。
 
-标记字段：
-
-| 字段 | 必填 | 含义 |
-|---|---|---|
-| `blob` | 是 | 必须为布尔值 `true`，其他值该字段被拒绝。 |
-| `data` | 是 | 文件字节的 **base64 编码**。不接受明文：`"HELLO WORLD."` 必须写成 `"SEVMTE8gV09STGQu"`；空数据被拒绝。 |
-| `content_type` | 否 | 字节的媒体类型。省略（或传 `""`）时平台从内容检测类型；平台不猜测单位，但会存储/检测媒体类型。 |
-| `filename` | 否 | 原始文件名，仅展示用，不影响对象键。 |
-
-接受的 base64 变体：标准或 URL-safe 字母表、有无填充均可
-（`SEVMTE8gV09STGQu`、`SEVMTE8gV09STGQ`、`SEVMTE8gV09STGQu`）。
-标记在 MQTT（`v1/me/telemetry`）与 HTTP（`POST /v1/me/telemetry`）上均生效，
-可与普通标量值混在同一帧。
-
-**方式二 —— 二进制直传（无需 base64）。**
-
-```bash
-curl -X POST "http://<host>/v1/me/blob?key=photo" \
-  -H "Authorization: Bearer <device-token>" \
-  -H "Content-Type: image/jpeg" \
-  --data-binary @camera-01.jpg
-```
-
-请求体为原始文件，直接流式落入 blob 存储。`key` 查询参数（默认 `blob`）是测量名，
-必须匹配 `[A-Za-z0-9_.-]{1,128}`；对象键始终由服务端生成。响应：
-
-```json
-{"published":1,"key":"media/<tenant>/<device>/<uuid>",
- "uri":"blob://media/<tenant>/<device>/<uuid>","size":48213}
-```
-
-**大小与类型策略**（平台配置，服务端统一执行一次）：
-
-| 配置项 | 默认值 | 含义 |
-|---|---|---|
-| `blob.media_max_bytes` | `10485760`（10 MiB） | 单个媒体对象大小上限。 |
-| `blob.media_allowed_types` | `image/` | 允许的内容类型；以 `/` 结尾为类型前缀（image/、video/），否则精确匹配。 |
-
-超大对象返回 `413`；不允许的类型返回 `415`（帧标记）或被拒绝；blob 禁用时标记字段直接
-报错——绝不内联字节。
-
-**读取媒体。** 引用就是点的字符串值 `blob://media/<tenant>/<device>/<uuid>`。
-
-- 设备自身：`GET /v1/me/blob?key=<key>`，仅服务属于已认证设备的对象，支持 HTTP Range、
-  ETag 和条件请求。
-- 控制台/用户：`GET /v1/tenants/{tenant}/blob/sign?key=<key>`（权限 `device:read`）
-  → `{"url","size","content_type"}`。URL 为 S3 预签名或 HMAC 签名的 `/v1/blobs/get`，
-  有效期约 15 分钟。控制台按类型渲染：图片缩略图、视频播放器、文本/JSON/XML 文本查看器
-  （内联前 256 KiB）、其他类型下载。
+!!! tip "媒体完整契约"
+    marker 字段规范、base64 变体、S3/本地后端、配置项、错误码与控制台渲染方式已单独成页：
+    **[二进制媒体与 S3 存储](media-blobs.md)**。
 
 ### 命令帧（平台 → 设备）
 

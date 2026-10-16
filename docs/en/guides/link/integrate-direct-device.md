@@ -166,87 +166,32 @@ attributes for fire-and-forget configuration.
 - The platform computes `delta` (desired keys whose reported value differs)
   and flags the shadow `in_sync`; read both over REST/WebSocket.
 
-### Media: images, video, text and other binaries
+### Media: images, documents and other binaries
 
-Binary values never go into the time-series row (no bytea column, no
-inline payload). The bytes are stored in the platform's blob backend and
-the point keeps a string reference `blob://<key>`; read-side clients
-resolve the reference to a short-lived signed URL. Two uplink forms are
-provided.
+Telemetry can carry binary media — camera images, inspection photos,
+scanned documents — not just scalars. The bytes never enter the time-series
+row or the message bus: NereidLink stores them in its S3-compatible blob
+backend (MinIO, SeaweedFS, AWS S3, …) and the point keeps only
+`blob://media/<tenant>/<device>/<uuid>`. Two uplink forms exist:
 
-**Form 1 — frame marker (base64 inside a telemetry frame).** Replace a
-scalar value with this object:
+1. **Frame marker** — a `{"blob":true,"content_type":…,"filename":…,
+   "data":"<base64>"}` object in place of a scalar, over MQTT
+   (`v1/me/telemetry`) or HTTP (`POST /v1/me/telemetry`). `data` is
+   base64 only; the marker can share a frame with ordinary measurements.
+2. **Raw HTTP upload** — `POST /v1/me/blob?key=<name>` streams the raw
+   file (no base64) straight into object storage, then publishes the
+   reference point.
 
-```json
-{
-  "photo": {
-    "blob": true,
-    "content_type": "image/jpeg",
-    "filename": "camera-01.jpg",
-    "data": "/9j/4AAQ..."
-  },
-  "temperature": 23.4
-}
-```
+Per-object size (default 10 MiB) and the content-type allowlist (default
+`image/*`, extend with e.g. `application/pdf` for documents) are enforced
+once on the server. Owners download via `GET /v1/me/blob`; console/API
+users resolve a reference via
+`GET /v1/tenants/{tenant}/blob/sign?key=…` to a short-lived signed URL.
 
-Marker fields:
-
-| Field | Required | Meaning |
-|---|---|---|
-| `blob` | yes | Must be the boolean `true`; any other value rejects the field. |
-| `data` | yes | The file bytes **encoded as base64**. Plain text here is NOT accepted: `"HELLO WORLD."` must be sent as `"SEVMTE8gV09STGQu"`. Empty data is rejected. |
-| `content_type` | no | The media type of the bytes. Omit it (or send `""`) to let the platform detect the type from the content; the platform never guesses units but does store/detect a media type. |
-| `filename` | no | Original file name, display only. It never influences the stored object key. |
-
-Accepted base64 variants: standard or URL-safe alphabet, with or without
-padding (`SEVMTE8gV09STGQu`, `SEVMTE8gV09STGQ`, `SEVMTE8gV09STGQu`).
-The marker works over MQTT (`v1/me/telemetry`) and HTTP
-(`POST /v1/me/telemetry`); it can be mixed with ordinary scalar values in
-the same frame.
-
-**Form 2 — direct binary upload (no base64).**
-
-```bash
-curl -X POST "http://<host>/v1/me/blob?key=photo" \
-  -H "Authorization: Bearer <device-token>" \
-  -H "Content-Type: image/jpeg" \
-  --data-binary @camera-01.jpg
-```
-
-The request body is the raw file, streamed straight into blob storage.
-The `key` query parameter (default `blob`) is the measurement name and
-must match `[A-Za-z0-9_.-]{1,128}`; the stored object key is always
-generated server-side. The response:
-
-```json
-{"published":1,"key":"media/<tenant>/<device>/<uuid>",
- "uri":"blob://media/<tenant>/<device>/<uuid>","size":48213}
-```
-
-**Size and type policy** (platform-configured, enforced once on the
-server):
-
-| Setting | Default | Meaning |
-|---|---|---|
-| `blob.media_max_bytes` | `10485760` (10 MiB) | Max size of one media object. |
-| `blob.media_allowed_types` | `image/` | Allowed content types; an entry ending in `/` is a type prefix (image/, video/), others match exactly. |
-
-Over-sized objects return `413`; disallowed types return `415` (frame
-marker) or are rejected; when blob storage is disabled a marked field
-returns an error — bytes are never inlined.
-
-**Reading media back.** The reference is the point's string value
-`blob://media/<tenant>/<device>/<uuid>`.
-
-- The device itself: `GET /v1/me/blob?key=<key>`. Only objects owned by
-  the authenticated device are served; HTTP Range, ETag and conditional
-  requests are supported.
-- Console/UI users: `GET /v1/tenants/{tenant}/blob/sign?key=<key>`
-  (`device:read` permission) → `{"url","size","content_type"}`. The URL is
-  a presigned S3 URL or an HMAC-signed `/v1/blobs/get` URL, valid ~15
-  minutes. The console renders images as thumbnails, video in a player,
-  text/JSON/XML in a text viewer (first 256 KiB inline), and other types
-  as downloads.
+!!! tip "Full media contract"
+    The marker field specification, base64 variants, S3/local backends,
+    configuration, error codes and console rendering are documented on a
+    dedicated page: **[Binary Media and S3 Storage](media-blobs.md)**.
 
 ### Command frame (platform → device)
 

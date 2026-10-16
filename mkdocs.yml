@@ -127,6 +127,9 @@ plugins:
             Configuration: 配置
             Operations: 运营
             Integration: 集成
+            SDK (Go): SDK（Go）
+            Device SDK (Go): 设备 SDK（Go）
+            Adapter SDK (Go): 适配器 SDK（Go）
             System: 系统
 
 # Site analytics. Both ids are public client-side values, safe to commit:
@@ -214,6 +217,10 @@ nav:
       - Integration:
         - guides/link/integrate-direct-device.md
         - guides/link/integrate-gateway.md
+        - guides/link/media-blobs.md
+      - SDK (Go):
+        - guides/link/device-sdk.md
+        - guides/link/adapter-sdk.md
       - System:
         - guides/link/system-tenants.md
         - guides/link/system-audit.md

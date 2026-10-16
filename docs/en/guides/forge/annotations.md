@@ -1,31 +1,110 @@
 # Annotations
 
-Annotations turn an image dataset into labeled training data. Forge embeds Label Studio as the annotation workbench and supports semi-automated pre-labeling through an ML Backend.
+Annotations turn raw data into labeled training sets. Forge does not rebuild a
+labeling tool: it integrates **Label Studio** (images, text and conversation)
+and **CVAT** (video and tracking) as embedded workbenches, and adds a
+self-built **ML Backend** that pre-labels with your own models. The intended
+division of labor is *the machine labels first, a human reviews and corrects*.
+
+In an internal run on 128 street-scene images (8 classes), one pre-labeling
+pass produced 269 boxes on 75 images — about 59% of the images needed no boxes
+drawn from scratch. Your savings depend on the model and scene; measure them
+on a pilot batch.
+
+## Task types
+
+| Workbench | Tasks |
+|---|---|
+| Label Studio (images) | Object detection (rectangles), segmentation (polygons/masks), classification, keypoints, oriented boxes |
+| Label Studio (text) | Text classification, named entities, generation/chat review |
+| CVAT (video) | Object tracking across frames, keyframe interpolation, click-to-segment |
 
 ## Flow
 
-1. **Create an annotation project** — select a dataset and an annotation task type (detection / segmentation / classification, etc.).
-2. **Open the annotation workbench** — Label Studio is embedded; annotate each image with bounding boxes, polygons, and so on.
-3. **Semi-automated annotation** — click **Semi-automated annotation** and optionally choose an ML Backend (model) to pre-label the unannotated tasks.
-4. **Review and export** — finished annotations can be exported as COCO / YOLO / Label Studio JSON / CSV.
+1. **Create a project** — on the Annotations page, pick a dataset version and
+   the task type; the project carries the label schema (the class list).
+2. **Open the workbench** — the tool is embedded; images or text open
+   directly, they are not copied (the workbench references presigned object
+   URLs).
+3. **Choose a pre-labeling model** — in the project header select a registered
+   model version (detection/segmentation; SAM is offered separately in the
+   video editor). The choice is remembered per project.
+4. **Run semi-automated annotation** — the ML Backend predicts on the
+   unlabeled tasks and writes predictions as editable drafts in the workbench.
+5. **Review and correct** — a human confirms, fixes or discards each draft.
+6. **Export** — the export becomes a new, immutable dataset version.
 
-## Prerequisites
+## Pre-labeling models
 
-- A dataset with uploaded images.
-- Semi-automated annotation needs a usable ML Backend — register one on the ML Backend page, or use the default service. See [ML Backend](mlbackend.md).
+The ML Backend is model-agnostic; it routes by model family:
+
+- **CNN models** (YOLO / RT-DETR for detection, SAM for segmentation,
+  classifiers) run through ONNX Runtime / Triton.
+- **VLM models** (for example Qwen-VL / Florence-2) run through a
+  vLLM-compatible OpenAI endpoint and turn prompts into labels or boxes —
+  useful for irregular categories and zero-shot first passes.
+- **Trained models loop back**: after a model is trained, selecting that model
+  version for pre-labeling makes subsequent batches faster (the flywheel).
+
+Suggestions below the project's confidence threshold are left unlabeled for a
+human rather than inserted as noisy boxes. See [ML Backend](mlbackend.md) for
+service registration and health.
+
+## Video to training frames
+
+CVAT labels video with tracks and keyframes; trainers consume frame images.
+Forge provides a built-in **video frame-extraction** pipeline component:
+
+```
+CVAT export (tracks / keyframes / boxes)
+   ──► extract at chosen fps / sampling (uniform or activity-based)
+   ──► interpolate labels between keyframes
+   ──► frame images + regenerated COCO/YOLO labels
+   ──► new dataset version (extracted once, reusable for many runs)
+```
+
+You do not extract frames by hand; the extraction runs as a preparation step,
+and the extracted frames can be reused by later training runs.
+
+## Review and quality
+
+- Treat pre-labels as drafts: spot-check a sample before exporting, especially
+  when the class list changed or the model is weak.
+- Keep the model's class space identical to the project's label schema —
+  mismatched classes are the usual reason predictions look empty or wrong.
+- Export only reviewed work; the exported version is immutable and is what the
+  trainer consumes.
+
+## Export formats
+
+| Data | Export |
+|---|---|
+| Images (detection / segmentation) | COCO, YOLO (plus Label Studio JSON / CSV from the workbench) |
+| Text classification | Plain JSONL (`text,label`) |
+| Generation / chat | Sharegpt JSONL — directly usable by LLM-SFT training |
+| Video | Frame images + COCO/YOLO via the frame-extraction component |
 
 ## FAQ
 
-!!! question "Pre-labeling returns nothing?"
-
-    Confirm the selected model's classes match the annotation configuration. A weak model producing low-confidence predictions is normal.
+!!! question "Pre-labeling returns nothing or is disabled?"
+    A model version must be selected in the project header (and have weights
+    available); the button is disabled until then. If predictions run but look
+    empty, verify the model's classes match the project labels and lower the
+    confidence threshold. A weak model returning few suggestions is normal on
+    the first batch.
 
 !!! question "Where does the export go?"
+    It becomes a new dataset version (YOLO/COCO for vision, JSONL for text),
+    immediately selectable on the Training page.
 
-    The export produces a new dataset in YOLO format, which can be selected directly on the Training page.
+!!! question "Labels and model classes disagree?"
+    Re-export with an aligned label schema, or choose the model version trained
+    on those same classes.
 
 ## Next steps
 
-After exporting, create a training task on the [Training](training.md) page — the data loop closes automatically.
-
-**First run?** Follow the end-to-end [Getting started](getting-started.md) walkthrough.
+- [Training](training.md) — start a CV or LLM/VLM run from the exported
+  version.
+- [ML Backend](mlbackend.md) — register or troubleshoot the pre-labeling
+  service.
+- [Datasets](datasets.md) — how versions are stored and reused.
