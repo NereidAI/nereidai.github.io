@@ -17,6 +17,11 @@
 {%- else -%}{{ super() }}{%- endif -%}
 {% endblock %}
 
+{% block extrahead %}
+{{ super() }}
+<meta name="google-site-verification" content="vP9uDfzwCPPvsImpgBvfgeFAZGgCpPRQnsdLn_QrFm0" />
+{% endblock %}
+
 {% block analytics %}
 {{ super() }}
 {% if config.extra.baidu_tongji and config.extra.baidu_tongji.id %}
