@@ -6,7 +6,9 @@ name: Deploy site to GitHub Pages
 #   push a tag vX.Y.Z  ->  publish a frozen /vX.Y.Z/ snapshot and move "latest"
 #   push to main       ->  publish the rolling /dev/ snapshot
 # All snapshots live on the gh-pages branch and are uploaded together as one
-# Pages artifact, so the Pages source stays "GitHub Actions" in repo settings.
+# Pages artifact. NOTE: the github-pages environment only permits deployments
+# from the main branch, so tag runs publish with mike and then re-dispatch this
+# workflow on main, where the actual Pages deployment runs.
 
 on:
   push:
@@ -15,9 +17,15 @@ on:
     tags:
       - 'v*'
   workflow_dispatch:
+    inputs:
+      reason:
+        description: 'Dispatch reason (informational)'
+        required: false
+        default: 'manual'
 
 permissions:
   contents: write
+  actions: write
   pages: write
   id-token: write
 
@@ -82,21 +90,35 @@ jobs:
           # Persist snapshots for future runs.
           git push origin gh-pages
 
+      # Tag refs cannot use the github-pages environment (main-only policy):
+      # hand the actual deployment off to a run on the main branch.
+      - name: Trigger Pages deployment on main
+        if: steps.version.outputs.release == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh workflow run deploy.yml --ref main \
+            -f reason="release ${GITHUB_REF_NAME} published"
+
       - name: Extract published site
+        if: steps.version.outputs.release != 'true'
         run: |
           rm -rf site
           git worktree add site gh-pages
 
       - name: Configure Pages
+        if: steps.version.outputs.release != 'true'
         uses: actions/configure-pages@v5
 
       - name: Upload artifact
+        if: steps.version.outputs.release != 'true'
         uses: actions/upload-pages-artifact@v3
         with:
           path: site
 
   deploy:
     needs: build
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     environment:
       name: github-pages
