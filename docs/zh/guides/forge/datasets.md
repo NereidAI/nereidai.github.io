@@ -10,13 +10,13 @@
 | 格式 | 用于 | 内容 |
 |---|---|---|
 | **COCO** | CV 检测 / 分割 | 图片 + COCO `annotations.json` |
-| **YOLO** | CV 训练 | 图片 + YOLO 标签 + `data.yaml` |
+| **TXT** | CV 检测训练 | 图片 + 每图一个归一化检测框 `.txt` 标签 + 清单 YAML |
 | **ImageNet** | 图像分类 | 按类别目录布局 |
 | **LLM-SFT** | LLM / VLM 微调 | sharegpt 风格 JSONL 语料；VLM 数据集另带 `images/` 文件夹 |
 | **JSONL** | 文本语料 | 每行一个样本（纯文本、`{text}`、`{data}` 或 sharegpt 对话） |
 
 `llm-sft` 与 `imagenet` 版本可直接被训练选择。原始 COCO 上传会自动转换给训练器使用（生成
-`data.yaml`）；标注导出的 YOLO 完全无需转换。
+清单 YAML）；标注导出的 TXT 标签完全无需转换。
 
 一行 sharegpt 如下，可直接喂给 LLM/VLM 训练器：
 
@@ -39,7 +39,7 @@
 ## 版本规则
 
 - 每次上传递增一个版本；旧版本保留且仍可选择。版本不可修改。
-- 标注**导出**（视觉为 COCO/YOLO，文本为 JSONL）本身也是一个新数据集版本，因此模型总能
+- 标注**导出**（视觉为 COCO/TXT，文本为 JSONL）本身也是一个新数据集版本，因此模型总能
   回溯到它学习的确切标签。
 - 创建任务时在版本之间切换；流水线其余部分不变。
 - 版本记录文件数（图片与标注文件）、格式、大小与来源（上传、导出、S3 对账）。
@@ -48,14 +48,14 @@
 
 ```
 上传图片 ──► v1（原始）
-标注 + 导出 ──► v2（YOLO / JSONL，可训练）──► 训练
+标注 + 导出 ──► v2（TXT / JSONL，可训练）──► 训练
 新现场图片 ──► v3 ──► 补标缺口 ──► v4 ──► 重训
 ```
 
 ## 常见问题
 
 !!! question "如何准备带标签的训练数据？"
-    在[标注工作台](annotations.md)完成标注后点击**导出**。视觉项目导出 COCO/YOLO；文本
+    在[标注工作台](annotations.md)完成标注后点击**导出**。视觉项目导出 COCO/TXT；文本
     分类导出纯 JSONL；生成/对话项目导出 sharegpt JSONL。导出物成为新数据集版本，训练页可
     立即选择。
 
@@ -64,7 +64,7 @@
 
 !!! question "一个数据集能同时放图片和文字吗？"
     VLM 语料正是如此：`llm-sft` JSONL 引用配套 `images/` 目录里的文件。纯视觉用
-    COCO/YOLO/ImageNet；纯文本用无图片的 JSONL/LLM-SFT。
+    COCO/TXT/ImageNet；纯文本用无图片的 JSONL/LLM-SFT。
 
 ## 下一步
 

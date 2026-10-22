@@ -92,7 +92,7 @@ Terms used across the suite and this site. Product **short names** and
 
 | Term | Meaning |
 |---|---|
-| **Dataset** | A versioned collection of images/data in an annotation format (e.g. COCO / YOLO). |
+| **Dataset** | A versioned collection of images/data in an annotation format (e.g. COCO / TXT). |
 | **Annotation / labeling** | Marking data (bounding boxes, masks, …), with optional VLM-assisted pre-labeling. |
 | **Training / fine-tuning** | Producing or adapting a model on a dataset via a Kubeflow pipeline. |
 | **Optimization / quantization** | Reducing a model's size/latency (e.g. NNCF, OpenVINO, TensorRT) without retraining from scratch. |

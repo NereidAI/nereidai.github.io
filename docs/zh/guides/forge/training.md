@@ -10,9 +10,9 @@ Forge 通过 Kubeflow Pipelines 调度，你只需填写训练表单。两条训
 
 | | 计算机视觉 | LLM / VLM |
 |---|---|---|
-| 输入数据集 | COCO / YOLO / ImageNet 版本 | LLM-SFT / sharegpt JSONL（VLM 带 `images/`） |
-| 基座模型 | YOLO / RT-DETR / timm 权重 | 模型池中的 Qwen / LLaMA 系列预训练模型 |
-| 训练器 | Ultralytics / timm 模板（`train.py`） | LLaMA-Factory（NVIDIA、AMD）或原生 transformers + PEFT（Intel） |
+| 输入数据集 | COCO / TXT / ImageNet 版本 | LLM-SFT / sharegpt JSONL（VLM 带 `images/`） |
+| 基座模型 | RT-DETR / timm 权重 | 模型池中的 Qwen / LLaMA 系列预训练模型 |
+| 训练器 | 内置检测 / timm 模板（`train.py`） | LLaMA-Factory（NVIDIA、AMD）或原生 transformers + PEFT（Intel） |
 | 方法 | 全量训练 / 微调 | LoRA / QLoRA 适配器 SFT（或合并权重） |
 | 产物 | `.pt` + `.onnx`、指标 | 适配器 / tokenizer / processor、`history.jsonl`、指标 |
 | 加速器 | CPU、NVIDIA、AMD、Intel | NVIDIA、AMD、Intel（QLoRA），可回退 CPU |

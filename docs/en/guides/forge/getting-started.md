@@ -12,7 +12,7 @@ Forge covers **two model families** on the same production line:
 
 | Track | Typical models | Output |
 |---|---|---|
-| **Computer vision (CNN)** | YOLO / RT-DETR (detection), SAM (segmentation), timm/TorchVision (classification) | ONNX / quantized runtimes for CPU, Intel, NVIDIA, AMD |
+| **Computer vision (CNN)** | RT-DETR-style detectors, SAM (segmentation), timm/TorchVision (classification) | ONNX / quantized runtimes for CPU, Intel, NVIDIA, AMD |
 | **LLM / VLM** | Qwen / LLaMA-family text and vision-language models | LoRA / QLoRA adapters and merged checkpoints, served via vLLM-compatible runtimes |
 
 ## The production line
@@ -47,8 +47,9 @@ traced back to the exact dataset version and base model that produced it.
 - **Dataset version** — every upload or annotation export is a new, immutable
   version. Training always references one fixed version, so a run is
   reproducible.
-- **Base model** — a starting point from the model pool: a YOLO checkpoint for
-  CV, or a pretrained LLM/VLM (for example a Qwen model) for fine-tuning.
+- **Base model** — a starting point from the model pool: a detection checkpoint
+  (such as RT-DETR) for CV, or a pretrained LLM/VLM (for example a Qwen model)
+  for fine-tuning.
 - **Job** — one asynchronous pipeline run (training, optimization,
   evaluation, export). The cluster schedules CPU/GPU automatically; progress,
   logs and curves are available on the job detail page.
@@ -61,17 +62,17 @@ traced back to the exact dataset version and base model that produced it.
 
 ## Your first CV model (15-minute tour)
 
-1. **Prepare data** — on the Datasets page, create a dataset (COCO/YOLO) and
+1. **Prepare data** — on the Datasets page, create a dataset (COCO/TXT) and
    upload jpg/png images or a ZIP (images at the archive root or in an
    `images/` folder). Ingestion is asynchronous; the upload becomes version 1.
 2. **Annotate** — on the Annotations page, create a project (detection,
    segmentation or classification), open the embedded Label Studio workbench,
    and draw a few labels. Optionally choose a registered model in the project
    header and run **Semi-automated annotation**, then correct the suggestions.
-3. **Export** — export to YOLO. The export is registered as a new,
+3. **Export** — export to TXT. The export is registered as a new,
    training-ready dataset version.
 4. **Train** — on the Training page, pick the exported version, a base model
-   (YOLOv8n is a safe start), and accept the suggested hyperparameters
+   (RT-DETR-R18 is a safe start), and accept the suggested hyperparameters
    (epochs 100, imgsz 640, batch 16, train/val 0.8). Forge splits train/val
    and runs a real Kubeflow Pipelines run.
 5. **Optimize** — on the Optimization page, select the trained version and a

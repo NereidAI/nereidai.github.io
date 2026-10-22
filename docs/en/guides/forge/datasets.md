@@ -12,14 +12,14 @@ Choose the format that matches the model family:
 | Format | Used for | Contents |
 |---|---|---|
 | **COCO** | CV detection / segmentation | Images + a COCO `annotations.json` |
-| **YOLO** | CV training | Images + YOLO labels + `data.yaml` |
+| **TXT** | CV detection training | Images + one normalized detection-box `.txt` label per image + a manifest YAML |
 | **ImageNet** | Image classification | Per-class folder layout |
 | **LLM-SFT** | LLM / VLM fine-tuning | A sharegpt-style JSONL corpus; VLM datasets additionally carry an `images/` folder |
 | **JSONL** | Text corpora | One sample per line (plain text, `{text}`, `{data}` or sharegpt conversations) |
 
 `llm-sft` and `imagenet` versions are directly selectable for training. A
-raw COCO upload is converted for the trainer automatically (a `data.yaml` is
-generated); YOLO produced by an annotation export needs no conversion at all.
+raw COCO upload is converted for the trainer automatically (a manifest YAML is
+generated); TXT labels produced by an annotation export need no conversion at all.
 
 A sharegpt line looks like this and feeds the LLM/VLM trainers directly:
 
@@ -48,7 +48,7 @@ instead of file copies.
 
 - Every upload increments the version; old versions are retained and remain
   selectable. Versions are never mutated.
-- An annotation **export** (COCO/YOLO for vision, JSONL for text) is itself a
+- An annotation **export** (COCO/TXT for vision, JSONL for text) is itself a
   new dataset version, so a model is always traceable to the exact labels it
   learned from.
 - Switch between versions when creating a job; the rest of the pipeline does
@@ -60,7 +60,7 @@ instead of file copies.
 
 ```
 upload images ──► v1 (raw)
-annotate + export ──► v2 (YOLO / JSONL, training-ready) ──► training
+annotate + export ──► v2 (TXT / JSONL, training-ready) ──► training
 new field images ──► v3 ──► annotate gaps ──► v4 ──► retrain
 ```
 
@@ -68,7 +68,7 @@ new field images ──► v3 ──► annotate gaps ──► v4 ──► ret
 
 !!! question "How do I prepare labeled training data?"
     Label the images in the [annotation workbench](annotations.md), then use
-    **Export**. Vision projects export COCO/YOLO; text-classification exports
+    **Export**. Vision projects export COCO/TXT; text-classification exports
     plain JSONL; generation/chat projects export sharegpt JSONL. The result is
     a new dataset version the training page can select immediately.
 
@@ -78,7 +78,7 @@ new field images ──► v3 ──► annotate gaps ──► v4 ──► ret
 
 !!! question "Can a dataset mix images and text?"
     VLM corpora do exactly that: an `llm-sft` JSONL references files in an
-    accompanying `images/` directory. For pure vision use COCO/YOLO/ImageNet;
+    accompanying `images/` directory. For pure vision use COCO/TXT/ImageNet;
     for pure text use JSONL/LLM-SFT without images.
 
 ## Next steps

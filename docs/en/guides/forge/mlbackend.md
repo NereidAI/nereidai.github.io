@@ -74,15 +74,16 @@ in input order and are mapped back to the images automatically.
 
 ## Model support
 
-- **Detection:** YOLO family / RT-DETR (PyTorch or ONNX, including legacy
-  YOLOv5/v6/v7 via their ONNX artifacts).
+- **Detection:** RT-DETR-style single-stage detectors (PyTorch or ONNX);
+  legacy detection checkpoints that cannot be loaded directly are served via
+  their ONNX artifacts.
 - **Segmentation:** SAM-family models for click-to-segment (upload a version
   with task type `sam`; the checkpoint must keep an official SAM-compatible
   file name).
 - **Classification:** PyTorch/ONNX classifiers, top-5 output.
 - **VLM/LLM:** Qwen-VL / Florence-2 style models through the vLLM route for
   label/box suggestions and text annotation.
-- Ultralytics applies its own default confidence (0.25); the project's
+- A detector may ship with its own default confidence threshold; the project's
   configured threshold is passed through, so tune it in the project rather
   than assuming a later filter has an effect.
 

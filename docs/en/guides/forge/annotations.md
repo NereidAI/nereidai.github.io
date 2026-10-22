@@ -38,7 +38,7 @@ on a pilot batch.
 
 The ML Backend is model-agnostic; it routes by model family:
 
-- **CNN models** (YOLO / RT-DETR for detection, SAM for segmentation,
+- **CNN models** (RT-DETR-style detectors, SAM for segmentation,
   classifiers) run through ONNX Runtime / Triton.
 - **VLM models** (for example Qwen-VL / Florence-2) run through a
   vLLM-compatible OpenAI endpoint and turn prompts into labels or boxes —
@@ -59,7 +59,7 @@ Forge provides a built-in **video frame-extraction** pipeline component:
 CVAT export (tracks / keyframes / boxes)
    ──► extract at chosen fps / sampling (uniform or activity-based)
    ──► interpolate labels between keyframes
-   ──► frame images + regenerated COCO/YOLO labels
+   ──► frame images + regenerated COCO/TXT labels
    ──► new dataset version (extracted once, reusable for many runs)
 ```
 
@@ -79,10 +79,10 @@ and the extracted frames can be reused by later training runs.
 
 | Data | Export |
 |---|---|
-| Images (detection / segmentation) | COCO, YOLO (plus Label Studio JSON / CSV from the workbench) |
+| Images (detection / segmentation) | COCO, TXT (plus Label Studio JSON / CSV from the workbench) |
 | Text classification | Plain JSONL (`text,label`) |
 | Generation / chat | Sharegpt JSONL — directly usable by LLM-SFT training |
-| Video | Frame images + COCO/YOLO via the frame-extraction component |
+| Video | Frame images + COCO/TXT via the frame-extraction component |
 
 ## FAQ
 
@@ -94,7 +94,7 @@ and the extracted frames can be reused by later training runs.
     the first batch.
 
 !!! question "Where does the export go?"
-    It becomes a new dataset version (YOLO/COCO for vision, JSONL for text),
+    It becomes a new dataset version (TXT/COCO for vision, JSONL for text),
     immediately selectable on the Training page.
 
 !!! question "Labels and model classes disagree?"

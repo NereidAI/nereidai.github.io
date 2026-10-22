@@ -39,7 +39,7 @@ Before deploying, use **Try with image** on a version row:
 - PyTorch (`.pt`) versions additionally support a **Grad-CAM** heatmap that
   shows the regions driving the prediction (ONNX has no gradients, so the
   toggle is unavailable there).
-- Legacy checkpoints that modern Ultralytics cannot load directly are served
+- Legacy detection checkpoints that cannot be loaded directly are served
   transparently via their sibling ONNX artifact (the UI marks this); the
   original `.pt` is never modified.
 

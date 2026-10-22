@@ -57,13 +57,14 @@ Kubernetes Deployment + Service）。
 
 ## 模型支持
 
-- **检测**：YOLO 系列 / RT-DETR（PyTorch 或 ONNX，旧版 YOLOv5/v6/v7 经其 ONNX 产物支持）。
+- **检测**：RT-DETR 等单阶段检测器（PyTorch 或 ONNX）；无法直接加载的旧版检测权重经其
+  ONNX 产物提供服务。
 - **分割**：SAM 系列模型用于点击分割（上传任务类型为 `sam` 的版本；权重需保留官方 SAM 兼容
   文件名）。
 - **分类**：PyTorch/ONNX 分类器，输出 top-5。
 - **VLM/LLM**：经 vLLM 路线使用 Qwen-VL / Florence-2 类模型做标签/框建议与文本标注。
-- Ultralytics 自身有默认置信度（0.25）；项目配置的阈值会透传进去，因此请在项目侧调节，而不要
-  以为后置过滤会生效。
+- 检测器自身可能带默认置信度阈值；项目配置的阈值会透传进去，因此请在项目侧调节，而不要以为
+  后置过滤会生效。
 
 ## 常见问题
 

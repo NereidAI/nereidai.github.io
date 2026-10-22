@@ -12,9 +12,9 @@ training form. Two training routes share the same job machinery.
 
 | | Computer vision | LLM / VLM |
 |---|---|---|
-| Input dataset | COCO / YOLO / ImageNet version | LLM-SFT / sharegpt JSONL (`+ images/` for VLM) |
-| Base model | YOLO / RT-DETR / timm checkpoint | Qwen / LLaMA-family pretrained model from the base-model pool |
-| Trainer | Ultralytics / timm template (`train.py`) | LLaMA-Factory (NVIDIA, AMD) or native transformers + PEFT (Intel) |
+| Input dataset | COCO / TXT / ImageNet version | LLM-SFT / sharegpt JSONL (`+ images/` for VLM) |
+| Base model | RT-DETR / timm checkpoint | Qwen / LLaMA-family pretrained model from the base-model pool |
+| Trainer | Built-in detection / timm template (`train.py`) | LLaMA-Factory (NVIDIA, AMD) or native transformers + PEFT (Intel) |
 | Method | Full training / fine-tuning | SFT with LoRA / QLoRA adapters (or merged checkpoint) |
 | Outputs | `.pt` + `.onnx`, metrics | adapter / tokenizer / processor, `history.jsonl`, metrics |
 | Accelerators | CPU, NVIDIA, AMD, Intel | NVIDIA, AMD, Intel (QLoRA), CPU fallback |
