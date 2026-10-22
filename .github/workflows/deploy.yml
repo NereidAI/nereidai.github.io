@@ -2,19 +2,22 @@
 # SPDX-License-Identifier: Apache-2.0
 name: Deploy site to GitHub Pages
 
+# Docs are versioned with mike (https://github.com/jimporter/mike):
+#   push a tag vX.Y.Z  ->  publish a frozen /vX.Y.Z/ snapshot and move "latest"
+#   push to main       ->  publish the rolling /dev/ snapshot
+# All snapshots live on the gh-pages branch and are uploaded together as one
+# Pages artifact, so the Pages source stays "GitHub Actions" in repo settings.
+
 on:
   push:
     branches:
       - main
-    paths:
-      - 'docs/**'
-      - 'mkdocs.yml'
-      - 'requirements.txt'
-      - '.github/workflows/deploy.yml'
+    tags:
+      - 'v*'
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
   pages: write
   id-token: write
 
@@ -38,8 +41,51 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
-      - name: Build site
+      - name: Verify strict build
         run: mkdocs build --strict
+
+      - name: Resolve docs version
+        id: version
+        run: |
+          if [[ "${GITHUB_REF}" == refs/tags/v* ]]; then
+            echo "id=${GITHUB_REF_NAME}" >> "$GITHUB_OUTPUT"
+            echo "release=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "id=dev" >> "$GITHUB_OUTPUT"
+            echo "release=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Publish version with mike
+        env:
+          VERSION: ${{ steps.version.outputs.id }}
+          IS_RELEASE: ${{ steps.version.outputs.release }}
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          # Reuse the persisted gh-pages history; create the branch on first run.
+          git fetch --no-tags origin gh-pages || true
+
+          if [ "$IS_RELEASE" = true ]; then
+            # Materialized copy (no symlink reliance in the Pages artifact).
+            mike deploy --update-aliases --alias-type copy "$VERSION" latest
+            mike set-default latest
+          else
+            mike deploy --title "dev (unreleased)" dev
+            # Keep the root redirect once a release exists; leave it unset before.
+            if git cat-file -e gh-pages:latest 2>/dev/null; then
+              mike set-default latest
+            fi
+          fi
+
+          # Persist snapshots for future runs.
+          git push origin gh-pages
+
+      - name: Extract published site
+        run: |
+          rm -rf site
+          git worktree add site gh-pages
 
       - name: Configure Pages
         uses: actions/configure-pages@v5

@@ -140,6 +140,10 @@ extra:
   social:
     - icon: fontawesome/brands/github
       link: https://github.com/NereidAI
+  # Versioned docs via mike: header version selector + outdated-version banner.
+  # Released versions live under /v0.0.x/ (alias "latest"); main builds "dev".
+  version:
+    provider: mike
   generator: false
   analytics:
     provider: google
