@@ -6308,17 +6308,17 @@ training form. Two training routes share the same job machinery.</p>
 <tbody>
 <tr>
 <td>Input dataset</td>
-<td>COCO / YOLO / ImageNet version</td>
+<td>COCO / TXT / ImageNet version</td>
 <td>LLM-SFT / sharegpt JSONL (<code>+ images/</code> for VLM)</td>
 </tr>
 <tr>
 <td>Base model</td>
-<td>YOLO / RT-DETR / timm checkpoint</td>
+<td>RT-DETR / timm checkpoint</td>
 <td>Qwen / LLaMA-family pretrained model from the base-model pool</td>
 </tr>
 <tr>
 <td>Trainer</td>
-<td>Ultralytics / timm template (<code>train.py</code>)</td>
+<td>Built-in detection / timm template (<code>train.py</code>)</td>
 <td>LLaMA-Factory (NVIDIA, AMD) or native transformers + PEFT (Intel)</td>
 </tr>
 <tr>

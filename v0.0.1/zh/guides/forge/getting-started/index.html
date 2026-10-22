@@ -6262,7 +6262,7 @@ var _hmt = _hmt || [];
 <tbody>
 <tr>
 <td><strong>计算机视觉（CNN）</strong></td>
-<td>YOLO / RT-DETR（检测）、SAM（分割）、timm/TorchVision（分类）</td>
+<td>RT-DETR 等检测器、SAM（分割）、timm/TorchVision（分类）</td>
 <td>面向 CPU、Intel、NVIDIA、AMD 的 ONNX / 量化运行时</td>
 </tr>
 <tr>
@@ -6334,7 +6334,7 @@ var _hmt = _hmt || [];
 <ul>
 <li><strong>数据集版本</strong>：每次上传或标注导出都是一个新的不可变版本。训练始终引用某个固定版本，
   因此运行可复现。</li>
-<li><strong>基座模型</strong>：模型池中的起点——CV 用 YOLO 权重，LLM/VLM 用预训练大模型（如 Qwen）做
+<li><strong>基座模型</strong>：模型池中的起点——CV 用检测权重（如 RT-DETR），LLM/VLM 用预训练大模型（如 Qwen）做
   微调。</li>
 <li><strong>任务（Job）</strong>：一次异步流水线运行（训练、优化、评估、导出）。集群自动调度 CPU/GPU；
   进度、日志与曲线在任务详情页查看。</li>
@@ -6345,12 +6345,12 @@ var _hmt = _hmt || [];
 </ul>
 <h2 id="cv-15">第一个 CV 模型（15 分钟导览）<a class="headerlink" href="#cv-15" title="Permanent link">¶</a></h2>
 <ol>
-<li><strong>准备数据</strong>——在数据集页创建数据集（COCO/YOLO），上传 jpg/png 图片或 ZIP（图片可在
+<li><strong>准备数据</strong>——在数据集页创建数据集（COCO/TXT），上传 jpg/png 图片或 ZIP（图片可在
    压缩包根目录或 <code>images/</code> 子目录）。入库是异步的，本次上传成为版本 1。</li>
 <li><strong>标注</strong>——在标注页创建项目（检测、分割或分类），打开内嵌 Label Studio 工作台画一些
    标签。可在项目头部选择一个已注册模型并点击<strong>半自动标注</strong>，再人工修正建议。</li>
-<li><strong>导出</strong>——导出为 YOLO。导出物会注册为一个新的、可直接训练的数据集版本。</li>
-<li><strong>训练</strong>——在训练页选择导出的版本、基座模型（YOLOv8n 是稳妥起点），采用建议超参
+<li><strong>导出</strong>——导出为 TXT。导出物会注册为一个新的、可直接训练的数据集版本。</li>
+<li><strong>训练</strong>——在训练页选择导出的版本、基座模型（RT-DETR-R18 是稳妥起点），采用建议超参
    （epochs 100、imgsz 640、batch 16、训练/验证 0.8）。Forge 会切分训练/验证并运行真实
    的 Kubeflow Pipelines。</li>
 <li><strong>优化</strong>——在优化页选择训练版本与目标设备（CPU / Intel OpenVINO / NVIDIA TensorRT /

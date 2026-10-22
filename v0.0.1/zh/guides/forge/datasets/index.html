@@ -6287,9 +6287,9 @@ var _hmt = _hmt || [];
 <td>图片 + COCO <code>annotations.json</code></td>
 </tr>
 <tr>
-<td><strong>YOLO</strong></td>
-<td>CV 训练</td>
-<td>图片 + YOLO 标签 + <code>data.yaml</code></td>
+<td><strong>TXT</strong></td>
+<td>CV 检测训练</td>
+<td>图片 + 每图一个归一化检测框 <code>.txt</code> 标签 + 清单 YAML</td>
 </tr>
 <tr>
 <td><strong>ImageNet</strong></td>
@@ -6309,7 +6309,7 @@ var _hmt = _hmt || [];
 </tbody>
 </table>
 <p><code>llm-sft</code> 与 <code>imagenet</code> 版本可直接被训练选择。原始 COCO 上传会自动转换给训练器使用（生成
-<code>data.yaml</code>）；标注导出的 YOLO 完全无需转换。</p>
+清单 YAML）；标注导出的 TXT 标签完全无需转换。</p>
 <p>一行 sharegpt 如下，可直接喂给 LLM/VLM 训练器：</p>
 <div class="highlight"><pre><span></span><code><span class="p">{</span><span class="nt">"conversations"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="nt">"from"</span><span class="p">:</span><span class="w"> </span><span class="s2">"human"</span><span class="p">,</span><span class="w"> </span><span class="nt">"value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Describe this image."</span><span class="p">},</span>
 <span class="w">                   </span><span class="p">{</span><span class="nt">"from"</span><span class="p">:</span><span class="w"> </span><span class="s2">"gpt"</span><span class="p">,</span><span class="w"> </span><span class="nt">"value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"A blue circle on a red background."</span><span class="p">}]}</span>
@@ -6327,20 +6327,20 @@ var _hmt = _hmt || [];
 <h2 id="_4">版本规则<a class="headerlink" href="#_4" title="Permanent link">¶</a></h2>
 <ul>
 <li>每次上传递增一个版本；旧版本保留且仍可选择。版本不可修改。</li>
-<li>标注<strong>导出</strong>（视觉为 COCO/YOLO，文本为 JSONL）本身也是一个新数据集版本，因此模型总能
+<li>标注<strong>导出</strong>（视觉为 COCO/TXT，文本为 JSONL）本身也是一个新数据集版本，因此模型总能
   回溯到它学习的确切标签。</li>
 <li>创建任务时在版本之间切换；流水线其余部分不变。</li>
 <li>版本记录文件数（图片与标注文件）、格式、大小与来源（上传、导出、S3 对账）。</li>
 </ul>
 <h2 id="_5">版本如何喂给工厂<a class="headerlink" href="#_5" title="Permanent link">¶</a></h2>
 <div class="highlight"><pre><span></span><code>上传图片 ──► v1（原始）
-标注 + 导出 ──► v2（YOLO / JSONL，可训练）──► 训练
+标注 + 导出 ──► v2（TXT / JSONL，可训练）──► 训练
 新现场图片 ──► v3 ──► 补标缺口 ──► v4 ──► 重训
 </code></pre></div>
 <h2 id="_6">常见问题<a class="headerlink" href="#_6" title="Permanent link">¶</a></h2>
 <div class="admonition question">
 <p class="admonition-title">如何准备带标签的训练数据？</p>
-<p>在<a href="../annotations/">标注工作台</a>完成标注后点击<strong>导出</strong>。视觉项目导出 COCO/YOLO；文本
+<p>在<a href="../annotations/">标注工作台</a>完成标注后点击<strong>导出</strong>。视觉项目导出 COCO/TXT；文本
 分类导出纯 JSONL；生成/对话项目导出 sharegpt JSONL。导出物成为新数据集版本，训练页可
 立即选择。</p>
 </div>
@@ -6351,7 +6351,7 @@ var _hmt = _hmt || [];
 <div class="admonition question">
 <p class="admonition-title">一个数据集能同时放图片和文字吗？</p>
 <p>VLM 语料正是如此：<code>llm-sft</code> JSONL 引用配套 <code>images/</code> 目录里的文件。纯视觉用
-COCO/YOLO/ImageNet；纯文本用无图片的 JSONL/LLM-SFT。</p>
+COCO/TXT/ImageNet；纯文本用无图片的 JSONL/LLM-SFT。</p>
 </div>
 <h2 id="_7">下一步<a class="headerlink" href="#_7" title="Permanent link">¶</a></h2>
 <ul>
