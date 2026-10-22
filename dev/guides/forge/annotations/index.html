@@ -6362,7 +6362,7 @@ on a pilot batch.</p>
 <h2 id="pre-labeling-models">Pre-labeling models<a class="headerlink" href="#pre-labeling-models" title="Permanent link">¶</a></h2>
 <p>The ML Backend is model-agnostic; it routes by model family:</p>
 <ul>
-<li><strong>CNN models</strong> (YOLO / RT-DETR for detection, SAM for segmentation,
+<li><strong>CNN models</strong> (RT-DETR-style detectors, SAM for segmentation,
   classifiers) run through ONNX Runtime / Triton.</li>
 <li><strong>VLM models</strong> (for example Qwen-VL / Florence-2) run through a
   vLLM-compatible OpenAI endpoint and turn prompts into labels or boxes —
@@ -6379,7 +6379,7 @@ Forge provides a built-in <strong>video frame-extraction</strong> pipeline compo
 <div class="highlight"><pre><span></span><code>CVAT export (tracks / keyframes / boxes)
    ──► extract at chosen fps / sampling (uniform or activity-based)
    ──► interpolate labels between keyframes
-   ──► frame images + regenerated COCO/YOLO labels
+   ──► frame images + regenerated COCO/TXT labels
    ──► new dataset version (extracted once, reusable for many runs)
 </code></pre></div>
 <p>You do not extract frames by hand; the extraction runs as a preparation step,
@@ -6404,7 +6404,7 @@ and the extracted frames can be reused by later training runs.</p>
 <tbody>
 <tr>
 <td>Images (detection / segmentation)</td>
-<td>COCO, YOLO (plus Label Studio JSON / CSV from the workbench)</td>
+<td>COCO, TXT (plus Label Studio JSON / CSV from the workbench)</td>
 </tr>
 <tr>
 <td>Text classification</td>
@@ -6416,7 +6416,7 @@ and the extracted frames can be reused by later training runs.</p>
 </tr>
 <tr>
 <td>Video</td>
-<td>Frame images + COCO/YOLO via the frame-extraction component</td>
+<td>Frame images + COCO/TXT via the frame-extraction component</td>
 </tr>
 </tbody>
 </table>
@@ -6431,7 +6431,7 @@ the first batch.</p>
 </div>
 <div class="admonition question">
 <p class="admonition-title">Where does the export go?</p>
-<p>It becomes a new dataset version (YOLO/COCO for vision, JSONL for text),
+<p>It becomes a new dataset version (TXT/COCO for vision, JSONL for text),
 immediately selectable on the Training page.</p>
 </div>
 <div class="admonition question">

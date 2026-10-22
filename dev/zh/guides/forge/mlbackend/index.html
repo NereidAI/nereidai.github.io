@@ -6365,13 +6365,14 @@ Kubernetes Deployment + Service）。</p>
 <p>请求会分批以满足服务超时；预测按输入顺序返回并自动映射回图片。</p>
 <h2 id="_5">模型支持<a class="headerlink" href="#_5" title="Permanent link">¶</a></h2>
 <ul>
-<li><strong>检测</strong>：YOLO 系列 / RT-DETR（PyTorch 或 ONNX，旧版 YOLOv5/v6/v7 经其 ONNX 产物支持）。</li>
+<li><strong>检测</strong>：RT-DETR 等单阶段检测器（PyTorch 或 ONNX）；无法直接加载的旧版检测权重经其
+  ONNX 产物提供服务。</li>
 <li><strong>分割</strong>：SAM 系列模型用于点击分割（上传任务类型为 <code>sam</code> 的版本；权重需保留官方 SAM 兼容
   文件名）。</li>
 <li><strong>分类</strong>：PyTorch/ONNX 分类器，输出 top-5。</li>
 <li><strong>VLM/LLM</strong>：经 vLLM 路线使用 Qwen-VL / Florence-2 类模型做标签/框建议与文本标注。</li>
-<li>Ultralytics 自身有默认置信度（0.25）；项目配置的阈值会透传进去，因此请在项目侧调节，而不要
-  以为后置过滤会生效。</li>
+<li>检测器自身可能带默认置信度阈值；项目配置的阈值会透传进去，因此请在项目侧调节，而不要以为
+  后置过滤会生效。</li>
 </ul>
 <h2 id="_6">常见问题<a class="headerlink" href="#_6" title="Permanent link">¶</a></h2>
 <div class="admonition question">

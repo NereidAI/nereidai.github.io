@@ -6289,9 +6289,9 @@ references one exact version. That is what makes every model reproducible.</p>
 <td>Images + a COCO <code>annotations.json</code></td>
 </tr>
 <tr>
-<td><strong>YOLO</strong></td>
-<td>CV training</td>
-<td>Images + YOLO labels + <code>data.yaml</code></td>
+<td><strong>TXT</strong></td>
+<td>CV detection training</td>
+<td>Images + one normalized detection-box <code>.txt</code> label per image + a manifest YAML</td>
 </tr>
 <tr>
 <td><strong>ImageNet</strong></td>
@@ -6311,8 +6311,8 @@ references one exact version. That is what makes every model reproducible.</p>
 </tbody>
 </table>
 <p><code>llm-sft</code> and <code>imagenet</code> versions are directly selectable for training. A
-raw COCO upload is converted for the trainer automatically (a <code>data.yaml</code> is
-generated); YOLO produced by an annotation export needs no conversion at all.</p>
+raw COCO upload is converted for the trainer automatically (a manifest YAML is
+generated); TXT labels produced by an annotation export need no conversion at all.</p>
 <p>A sharegpt line looks like this and feeds the LLM/VLM trainers directly:</p>
 <div class="highlight"><pre><span></span><code><span class="p">{</span><span class="nt">"conversations"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="nt">"from"</span><span class="p">:</span><span class="w"> </span><span class="s2">"human"</span><span class="p">,</span><span class="w"> </span><span class="nt">"value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Describe this image."</span><span class="p">},</span>
 <span class="w">                   </span><span class="p">{</span><span class="nt">"from"</span><span class="p">:</span><span class="w"> </span><span class="s2">"gpt"</span><span class="p">,</span><span class="w"> </span><span class="nt">"value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"A blue circle on a red background."</span><span class="p">}]}</span>
@@ -6336,7 +6336,7 @@ instead of file copies.</p>
 <ul>
 <li>Every upload increments the version; old versions are retained and remain
   selectable. Versions are never mutated.</li>
-<li>An annotation <strong>export</strong> (COCO/YOLO for vision, JSONL for text) is itself a
+<li>An annotation <strong>export</strong> (COCO/TXT for vision, JSONL for text) is itself a
   new dataset version, so a model is always traceable to the exact labels it
   learned from.</li>
 <li>Switch between versions when creating a job; the rest of the pipeline does
@@ -6346,14 +6346,14 @@ instead of file copies.</p>
 </ul>
 <h2 id="how-versions-feed-the-factory">How versions feed the factory<a class="headerlink" href="#how-versions-feed-the-factory" title="Permanent link">¶</a></h2>
 <div class="highlight"><pre><span></span><code>upload images ──► v1 (raw)
-annotate + export ──► v2 (YOLO / JSONL, training-ready) ──► training
+annotate + export ──► v2 (TXT / JSONL, training-ready) ──► training
 new field images ──► v3 ──► annotate gaps ──► v4 ──► retrain
 </code></pre></div>
 <h2 id="faq">FAQ<a class="headerlink" href="#faq" title="Permanent link">¶</a></h2>
 <div class="admonition question">
 <p class="admonition-title">How do I prepare labeled training data?</p>
 <p>Label the images in the <a href="../annotations/">annotation workbench</a>, then use
-<strong>Export</strong>. Vision projects export COCO/YOLO; text-classification exports
+<strong>Export</strong>. Vision projects export COCO/TXT; text-classification exports
 plain JSONL; generation/chat projects export sharegpt JSONL. The result is
 a new dataset version the training page can select immediately.</p>
 </div>
@@ -6365,7 +6365,7 @@ version.</p>
 <div class="admonition question">
 <p class="admonition-title">Can a dataset mix images and text?</p>
 <p>VLM corpora do exactly that: an <code>llm-sft</code> JSONL references files in an
-accompanying <code>images/</code> directory. For pure vision use COCO/YOLO/ImageNet;
+accompanying <code>images/</code> directory. For pure vision use COCO/TXT/ImageNet;
 for pure text use JSONL/LLM-SFT without images.</p>
 </div>
 <h2 id="next-steps">Next steps<a class="headerlink" href="#next-steps" title="Permanent link">¶</a></h2>

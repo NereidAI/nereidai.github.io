@@ -6382,15 +6382,16 @@ to batch and single-image pre-labeling:</p>
 in input order and are mapped back to the images automatically.</p>
 <h2 id="model-support">Model support<a class="headerlink" href="#model-support" title="Permanent link">¶</a></h2>
 <ul>
-<li><strong>Detection:</strong> YOLO family / RT-DETR (PyTorch or ONNX, including legacy
-  YOLOv5/v6/v7 via their ONNX artifacts).</li>
+<li><strong>Detection:</strong> RT-DETR-style single-stage detectors (PyTorch or ONNX);
+  legacy detection checkpoints that cannot be loaded directly are served via
+  their ONNX artifacts.</li>
 <li><strong>Segmentation:</strong> SAM-family models for click-to-segment (upload a version
   with task type <code>sam</code>; the checkpoint must keep an official SAM-compatible
   file name).</li>
 <li><strong>Classification:</strong> PyTorch/ONNX classifiers, top-5 output.</li>
 <li><strong>VLM/LLM:</strong> Qwen-VL / Florence-2 style models through the vLLM route for
   label/box suggestions and text annotation.</li>
-<li>Ultralytics applies its own default confidence (0.25); the project's
+<li>A detector may ship with its own default confidence threshold; the project's
   configured threshold is passed through, so tune it in the project rather
   than assuming a later filter has an effect.</li>
 </ul>
