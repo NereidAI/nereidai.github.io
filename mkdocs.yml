@@ -132,6 +132,7 @@ plugins:
             SDK (Go): SDK（Go）
             Device SDK (Go): 设备 SDK（Go）
             Adapter SDK (Go): 适配器 SDK（Go）
+            Trainer SDK (Python): 训练器 SDK（Python）
             System: 系统
 
 # Site analytics. Both ids are public client-side values, safe to commit:
@@ -255,6 +256,7 @@ nav:
       - guides/forge/datasets.md
       - guides/forge/annotations.md
       - guides/forge/training.md
+      - Trainer SDK (Python): guides/forge/trainer-sdk.md
       - guides/forge/optimization.md
       - guides/forge/evaluation.md
       - guides/forge/models.md

@@ -34,7 +34,7 @@ Forge 在同一条生产线上覆盖**两类模型**：
 | 1 | [数据集](datasets.md) | 建数据集、上传图片/ZIP 或文本语料、管理不可变版本 |
 | 2 | [标注](annotations.md) | 在 Label Studio / CVAT 中标注、跑机器辅助预标注、导出 |
 | 3 | [ML Backend](mlbackend.md) | 注册为标注员预测框/标签的预标注服务 |
-| 4 | [训练](training.md) | 在多厂商 CPU/GPU 上跑 CV 或 LLM/VLM 训练 |
+| 4 | [训练](training.md) | 在多厂商 CPU/GPU 上跑 CV 或 LLM/VLM 训练；用[训练器 SDK](trainer-sdk.md) 接入自有框架 |
 | 5 | [优化](optimization.md) | 按目标设备做 ONNX 图优化与 int8 量化 |
 | 6 | [评估](evaluation.md) | 评估 mAP / 精确率 / 召回率 / F1 与延迟，与基线对比 |
 | 7 | [模型](models.md) | 浏览版本、用图片试跑、以 KServe 部署 |

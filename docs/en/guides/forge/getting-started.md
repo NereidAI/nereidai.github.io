@@ -37,7 +37,7 @@ traced back to the exact dataset version and base model that produced it.
 | 1 | [Datasets](datasets.md) | Create datasets, upload images/ZIP or text corpora, manage immutable versions |
 | 2 | [Annotations](annotations.md) | Label in Label Studio / CVAT, run ML-assisted pre-labeling, export |
 | 3 | [ML Backend](mlbackend.md) | Register the pre-labeling service that predicts boxes/labels for annotators |
-| 4 | [Training](training.md) | Run CV or LLM/VLM training on CPU/GPU from multiple vendors |
+| 4 | [Training](training.md) | Run CV or LLM/VLM training on CPU/GPU from multiple vendors; bring your own framework via the [Trainer SDK](trainer-sdk.md) |
 | 5 | [Optimization](optimization.md) | ONNX graph optimization and int8 quantization per target device |
 | 6 | [Evaluation](evaluation.md) | Score mAP / Precision / Recall / F1 and latency, compare to the baseline |
 | 7 | [Models](models.md) | Browse versions, try a model on an image, deploy with KServe |

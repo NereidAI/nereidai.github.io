@@ -51,6 +51,9 @@ registry.
   with fine-tuning on organisation data.
 - Per-vendor training images keep vendor-specific acceleration and toolchains
   isolated; there is never a single catch-all image.
+- A small Trainer SDK (Python) defines one environment-in/artifacts-out
+  contract for custom trainer images, so partner or in-house frameworks run
+  in their own image and registry; the built-in trainers use the same SDK.
 
 **Optimization, export and evaluation**
 

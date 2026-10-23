@@ -71,11 +71,16 @@ LLM/VLM 任务表单还会暴露微调方式（全量 / LoRA / QLoRA）、秩（
 ## 自带训练器
 
 当内置模板无法表达某个工作流时，CV/PyTorch 任务可以使用**自定义镜像**和/或**自定义训练
-脚本**：
+脚本**。如果要做一个可复用的训练器——自有框架、自有架构、出现在训练表单中、可按加速器
+选择——请用[训练器 SDK（Python）](trainer-sdk.md)构建：一套极小的「环境变量进、产物出」
+契约，内置训练器用的也是它。
+
+两条扩展通道：
 
 - `custom_image`——私有镜像仓库中的任意镜像（`PATH` 上有 Python），它成为训练器容器。
+  分发可复用训练器的受支持方式，是带[能力 profile](trainer-sdk.md#能力-profile) 的 SDK 镜像。
 - `custom_script_uri`——指向某个 Python 文件的 `s3://` 或 `http(s)://` URL，下载到容器后
-  以 `__main__` 执行。
+  以 `__main__` 执行。这是快速实验通道，无需镜像，但仅限 CV。
 
 脚本继承标准训练器环境（`INPUT_URI`、`OUTPUT_DIR`、`CONFIG_JSON`、`ARTIFACT_ID`、`S3_*`
 凭据），并把模型上传到 `OUTPUT_DIR`。若同时上传带 `weights_uri`/`onnx_uri` 的

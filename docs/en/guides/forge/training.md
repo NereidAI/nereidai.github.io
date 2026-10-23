@@ -84,12 +84,20 @@ from its checkpoint; a failed job can also simply be restarted.
 ## Bring your own trainer
 
 When the built-in templates cannot express a workflow, a CV/PyTorch job can
-use a **custom image** and/or a **custom training script**:
+use a **custom image** and/or a **custom training script**. For a reusable
+trainer — your own framework, your own architectures, announced in the
+Training form and selectable per accelerator — build it with the
+[Trainer SDK (Python)](trainer-sdk.md): one tiny *environment in, artifacts
+out* contract, the same one the built-in trainers use.
+
+The two extension channels:
 
 - `custom_image` — any private registry image with Python on `PATH`; it
-  becomes the trainer container.
+  becomes the trainer container. The supported way to ship a reusable trainer
+  is an SDK image with a [capability profile](trainer-sdk.md#capability-profile).
 - `custom_script_uri` — an `s3://` or `http(s)://` URL to a Python file,
-  downloaded into the container and executed as `__main__`.
+  downloaded into the container and executed as `__main__`. This is the
+  quick-experiment channel; it does not require an image but is CV-only.
 
 The script receives the standard trainer environment (`INPUT_URI`,
 `OUTPUT_DIR`, `CONFIG_JSON`, `ARTIFACT_ID`, `S3_*` credentials) and uploads
