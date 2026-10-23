@@ -13,7 +13,7 @@
         <link rel="prev" href="../annotations/">
       
       
-        <link rel="next" href="../optimization/">
+        <link rel="next" href="../trainer-sdk/">
       
       
         
@@ -4005,6 +4005,34 @@ var _hmt = _hmt || [];
   
   
     <li class="md-nav__item">
+      <a href="../trainer-sdk/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    训练器 SDK（Python）
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../optimization/" class="md-nav__link">
         
   
@@ -6439,11 +6467,15 @@ var _hmt = _hmt || [];
 <p>训练过程中会写 checkpoint，因此中断的任务可从 checkpoint 恢复；失败任务也可以直接重启。</p>
 <h2 id="_6">自带训练器<a class="headerlink" href="#_6" title="Permanent link">¶</a></h2>
 <p>当内置模板无法表达某个工作流时，CV/PyTorch 任务可以使用<strong>自定义镜像</strong>和/或<strong>自定义训练
-脚本</strong>：</p>
+脚本</strong>。如果要做一个可复用的训练器——自有框架、自有架构、出现在训练表单中、可按加速器
+选择——请用<a href="../trainer-sdk/">训练器 SDK（Python）</a>构建：一套极小的「环境变量进、产物出」
+契约，内置训练器用的也是它。</p>
+<p>两条扩展通道：</p>
 <ul>
-<li><code>custom_image</code>——私有镜像仓库中的任意镜像（<code>PATH</code> 上有 Python），它成为训练器容器。</li>
+<li><code>custom_image</code>——私有镜像仓库中的任意镜像（<code>PATH</code> 上有 Python），它成为训练器容器。
+  分发可复用训练器的受支持方式，是带<a href="../trainer-sdk/#能力-profile">能力 profile</a> 的 SDK 镜像。</li>
 <li><code>custom_script_uri</code>——指向某个 Python 文件的 <code>s3://</code> 或 <code>http(s)://</code> URL，下载到容器后
-  以 <code>__main__</code> 执行。</li>
+  以 <code>__main__</code> 执行。这是快速实验通道，无需镜像，但仅限 CV。</li>
 </ul>
 <p>脚本继承标准训练器环境（<code>INPUT_URI</code>、<code>OUTPUT_DIR</code>、<code>CONFIG_JSON</code>、<code>ARTIFACT_ID</code>、<code>S3_*</code>
 凭据），并把模型上传到 <code>OUTPUT_DIR</code>。若同时上传带 <code>weights_uri</code>/<code>onnx_uri</code> 的
@@ -6531,13 +6563,13 @@ CPU 冒烟测试）重新提交。</p>
         
         
           
-          <a href="../optimization/" class="md-footer__link md-footer__link--next" aria-label="下一页: 优化">
+          <a href="../trainer-sdk/" class="md-footer__link md-footer__link--next" aria-label="下一页: 训练器 SDK（Python）">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 下一页
               </span>
               <div class="md-ellipsis">
-                优化
+                训练器 SDK（Python）
               </div>
             </div>
             <div class="md-footer__button md-icon">

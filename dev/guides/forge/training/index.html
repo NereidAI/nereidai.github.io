@@ -13,7 +13,7 @@
         <link rel="prev" href="../annotations/">
       
       
-        <link rel="next" href="../optimization/">
+        <link rel="next" href="../trainer-sdk/">
       
       
         
@@ -4005,6 +4005,34 @@ var _hmt = _hmt || [];
   
   
     <li class="md-nav__item">
+      <a href="../trainer-sdk/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Trainer SDK (Python)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../optimization/" class="md-nav__link">
         
   
@@ -6452,12 +6480,19 @@ vision-language base model and the sharegpt + images corpus.</p>
 from its checkpoint; a failed job can also simply be restarted.</p>
 <h2 id="bring-your-own-trainer">Bring your own trainer<a class="headerlink" href="#bring-your-own-trainer" title="Permanent link">¶</a></h2>
 <p>When the built-in templates cannot express a workflow, a CV/PyTorch job can
-use a <strong>custom image</strong> and/or a <strong>custom training script</strong>:</p>
+use a <strong>custom image</strong> and/or a <strong>custom training script</strong>. For a reusable
+trainer — your own framework, your own architectures, announced in the
+Training form and selectable per accelerator — build it with the
+<a href="../trainer-sdk/">Trainer SDK (Python)</a>: one tiny <em>environment in, artifacts
+out</em> contract, the same one the built-in trainers use.</p>
+<p>The two extension channels:</p>
 <ul>
 <li><code>custom_image</code> — any private registry image with Python on <code>PATH</code>; it
-  becomes the trainer container.</li>
+  becomes the trainer container. The supported way to ship a reusable trainer
+  is an SDK image with a <a href="../trainer-sdk/#capability-profile">capability profile</a>.</li>
 <li><code>custom_script_uri</code> — an <code>s3://</code> or <code>http(s)://</code> URL to a Python file,
-  downloaded into the container and executed as <code>__main__</code>.</li>
+  downloaded into the container and executed as <code>__main__</code>. This is the
+  quick-experiment channel; it does not require an image but is CV-only.</li>
 </ul>
 <p>The script receives the standard trainer environment (<code>INPUT_URI</code>,
 <code>OUTPUT_DIR</code>, <code>CONFIG_JSON</code>, <code>ARTIFACT_ID</code>, <code>S3_*</code> credentials) and uploads
@@ -6551,13 +6586,13 @@ fixed on the job, so a rerun is comparable.</p>
         
         
           
-          <a href="../optimization/" class="md-footer__link md-footer__link--next" aria-label="Next: Optimization">
+          <a href="../trainer-sdk/" class="md-footer__link md-footer__link--next" aria-label="Next: Trainer SDK (Python)">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 Next
               </span>
               <div class="md-ellipsis">
-                Optimization
+                Trainer SDK (Python)
               </div>
             </div>
             <div class="md-footer__button md-icon">
