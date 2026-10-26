@@ -4,7 +4,7 @@ title: 关于 NereidAI
 
 # 关于 NereidAI
 
-<img class="nr-about-logo" src="/assets/logo.png" alt="NereidAI logo" width="120" />
+<img class="nr-about-logo" src="../../assets/logo.png" alt="NereidAI logo" width="120" />
 
 ## 名字的由来
 

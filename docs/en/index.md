@@ -6,7 +6,7 @@ hide:
 ---
 
 <div class="nr-hero" markdown>
-<img class="nr-logo" src="/assets/logo.png" alt="NereidAI" />
+<img class="nr-logo" src="assets/logo.png" alt="NereidAI" />
 
 # NereidAI
 

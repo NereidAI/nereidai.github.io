@@ -4,7 +4,7 @@ title: About NereidAI
 
 # About NereidAI
 
-<img class="nr-about-logo" src="/assets/logo.png" alt="NereidAI logo" width="120" />
+<img class="nr-about-logo" src="../assets/logo.png" alt="NereidAI logo" width="120" />
 
 ## The name
 
