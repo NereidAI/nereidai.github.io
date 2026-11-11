@@ -26,7 +26,7 @@ IoT connectivity and AI intelligence in one closed loop — private by design.</
     having passed compliance, open-source standard and completeness review. The
     code currently ships on its **development (dev) channel** — there is no tagged
     release yet. Commercial terms, support SLAs and enterprise deliverables will be
-    documented here when the first formal release, **v0.0.1**, is published. Browse
+    documented here when the first formal release is published. Browse
     the repositories at [github.com/NereidAI](https://github.com/NereidAI) and track
     progress on the [roadmap](community/roadmap.md).
 

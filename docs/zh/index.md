@@ -23,7 +23,7 @@ hide:
 !!! nr-status "开源状态 · 已开源，处于 dev 开发阶段"
     NereidAI 全部仓库现已在 GitHub **开源（Apache-2.0）**，并已通过合规性、开源规范与
     完整性审核。当前代码运行在**开发（dev）通道**，尚无正式 tagged release；商用条款、
-    支持 SLA 与企业交付物将在首个正式版本 **v0.0.1** 发布时于本站补齐。仓库见
+    支持 SLA 与企业交付物将在首个正式版本发布时于本站补齐。仓库见
     [github.com/NereidAI](https://github.com/NereidAI)，进展可在[路线图](community/roadmap.md)跟踪。
 
 ## 闭环

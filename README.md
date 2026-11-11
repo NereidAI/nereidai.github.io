@@ -88,18 +88,19 @@ unchanged.
 | Push to `main` | `/dev/` | Rolling work-in-progress docs |
 | Tag `vX.Y.Z` | `/vX.Y.Z/` (and `/latest/`) | Frozen release snapshot; `latest` moves to it |
 
-The site root (`/`) redirects to `/latest/`. Every page shows a header version
+The site root (`/`) redirects to the default version: `dev` until the first
+release is cut, then the `latest` alias. Every page shows a header version
 switcher; pages that are not the latest release show an outdated-version banner.
 
-**Cut a new release** (e.g. the first one):
+**Cut a new release** (no release exists yet):
 
 ```bash
-git tag v0.0.1
-git push origin v0.0.1
+git tag vX.Y.Z
+git push origin vX.Y.Z
 ```
 
-CI builds `/v0.0.1/`, moves the `latest` alias, and keeps every older snapshot
-intact. The next release is `v0.0.2`, and so on. Never re-publish an existing
+CI builds `/vX.Y.Z/`, moves the `latest` alias, and keeps every older snapshot
+intact. Version numbers follow SemVer. Never re-publish an existing
 tag: published versions are meant to stay frozen. Management commands
 (`mike list`, `mike retitle`, `mike delete`) run against the `gh-pages` branch;
 see the [mike docs](https://github.com/jimporter/mike) for details.
