@@ -55,7 +55,7 @@ Identity 以容器镜像交付，中心部署用 Helm chart，本地开发用 Do
 
 !!! note "运维细节在哪里"
     领域预置、客户端注册、外部 IdP 代理配置与运维手册都记录在 NereidIdentity
-    仓库（[NereidAI](https://github.com/NereidAI)），不在本运维指南中。
+    仓库（[NereidAI](https://github.com/NereidAI/NereidIdentity)），不在本运维指南中。
 
 ## 下一步
 

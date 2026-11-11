@@ -19,7 +19,7 @@
 
   var PRODUCTS = [
     'sphere', 'identity', 'link', 'forge', 'horizon',
-    'edge', 'fleet', 'mobile'
+    'edge', 'inference'
   ];
 
   function pathOf(href) {

@@ -13,8 +13,8 @@ products, and each domain product owns its own data, APIs, and release cycle.
 - **Domain products:** Link (IoT pipeline), Forge (model factory),
   Horizon (edge distribution).
 - **Edge / field:** Edge (southbound integration on field gateways),
-  Fleet (robot fleets), and the field devices themselves.
-- **Thin clients:** Mobile.
+  Inference (on-site media inference runtime), and the field devices
+  themselves.
 
 ## The closed loop
 
@@ -48,6 +48,7 @@ the next iteration — with no mandatory cloud dependency at any hop.
 | Plane | How it works |
 |---|---|
 | **Device / southbound** | Edge is an EdgeX Foundry application service that bridges field devices to Link over the gateway MQTT protocol (`v1/gateway/*`). Transport is TLS/mTLS; buffering is store-and-forward so intermittent WAN links do not lose data. |
+| **Edge inference** | Inference is an EdgeX device service that acquires camera frames, calls model servers (OVMS, Triton, vLLM, MindIE) over KServe gRPC v2 or OpenAI-compatible HTTP, decodes tensors per the model package descriptor, and emits structured events on the EdgeX bus. Model packages are built by Forge and delivered to the gateway by Horizon. |
 | **Ingest** | Link accepts MQTT, HTTP, and CoAP through one shared envelope and SDK, so behaviour is identical across transports. Ingress is rate-limited per device token. |
 | **Service-to-service (Link)** | Services communicate only over NATS — never by direct cross-service database access. |
 | **Realtime to clients** | All live data (telemetry, presence, alarms, command progress, OTA progress…) is pushed over a single WebSocket connection with multi-subscription; REST is used only for snapshots and writes. Polling is deliberately avoided. |
@@ -73,8 +74,7 @@ OIDC client or with local accounts.
 | Forge | FastAPI (Python) backend + worker, React + TS + Ant Design + Vite frontend, Kubeflow Pipelines, Helm charts; images from the private registry |
 | Horizon | React 18 / Vite frontend + Express BFF, PostgreSQL; drives Open Horizon Exchange / agbot / edge nodes |
 | Edge | Go (EdgeX Foundry App Functions SDK v4), runs on field gateways |
-| Fleet | See the product page — early stage (Tech Preview) |
-| Mobile | Mobile app and WeChat Mini Program served from a single client codebase |
+| Inference | Static Go (CGO-free) EdgeX 4.0 device service, ffmpeg child process; KServe gRPC v2 / OpenAI HTTP; amd64/arm64 |
 
 ## Design invariants
 

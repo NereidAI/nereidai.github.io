@@ -31,8 +31,7 @@ quick-start guide in its `README`.
 | [Forge](../products/nereidforge.md) | Model factory — datasets, training, optimization, multi-silicon export. |
 | [Horizon](../products/nereidhorizon.md) | Edge distribution — policy-driven rollout, bandwidth-aware delivery, OTA. |
 | [Edge](../products/nereidedge.md) | Southbound edge integration on field gateways — zero-touch, mTLS, autonomy. |
-| [Fleet](../products/nereidfleet.md) | Robot fleet management — task scheduling, traffic control, teleoperation. |
-| [Mobile](../products/nereidmobile.md) | Operator's mobile window into Link — app and WeChat Mini Program. |
+| [Inference](../products/nereidinference.md) | Edge inference runtime — KServe/OpenAI model calls, descriptor-driven decoding. |
 
 !!! note "Independently deployable"
     Every domain product can run standalone; nothing requires the others to
@@ -58,8 +57,7 @@ flowchart LR
 Open the repository for the product you care about and follow its `README` (and
 any `INSTALL` / `docs` guide it links). Link ships one codebase in two
 forms — an all-in-one binary or Kubernetes microservices; Edge runs on
-field gateways; the newer products (Fleet, Mobile) are early stage,
-so check the repository for current scope.
+field gateways.
 
 ## Run it yourself
 

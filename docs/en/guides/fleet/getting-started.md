@@ -1,17 +1,18 @@
 # Getting Started with NereidFleet
 
 !!! warning "Tech Preview — design stage"
-    Fleet is at an early design stage (v0.1 draft). The repository currently
+    Fleet is at an early design stage (design-stage draft). The repository currently
     holds design documents, research and proposed architecture decisions rather
     than a runnable product; there is no operator console to install yet. This
     guide describes the intended first-run path and today's simulation proof of
     concept, not a finished workflow.
 
-NereidFleet is the planned management, control and collaboration platform for
+NereidFleet is the management, control and collaboration platform for
 embodied-AI robot fleets — wheeled AMRs, quadruped, humanoid and balancing
-robots. It will provide a robot roster with live status, multi-robot task
-dispatch and traffic coordination, teleoperation and emergency stop, built on
-an open stack: ROS 2, Eclipse Zenoh, Open-RMF and EdgeX Foundry.
+robots — currently in Tech Preview. It will provide a robot roster with live
+status, multi-robot task dispatch and traffic coordination, teleoperation and
+emergency stop, built on an open stack: ROS 2, Eclipse Zenoh, Open-RMF and
+EdgeX Foundry.
 
 ## What it will do
 
@@ -53,5 +54,5 @@ integration with the Edge → Forge → Horizon → Link pipeline is future work
   key facts.
 - [Roadmap](../../community/roadmap.md) — maturity across the suite.
 - The research reports, feasibility study and proposed ADRs live in the
-  NereidFleet repository ([NereidAI](https://github.com/NereidAI)); check it for
+  NereidFleet repository ([NereidAI](https://github.com/NereidAI/NereidFleet)); check it for
   current scope before planning any integration.

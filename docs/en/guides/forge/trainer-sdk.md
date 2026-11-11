@@ -24,7 +24,7 @@ deliberately tiny: **environment variables in, versioned artifacts out**.
     This page is a hands-on introduction. The package source, the full torch
     reference trainer and the capability-profile schema live in the
     NereidForge repository (`app/builders/sdk/`, `app/builders/trainer-torch/`)
-    — see [NereidAI](https://github.com/NereidAI).
+    — see [NereidAI](https://github.com/NereidAI/NereidForge).
 
 ## When to use it
 
@@ -49,7 +49,7 @@ Building a self-contained wheel for a customer image:
 
 ```bash
 python -m pip wheel app/builders/sdk --no-deps -w ./wheels
-# -> wheels/nereidforge_trainer-0.0.1-py3-none-any.whl
+# -> wheels/nereidforge_trainer-<version>-py3-none-any.whl
 ```
 
 The package also installs the `nf-trainer` scaffolding CLI:
@@ -308,7 +308,7 @@ docker run --rm \
   -v ./sample-dataset:/data:ro -v ./out:/out \
   -e INPUT_URI=/data -e OUTPUT_DIR=/out -e ARTIFACT_ID=smoke \
   -e CONFIG_JSON='{"epochs":1,"imgsz":640,"batch":4,"arch":"acme-det"}' \
-  registry.example.internal/forge/acme-detector:v1
+  registry.example.com/forge/acme-detector:v1
 # -> ./out/smoke.onnx, smoke.metadata.json, smoke.metrics.json, progress.json
 ```
 
@@ -335,8 +335,9 @@ writes only a metrics document.
 
 ## Current status
 
-- SDK version **0.0.1**; the in-tree torch vision trainer (all vision tasks)
-  and the PaddleX detection trainer are the first two consumers.
+- The SDK has no tagged release yet and is consumed from the dev branch; pin
+  your build to a commit SHA. The in-tree torch vision trainer (all vision
+  tasks) and the PaddleX detection trainer are the first two consumers.
 - LLM/VLM built-in trainers already honor the same environment-variable and
   `progress.json` / `metrics.json` conventions (adapter directory as
   `weights_uri`); SDK helper and profile coverage for LLM/VLM custom trainers

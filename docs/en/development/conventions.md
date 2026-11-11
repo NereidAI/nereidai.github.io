@@ -75,8 +75,7 @@ Where a convention is language-specific, it follows the product's own stack:
 
 - **Go services** use the standard library `net/http` (Sphere) and `pgx`
   for PostgreSQL access (Link).
-- **Python services** use FastAPI (Forge, and Fleet's planned
-  platform API).
+- **Python services** use FastAPI (Forge).
 
 > These are orientation notes only; each repository documents the exact
 > libraries, versions and tooling it uses.

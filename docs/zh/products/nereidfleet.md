@@ -8,7 +8,7 @@ Fleet 是面向具身智能机器人车队（轮式、四足、人形、平衡�
 平台，构建在 ROS 2、Eclipse Zenoh、Open-RMF 与 EdgeX Foundry 的开放技术栈之上。
 
 !!! warning "技术预览（Tech Preview）"
-    Fleet 处于早期设计阶段（v0.1 草案）。当前仓库以设计文档与调研为主，实现将
+    Fleet 处于早期设计阶段（设计阶段草案）。当前仓库以设计文档与调研为主，实现将
     按下文的分期 PoC 路线展开。此处描述的是目标设计，而非已交付功能。
 
 ## 它解决什么问题
@@ -64,13 +64,13 @@ Fleet 位于套件的现场 / 站点平面，与 Edge 及机器人本体一起�
 
 !!! info "开发者文档"
     本产品的权威、详细开发者文档位于其自有仓库——见
-    [NereidAI](https://github.com/NereidAI)。
+    [NereidAI](https://github.com/NereidAI/NereidFleet)。
 
 ## 关键事实
 
 | 方面 | 说明 |
 |---|---|
-| 状态 | 技术预览——早期设计阶段（v0.1 草案） |
+| 状态 | 技术预览——早期设计阶段（设计阶段草案） |
 | 产品定位 | 机器人车队的管理、操控与协同平台 |
 | 机型 | 轮式 AMR、四足、人形、平衡车 |
 | 在套件中的位置 | 套件的现场 / 站点平面，运行在本地局域网 |
@@ -81,7 +81,7 @@ Fleet 位于套件的现场 / 站点平面，与 Edge 及机器人本体一起�
 
 ## 资源
 
-- GitHub：[NereidAI](https://github.com/NereidAI)
+- GitHub：[NereidAI](https://github.com/NereidAI/NereidFleet)
 - [套件总览](index.md)
 - [架构总览](../architecture/overview.md)
 - [社区版与企业版](../community/community-vs-enterprise.md)

@@ -81,7 +81,7 @@ runs on those nodes and feeds data back to Link.
 
 !!! info "Developer documentation"
     The authoritative, detailed developer documentation for Horizon lives
-    in its own repository — see [NereidAI](https://github.com/NereidAI).
+    in its own repository — see [NereidAI](https://github.com/NereidAI/NereidHorizon).
 
 ## Key facts
 
@@ -96,7 +96,7 @@ runs on those nodes and feeds data back to Link.
 
 ## Resources
 
-- GitHub: [NereidAI](https://github.com/NereidAI)
+- GitHub: [NereidAI](https://github.com/NereidAI/NereidHorizon)
 - [Suite overview](index.md)
 - [Architecture overview](../architecture/overview.md)
 - [Edge delivery](../deployment/edge-delivery.md)

@@ -15,7 +15,7 @@ together they form one unified platform. A thin suite layer ties them together w
 absorbing their domain logic: the **Sphere** portal and API gateway, and the
 **Identity** single sign-on and access-control center.
 
-## Two thin services, six domain products
+## Two thin services, five domain products
 
 Every domain product is a complete system that can run on its own — the suite
 services only federate them. **Short names** are used in prose and
@@ -23,14 +23,13 @@ services only federate them. **Short names** are used in prose and
 
 | Product | Abbr. | Role | Repository |
 |---|---|---|---|
-| **NereidSphere** | NS | Thin suite layer — a single portal and a unified API gateway, plus the closed-loop event glue between products. Holds no domain logic and delegates authentication to Identity. | [`NereidSphere`](https://github.com/NereidAI) |
-| **NereidIdentity** | NI | Suite authentication and identity center — single sign-on across every product, OIDC / LDAP / SAML federation, RBAC, token issuance, and tenant-aware access governance. | [`NereidIdentity`](https://github.com/NereidAI) |
-| **NereidLink** | NL | Privatized IoT data pipeline — multi-protocol device access, unified messaging, rule engine, alerting, and real-time dashboards. One codebase, two forms: an all-in-one binary or Kubernetes microservices. | [`NereidLink`](https://github.com/NereidAI) |
-| **NereidForge** | NF | Model factory — dataset / annotation management, training and fine-tuning, optimization and quantization, hardware-targeted export, evaluation, and model registry. | [`NereidForge`](https://github.com/NereidAI) |
-| **NereidHorizon** | NH | Edge distribution and deployment — distributes Edge itself, plus applications and models, to large numbers of remote edge nodes: policy-driven rollout, bandwidth-aware delivery, OTA lifecycle, and autonomous reconciliation while offline. | [`NereidHorizon`](https://github.com/NereidAI) |
-| **NereidEdge** | NE | Southbound edge integration, delivered and kept up to date by Horizon — runs on field gateways, connects field devices into Link with zero-touch onboarding, secure mTLS links, store-and-forward buffering, local autonomy, and OTA lifecycle. | [`NereidEdge`](https://github.com/NereidAI) |
-| **NereidFleet** | NFL | Robot fleet management — multi-robot task scheduling, traffic coordination, a live operations dashboard, and teleoperation, from wheeled AMRs to legged robots. | [`NereidFleet`](https://github.com/NereidAI) |
-| **NereidMobile** | NM | The operator's window into Link — mobile app and WeChat Mini Program: sign in through Identity, browse device telemetry and dashboards, lightweight time-series charts, and alert delivery. | [`NereidMobile`](https://github.com/NereidAI) |
+| **NereidSphere** | NS | Thin suite layer — a single portal and a unified API gateway, plus the closed-loop event glue between products. Holds no domain logic and delegates authentication to Identity. | [`NereidSphere`](https://github.com/NereidAI/NereidSphere) |
+| **NereidIdentity** | NI | Suite authentication and identity center — single sign-on across every product, OIDC / LDAP / SAML federation, RBAC, token issuance, and tenant-aware access governance. | [`NereidIdentity`](https://github.com/NereidAI/NereidIdentity) |
+| **NereidLink** | NL | Privatized IoT data pipeline — multi-protocol device access, unified messaging, rule engine, alerting, and real-time dashboards. One codebase, two forms: an all-in-one binary or Kubernetes microservices. | [`NereidLink`](https://github.com/NereidAI/NereidLink) |
+| **NereidForge** | NF | Model factory — dataset / annotation management, training and fine-tuning, optimization and quantization, hardware-targeted export, evaluation, and model registry. | [`NereidForge`](https://github.com/NereidAI/NereidForge) |
+| **NereidHorizon** | NH | Edge distribution and deployment — distributes Edge itself, plus applications and models, to large numbers of remote edge nodes: policy-driven rollout, bandwidth-aware delivery, OTA lifecycle, and autonomous reconciliation while offline. | [`NereidHorizon`](https://github.com/NereidAI/NereidHorizon) |
+| **NereidEdge** | NE | Southbound edge integration, delivered and kept up to date by Horizon — runs on field gateways, connects field devices into Link with zero-touch onboarding, secure mTLS links, store-and-forward buffering, local autonomy, and OTA lifecycle. | [`NereidEdge`](https://github.com/NereidAI/NereidEdge) |
+| **NereidInference** | NIN | Edge inference runtime — an EdgeX device service on field gateways: acquires frames from RTSP/ONVIF/JPEG sources, calls model servers (OVMS, Triton, vLLM, MindIE) over KServe gRPC v2 or OpenAI-compatible HTTP, and publishes structured events to the EdgeX bus, driven entirely by model-package descriptors. | [`NereidInference`](https://github.com/NereidAI/NereidInference) |
 
 ## Standalone by default { #standalone-by-default }
 
@@ -68,7 +67,6 @@ flowchart TB
     subgraph SUITE["Open source suite layer · Apache-2.0"]
         IDENTITY["NI\nSSO · auth · RBAC"]
         SPHERE["NS\nportal · gateway · glue"]
-        MOBILE["NM\napp · WeChat MP"]
     end
 
     subgraph CORE["Open source domain products · Apache-2.0"]
@@ -78,22 +76,17 @@ flowchart TB
     end
 
     subgraph SITE["Site / field · local LAN"]
-        FLEET["NFL\ntask scheduling · teleop"]
-        ROBOTS["robots\nAMR · legged"]
         EDGE["NE\nzero-touch · mTLS · S&F"]
         SENSORS["sensors · cameras\nfield gateways"]
     end
 
     APPS -->|portal · SSO · gateway| SPHERE
     IDENTITY <--> SPHERE
-    MOBILE -->|telemetry · charts · alerts| LINK
     SPHERE --> CORE
     FORGE -->|models / apps| HORIZON
     HORIZON -->|OTA: NE + apps / models| EDGE
     EDGE -->|mTLS · store-and-forward| LINK
     LINK -->|telemetry data| FORGE
-    FLEET -->|commands| ROBOTS
-    ROBOTS -->|state| FLEET
     EDGE -->|cmds / data| SENSORS
     SPHERE -.->|SSO · management over WAN| SITE
 ```
@@ -108,8 +101,8 @@ single-product deployments.
 
 - **Private by design:** all products support fully air-gapped operation with no
   mandatory call-home and no internet dependency at runtime.
-- **Product autonomy:** each product owns its domain end to end; Sphere and
-  Mobile are thin layers that never duplicate or absorb another product's
+- **Product autonomy:** each product owns its domain end to end; Sphere is a
+  thin layer that never duplicates or absorbs another product's
   features or business logic.
 - **Neutral contracts:** southbound / wire contracts and platform APIs stay protocol-,
   stack-, and vendor-agnostic.

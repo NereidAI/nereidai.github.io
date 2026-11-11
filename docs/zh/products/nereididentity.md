@@ -75,7 +75,7 @@ flowchart LR
 !!! info "开发者文档"
 
     关于 Identity 的权威、详细的开发者文档位于其自身仓库：
-    <https://github.com/NereidAI>。
+    <https://github.com/NereidAI/NereidIdentity>。
 
 ## 关键事实
 
@@ -93,7 +93,7 @@ flowchart LR
 
 ## 资源
 
-- GitHub：<https://github.com/NereidAI>
+- GitHub：<https://github.com/NereidAI/NereidIdentity>
 - 套件：[产品总览](index.md) · [Sphere](nereidsphere.md)
 - [SSO 与 OIDC](../security/sso-oidc.md) · [RBAC](../security/rbac.md)
 - [架构总览](../architecture/overview.md) ·

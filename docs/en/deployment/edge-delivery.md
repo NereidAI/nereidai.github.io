@@ -102,8 +102,8 @@ provides:
 
 !!! note "The edge stays reachable on its own LAN"
     Edge connects to Link over the WAN with an outbound mTLS link;
-    site-local commands and state (for example Fleet ↔ robots) run over the
-    low-latency local LAN and do not depend on the central link.
+    site-local commands and state (for example local device control) run over
+    the low-latency local LAN and do not depend on the central link.
 
 !!! info "Operations documentation"
     Step-by-step installation and operations detail lives in each product

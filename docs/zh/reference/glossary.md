@@ -4,7 +4,7 @@ title: 术语表
 
 # 术语表
 
-本套件与本站使用的术语。产品的**短词**与**缩写**（NS、NF、NFL……）见
+本套件与本站使用的术语。产品的**短词**与**缩写**（NS、NF、NIN……）见
 [命名与简写](naming.md)。
 
 ## 套件与产品
@@ -12,11 +12,11 @@ title: 术语表
 | 术语 | 含义 |
 |---|---|
 | **NereidAI** | 平台 / 套件与 GitHub 组织的名称，永不缩写。 |
-| **套件（Suite）** | 八个产品组合使用的形态；每个产品仍可独立运行。 |
-| **产品套件** | 两个轻量套件服务（Sphere、Identity）加六个领域产品。 |
-| **轻量层（Thin layer）** | 只做联邦的组件——门户 / SSO / 网关 / 事件粘合——不含领域逻辑。指 Sphere 与 Mobile。 |
+| **套件（Suite）** | 七个产品组合使用的形态；每个产品仍可独立运行。 |
+| **产品套件** | 两个轻量套件服务（Sphere、Identity）加五个领域产品。 |
+| **轻量层（Thin layer）** | 只做联邦的组件——门户 / SSO / 网关 / 事件粘合——不含领域逻辑。指 Sphere。 |
 | **独立部署（Standalone）** | 不使用套件层、单独运行某个产品。它有自己的登录与数据，不依赖其他产品。 |
-| **领域产品** | 端到端拥有完整领域的产品：Link、Forge、Horizon、Edge、Fleet、Mobile。 |
+| **领域产品** | 端到端拥有完整领域的产品：Link、Forge、Horizon、Edge、Inference。 |
 | **商业解决方案** | 建立在开放平台之上、单独授权的行业方案（NereidFactory、NereidSentinel、NereidMedical）。 |
 
 ## 身份与访问
@@ -102,17 +102,17 @@ title: 术语表
 | **产物（Artifact）** | 生产出的、带版本的包（模型或应用），交给 Horizon 做 rollout。 |
 | **Kubeflow Pipelines** | 运行 Forge 训练 / 优化 / 评估流水线的工作流引擎。 |
 
-## 边缘与集群
+## 边缘与推理
 
 | 术语 | 含义 |
 |---|---|
-| **EdgeX Foundry** | Edge 所基于的开放边缘框架（一个 EdgeX 应用服务），跟进上游而非 fork。 |
+| **EdgeX Foundry** | Edge 与 Inference 所基于的开放边缘框架（EdgeX 设备/应用服务），跟进上游而非 fork。 |
+| **NereidInference（NIN）** | 现场网关上描述符驱动的媒体推理 EdgeX 设备服务：取流、KServe/OpenAI 模型调用、张量解码与 EdgeX 事件。 |
+| **模型包（Model package）** | 根目录带 `nereid-model.json` 描述符与校验和负载的 `*.tar.gz`；Forge 生产、Horizon 运输、Inference 解包。 |
+| **KServe gRPC v2** | Inference 调用 OVMS、Triton 等模型服务器所用的标准推理协议，与 OpenAI 兼容 HTTP 并列。 |
 | **零触碰上线** | 现场网关启动后安全地自动注册，无需逐设备人工配置。 |
 | **本地自治** | 平台链路中断时，边缘继续运行并执行本地逻辑。 |
 | **现场网关** | 运行 Edge 与现场设备连接器的现场硬件。 |
-| **AMR** | 自主移动机器人；Fleet 调度的一类机器人。 |
-| **远程操作（Teleoperation）** | 人工远程驾驶机器人；走低延迟局域网路径。 |
-| **微信小程序** | Mobile 的两个目标之一，另一个是移动 App。 |
 
 ## 发布与开源
 

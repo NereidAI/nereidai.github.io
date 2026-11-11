@@ -2,7 +2,7 @@
 
 !!! warning "技术预览（Tech Preview）"
     Mobile 处于早期阶段。当前仓库包含 Flutter App 与原生微信小程序；此处描述
-    的运维界面是目标形态，许可证也尚未声明。请把它视为预览，而非已完成的
+    的运维界面是目标形态。它已按 Apache-2.0 开源；请把它视为预览，而非已完成的
     发布版本。
 
 NereidMobile 是运维人员观察 Link 的移动窗口：一套 Dart 代码同时面向 iOS 与
@@ -44,7 +44,7 @@ App 是标准 Flutter 项目：在 `app/` 目录中执行 `flutter pub get` 后�
 `flutter run`。小程序则在微信开发者工具中导入 `miniapp/` 目录并填入 AppID。
 工具链前提（Flutter SDK、iOS 所需的 Xcode、Android SDK、微信开发者工具）与
 构建命令记录在 NereidMobile 仓库
-（[NereidAI](https://github.com/NereidAI)）。
+（[NereidAI](https://github.com/NereidAI/NereidMobile)）。
 
 ## 下一步
 

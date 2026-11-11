@@ -29,8 +29,6 @@ not a license to fix it elsewhere.
 | `Forge` | Model factory: datasets, training, export, registry. |
 | `Horizon` | Edge distribution and rollout. |
 | `Edge` | Southbound edge integration on field gateways. |
-| `Fleet` | Robot fleet management. |
-| `Mobile` | Mobile app and WeChat Mini Program. |
 
 Discussion happens through GitHub issues and Discussions — that is the community
 support channel. For enterprise questions, see
@@ -92,8 +90,10 @@ temporary files you created. The exact commands are listed in the repository.
 
 ## Versioning and contracts
 
-- A repository-level `VERSION` file is the **release source of truth** and the
-  source of derived image tags; do not change it without an explicit request.
+- Each repository's release identity — a repository-level `VERSION` file or
+  git tags, following that repository's own conventions — is the **release
+  source of truth** and the source of derived image tags; do not change it
+  without an explicit request.
 - When a public API, request/response shape, WebSocket frame or wire contract
   changes, update the specification and the affected docs in the **same change**.
 

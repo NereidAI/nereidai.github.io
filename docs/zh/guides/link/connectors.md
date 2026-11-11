@@ -40,7 +40,7 @@
 典型的 Modbus TCP 连接器：
 
 ```json
-{ "host": "192.168.1.10", "port": 502, "unit_id": 1, "byte_order": "BIG" }
+{ "host": "192.0.2.10", "port": 502, "unit_id": 1, "byte_order": "BIG" }
 ```
 
 ```json

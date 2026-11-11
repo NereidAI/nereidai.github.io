@@ -62,7 +62,7 @@ Edge 是闭环中的南向边缘一环，位于现场设备与 Link 之间，并
 
 !!! info "开发者文档"
     本产品的权威、详细开发者文档位于其自有仓库——见
-    [NereidAI](https://github.com/NereidAI)。
+    [NereidAI](https://github.com/NereidAI/NereidEdge)。
 
 ## 关键事实
 
@@ -78,7 +78,7 @@ Edge 是闭环中的南向边缘一环，位于现场设备与 Link 之间，并
 
 ## 资源
 
-- GitHub：[NereidAI](https://github.com/NereidAI)
+- GitHub：[NereidAI](https://github.com/NereidAI/NereidEdge)
 - [套件总览](index.md)
 - [架构总览](../architecture/overview.md)
 - [边缘分发](../deployment/edge-delivery.md)

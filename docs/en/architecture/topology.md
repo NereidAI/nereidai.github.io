@@ -21,27 +21,22 @@ flowchart TB
         FORGEC["NF\nmodel factory (Kubeflow)"]
         HORIZONC["NH\nedge distribution"]
         INFRA["PostgreSQL/ TimescaleDB · NATS · S3 (SeaweedFS) · Harbor"]
-        MOB["NM\napp + WeChat Mini Program"]
     end
 
     subgraph SITE["Site / field · local LAN"]
         direction TB
         EDGEG["NE\nfield gateway (EdgeX)"]
-        FLEETC["NFL\nrobot control loop"]
         DEVICES["devices · sensors · cameras"]
-        ROBOTS["robots (AMR · legged)"]
     end
 
     SPHERE --> LINKC
     SPHERE --> FORGEC
     SPHERE --> HORIZONC
     ID <--> SPHERE
-    MOB -->|telemetry · charts · alerts| LINKC
     EDGEG -->|telemetry · mTLS · store-and-forward| LINKC
     HORIZONC -->|OTA: NE + apps / models| EDGEG
     LINKC -->|datasets| FORGEC
     FORGEC -->|models / apps| HORIZONC
-    FLEETC <-->|real-time LAN commands / state| ROBOTS
     EDGEG -->|southbound| DEVICES
     INFRA --- LINKC
     INFRA --- FORGEC
@@ -61,7 +56,6 @@ choice; each is independently installable, and none requires the others to start
 | Link | Device ingest, message backbone, rules, alerts, dashboards, OTA orchestration |
 | Forge | Dataset / annotation, training, optimization, multi-silicon export, registry (Kubeflow Pipelines) |
 | Horizon | Policy-driven distribution of Edge, apps, and models to remote nodes |
-| Mobile | Read-only operator window: telemetry, charts, alerts |
 
 ## Shared infrastructure
 
@@ -85,9 +79,6 @@ choice; each is independently installable, and none requires the others to start
   EdgeX device services) into Link. It holds a store-and-forward buffer so
   that telemetry survives WAN outages, and it is delivered / updated by
   Horizon over the same WAN.
-- **Fleet** runs the low-latency local control loop for robot fleets
-  (commands / state stay on the LAN), while fleet management reaches it over the
-  management plane.
 - **Devices** connect either directly to Link (MQTT / HTTP / CoAP) or through
   a Edge gateway.
 
@@ -99,4 +90,3 @@ choice; each is independently installable, and none requires the others to start
 | Edge → Link | TLS / mTLS over WAN, store-and-forward, replay-safe |
 | Horizon → Edge | policy-driven rollout, bandwidth-aware, offline reconciliation |
 | Browser → Sphere → products | SSO over the management plane (WAN) |
-| Fleet ↔ robots | real-time, low-latency LAN |

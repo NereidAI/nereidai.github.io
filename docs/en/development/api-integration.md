@@ -1,10 +1,12 @@
 # Platform Integration
 
 This guide is for **backend systems and third-party developers** that call the
-NereidAI platform programmatically. Every product ships its own complete
-OpenAPI contract; this page does not repeat those endpoints. It answers the two
-questions that decide an integration: **which product's API do I call**, and
-**how do I authenticate** — then points to the exact spec.
+NereidAI platform programmatically. Every HTTP-facing product ships its own
+complete OpenAPI contract; this page does not repeat those endpoints. It answers
+the two questions that decide an integration: **which product's API do I call**,
+and **how do I authenticate** — then points to the exact spec. Edge-side
+services without their own REST API (Edge, Inference) are listed with the
+integration path they do expose.
 
 !!! info "Upper-layer documentation"
     This is a capability-and-flow guide for integrators. Per-endpoint request
@@ -52,7 +54,7 @@ portal is only involved when Sphere is the entry point.
 | **NH** partner | Read-only edge exchange proxy for third parties | `/api/v1/{org}/...` | `X-Api-Key` (`nk_live_…` / `nk_test_…`) | `openapi-partner.yaml` |
 | **NI** (Identity) | Standard OIDC / OAuth2 (Keycloak-compatible realm `nereidai`) | `/auth/realms/nereidai/protocol/openid-connect/*` | Client credentials per registered client | OIDC discovery document |
 | **NE** (Edge) | No independent REST API | — | Acts as an NL gateway over the southbound wire protocol | See [Gateway integration](../guides/link/integrate-gateway.md) |
-| **NFL / NM** (Fleet / Mobile) | No public OpenAPI in this release | — | Fleet is Tech Preview; Mobile uses the narrow Link mobile API subset | Product repositories |
+| **NIN** (Inference) | No standalone REST API of its own | — | Provisioned through EdgeX core-metadata (each inference job is an EdgeX device); calls model servers outbound over KServe gRPC v2 / OpenAI-compatible HTTP; the MJPEG preview port is an operator diagnostic, not an integration API | See [Inference getting started](../guides/inference/getting-started.md) |
 
 !!! tip "Products are independent"
     You can buy/deploy NL alone, NH alone, and so on. Suite SSO and the `/p/`
@@ -64,7 +66,7 @@ portal is only involved when Sphere is the entry point.
 
 - **NI (Identity)** is the only identity source of truth. Its issuer is a
   Keycloak-compatible realm, for example
-  `https://sso.yiqisoft.cn/auth/realms/nereidai` (development:
+  `https://sso.example.com/auth/realms/nereidai` (development:
   `http://localhost:8090/realms/nereidai`).
 - Standard OIDC endpoints are published under the issuer's
   `/.well-known/openid-configuration` (authorization, token, JWKS, userinfo).

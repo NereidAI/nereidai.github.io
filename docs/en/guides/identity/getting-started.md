@@ -64,7 +64,7 @@ through identity brokering, never directly to Sphere or a product.
 !!! note "Where the operational detail lives"
     Realm provisioning, client registration, brokered-IdP setup and operational
     runbooks are documented in the NereidIdentity repository
-    ([NereidAI](https://github.com/NereidAI)), not in this operator guide.
+    ([NereidAI](https://github.com/NereidAI/NereidIdentity)), not in this operator guide.
 
 ## Next steps
 

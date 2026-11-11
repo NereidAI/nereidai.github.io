@@ -64,7 +64,7 @@ Link。
 
 !!! info "开发者文档"
     本产品的权威、详细开发者文档位于其自有仓库——见
-    [NereidAI](https://github.com/NereidAI)。
+    [NereidAI](https://github.com/NereidAI/NereidHorizon)。
 
 ## 关键事实
 
@@ -79,7 +79,7 @@ Link。
 
 ## 资源
 
-- GitHub：[NereidAI](https://github.com/NereidAI)
+- GitHub：[NereidAI](https://github.com/NereidAI/NereidHorizon)
 - [套件总览](index.md)
 - [架构总览](../architecture/overview.md)
 - [边缘分发](../deployment/edge-delivery.md)

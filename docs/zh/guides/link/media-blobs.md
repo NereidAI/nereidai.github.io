@@ -10,7 +10,7 @@
 !!! info "开发者文档"
     本页介绍设备侧契约与运维侧配置。存储实现位于 NereidLink 仓库的
     `internal/blob/` 与 `internal/ingesthttp/media.go`——见
-    [NereidAI](https://github.com/NereidAI)。
+    [NereidAI](https://github.com/NereidAI/NereidLink)。
 
 ## 工作原理
 

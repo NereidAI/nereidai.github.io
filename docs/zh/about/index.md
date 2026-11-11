@@ -44,8 +44,7 @@ title: 关于 NereidAI
 | NereidForge | “锻造（forge）”模型的工厂 |
 | NereidHorizon | 抵达远方“地平线（horizon）”上的远程边缘节点 |
 | NereidEdge | “边缘（edge）”，运行在现场网关 |
-| NereidFleet | 机器人“机队（fleet）” |
-| NereidMobile | “移动（mobile）”窗口 |
+| NereidInference | 在边缘网关上做“推理（inference）” |
 
 商业行业解决方案也沿用同样的意趣——NereidFactory、NereidSentinel、NereidMedical。
 见 [命名与简写](../reference/naming.md)。

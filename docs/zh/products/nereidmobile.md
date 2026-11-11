@@ -9,7 +9,7 @@ Mobile 是 Link 的移动窗口，以面向 iOS 与 Android 的移动应用，�
 
 !!! warning "技术预览（Tech Preview）"
     Mobile 处于早期阶段。当前仓库包含移动应用与微信小程序；此处描述的能力为
-    目标形态，而非已完成产品。许可证尚未声明。
+    目标形态，而非已完成产品。与套件其他部分一样，它已按 Apache-2.0 开源。
 
 ## 它解决什么问题
 
@@ -50,7 +50,7 @@ Mobile 是轻量客户端：它不拥有领域逻辑，也不替代 Link。它�
 
 !!! info "开发者文档"
     本产品的权威、详细开发者文档位于其自有仓库——见
-    [NereidAI](https://github.com/NereidAI)。
+    [NereidAI](https://github.com/NereidAI/NereidMobile)。
 
 ## 关键事实
 
@@ -61,11 +61,11 @@ Mobile 是轻量客户端：它不拥有领域逻辑，也不替代 Link。它�
 | 形态 | iOS 与 Android App，加上微信小程序 |
 | 在套件中的位置 | 套件中的轻量客户端，不拥有领域逻辑 |
 | 技术栈 | Flutter（Dart）App 加上原生微信小程序 |
-| 许可证 | 待补充 |
+| 许可证 | Apache-2.0 |
 
 ## 资源
 
-- GitHub：[NereidAI](https://github.com/NereidAI)
+- GitHub：[NereidAI](https://github.com/NereidAI/NereidMobile)
 - [套件总览](index.md)
 - [架构总览](../architecture/overview.md)
 - [社区版与企业版](../community/community-vs-enterprise.md)

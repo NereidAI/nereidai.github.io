@@ -55,10 +55,11 @@ flowchart LR
 
 ## The community edition
 
-The community edition covers the complete edge-to-cloud loop and can be used in
-production on its own. The full edge-to-cloud community edition will be
-**open-sourced by the end of 2026** under the terms above; individual modules are
-released progressively, with status tracked in the
+The community edition covers the complete edge-to-cloud loop under the terms
+above. All seven product repositories are open source today, published on a
+rolling **dev channel** with no tagged release yet; the first tagged release —
+signed images, SBOM and offline bundles — follows the gates described on the
+[roadmap](roadmap.md). Day-to-day status is tracked in the
 [NereidAI GitHub organization](https://github.com/NereidAI) and in Discussions.
 
 ## Commercial industry solutions

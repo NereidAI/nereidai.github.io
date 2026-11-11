@@ -6,7 +6,7 @@ title: 命名与简写
 
 想了解 Nereid 名字的由来与项目使命，见 [关于 NereidAI](../about/index.md)。
 
-NereidAI 是由八个产品组成的套件。为让页面与图表更易读，本站对每个产品使用三种
+NereidAI 是由七个产品组成的套件。为让页面与图表更易读，本站对每个产品使用三种
 称谓：
 
 | 全名（标题） | 短词（正文） | 缩写（图表 / 表格） |
@@ -17,8 +17,7 @@ NereidAI 是由八个产品组成的套件。为让页面与图表更易读，�
 | **NereidForge** | Forge | NF |
 | **NereidHorizon** | Horizon | NH |
 | **NereidEdge** | Edge | NE |
-| **NereidFleet** | Fleet | NFL |
-| **NereidMobile** | Mobile | NM |
+| **NereidInference** | Inference | NIN |
 
 ## 使用规则
 
@@ -32,7 +31,7 @@ NereidAI 是由八个产品组成的套件。为让页面与图表更易读，�
 ## 不在此列
 
 - 商业行业解决方案——**NereidFactory**、**NereidSentinel**、**NereidMedical**——
-  是独立的商业方案，不属于这八个开源产品，也没有短词。
+  是独立的商业方案，不属于这七个开源产品，也没有短词。
 - `Edge`（产品 NereidEdge）与泛指的“边缘（edge）”不同；正文中短词作为产品名
   首字母大写。
 

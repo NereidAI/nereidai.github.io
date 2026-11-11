@@ -49,8 +49,7 @@ Every product shares the **Nereid** prefix; the suffix says what it does:
 | NereidForge | the forge where models are made |
 | NereidHorizon | reaching the distant horizon of remote edge nodes |
 | NereidEdge | the edge, on field gateways |
-| NereidFleet | a fleet of robots |
-| NereidMobile | the mobile window |
+| NereidInference | running model inference on edge gateways |
 
 The commercial industry solutions follow the same spirit — NereidFactory,
 NereidSentinel, NereidMedical. See [Naming & abbreviations](../reference/naming.md).

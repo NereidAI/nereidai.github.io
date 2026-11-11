@@ -16,7 +16,7 @@ the customer perimeter.
 | No mandatory call-home; data stays inside the customer perimeter | Available |
 | mTLS service-to-service and device-to-platform links | Available |
 | Unified SSO and centralized RBAC across all suite products (Identity) | Available |
-| Signed release artifacts and per-release SBOM | Planned |
+| Signed release artifacts and per-release SBOM | First tagged release |
 | Enterprise SLA on CVE response and backported fixes | Commercial contract |
 | Compliance baselines (e.g. 等保 2.0) and local-OS / accelerator certifications | Per-engagement roadmap |
 
@@ -41,7 +41,7 @@ gate:
   only where it is truly needed.
 - **Integrity and provenance.** Audit records form an append-only, tamper-evident
   chain; deployments published to the field are signed. Signed release artifacts
-  and a per-release SBOM are on the roadmap.
+  and a per-release SBOM arrive with the first tagged release.
 
 !!! note "Zero trust between services"
     Products never reach into one another's data stores. Products communicate over

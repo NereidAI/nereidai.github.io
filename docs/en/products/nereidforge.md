@@ -100,7 +100,7 @@ flowchart LR
 !!! info "Developer documentation"
 
     The authoritative, detailed developer documentation for Forge lives in
-    its own repository: <https://github.com/NereidAI>.
+    its own repository: <https://github.com/NereidAI/NereidForge>.
 
 ## Key facts
 
@@ -119,7 +119,7 @@ flowchart LR
 
 ## Resources
 
-- GitHub: <https://github.com/NereidAI>
+- GitHub: <https://github.com/NereidAI/NereidForge>
 - Suite: [product overview](index.md) · [Link](nereidlink.md) ·
   [Horizon](nereidhorizon.md)
 - [Architecture overview](../architecture/overview.md) ·

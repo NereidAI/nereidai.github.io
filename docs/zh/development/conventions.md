@@ -66,8 +66,7 @@ title: 代码规范
 
 - **Go 服务**使用标准库 `net/http`（Sphere）以及 `pgx` 访问 PostgreSQL
   （Link）。
-- **Python 服务**使用 FastAPI（Forge，以及 Fleet 规划中的平台
-  API）。
+- **Python 服务**使用 FastAPI（Forge）。
 
 > 以上仅为方向性说明；各仓库自行记录其确切使用的库、版本与工具链。
 

@@ -13,21 +13,20 @@ NereidAI 以一组专注的产品形态交付，每个产品都可独立部署�
 一个轻量的套件层把它们串联起来，而不吞并各自的领域逻辑：**Sphere**
 门户与 API 网关，以及 **Identity** 单点登录与访问控制中心。
 
-## 两个轻量服务，六个领域产品
+## 两个轻量服务，五个领域产品
 
 每个领域产品都是能独立运行的完整系统——套件服务只做联邦，不代管。
 **正文用短词**、**图表用缩写**——见 [命名与简写](../reference/naming.md)。
 
 | 产品 | 缩写 | 职责 | 仓库 |
 |---|---|---|---|
-| **NereidSphere** | NS | 轻量套件层——统一门户、统一 API 网关，以及产品之间的闭环事件粘合。自身不含领域逻辑，认证委托给 Identity。 | [`NereidSphere`](https://github.com/NereidAI) |
-| **NereidIdentity** | NI | 套件认证与身份中心——覆盖所有产品的单点登录、OIDC / LDAP / SAML 联邦、RBAC、令牌签发与租户级访问治理。 | [`NereidIdentity`](https://github.com/NereidAI) |
-| **NereidLink** | NL | 私有化 IoT 数据管道——多协议设备接入、统一消息、规则引擎、告警与实时看板。一套代码两种形态：all-in-one 单二进制或 Kubernetes 微服务。 | [`NereidLink`](https://github.com/NereidAI) |
-| **NereidForge** | NF | 模型工厂——数据集 / 标注管理、训练与微调、优化与量化、面向硬件的导出、评估与模型仓库。 | [`NereidForge`](https://github.com/NereidAI) |
-| **NereidHorizon** | NH | 边缘分发与部署——把 Edge 本身以及应用和模型分发到大量远程边缘节点：策略化 rollout、带宽感知投递、OTA 生命周期与离线期间自治对账。 | [`NereidHorizon`](https://github.com/NereidAI) |
-| **NereidEdge** | NE | 南向边缘接入，由 Horizon 交付并持续更新——运行在现场网关上，把现场设备接入 Link，具备零触碰上线、mTLS 安全链路、断点续传缓冲、本地自治与 OTA 生命周期。 | [`NereidEdge`](https://github.com/NereidAI) |
-| **NereidFleet** | NFL | 机器人集群管理——多机器人任务调度、交通协调、实时运营看板与远程操作，覆盖轮式 AMR 到足式机器人。 | [`NereidFleet`](https://github.com/NereidAI) |
-| **NereidMobile** | NM | Link 的移动窗口——App 与微信小程序：经 Identity 登录，浏览设备遥测与看板、轻量时序图表分析与告警推送。 | [`NereidMobile`](https://github.com/NereidAI) |
+| **NereidSphere** | NS | 轻量套件层——统一门户、统一 API 网关，以及产品之间的闭环事件粘合。自身不含领域逻辑，认证委托给 Identity。 | [`NereidSphere`](https://github.com/NereidAI/NereidSphere) |
+| **NereidIdentity** | NI | 套件认证与身份中心——覆盖所有产品的单点登录、OIDC / LDAP / SAML 联邦、RBAC、令牌签发与租户级访问治理。 | [`NereidIdentity`](https://github.com/NereidAI/NereidIdentity) |
+| **NereidLink** | NL | 私有化 IoT 数据管道——多协议设备接入、统一消息、规则引擎、告警与实时看板。一套代码两种形态：all-in-one 单二进制或 Kubernetes 微服务。 | [`NereidLink`](https://github.com/NereidAI/NereidLink) |
+| **NereidForge** | NF | 模型工厂——数据集 / 标注管理、训练与微调、优化与量化、面向硬件的导出、评估与模型仓库。 | [`NereidForge`](https://github.com/NereidAI/NereidForge) |
+| **NereidHorizon** | NH | 边缘分发与部署——把 Edge 本身以及应用和模型分发到大量远程边缘节点：策略化 rollout、带宽感知投递、OTA 生命周期与离线期间自治对账。 | [`NereidHorizon`](https://github.com/NereidAI/NereidHorizon) |
+| **NereidEdge** | NE | 南向边缘接入，由 Horizon 交付并持续更新——运行在现场网关上，把现场设备接入 Link，具备零触碰上线、mTLS 安全链路、断点续传缓冲、本地自治与 OTA 生命周期。 | [`NereidEdge`](https://github.com/NereidAI/NereidEdge) |
+| **NereidInference** | NIN | 边缘推理运行时——现场网关上的 EdgeX 设备服务：从 RTSP/ONVIF/JPEG 源取帧，经 KServe gRPC v2 或 OpenAI 兼容 HTTP 调用模型服务器（OVMS、Triton、vLLM、MindIE），把结构化事件发布到 EdgeX 总线，全程由模型包描述符驱动。 | [`NereidInference`](https://github.com/NereidAI/NereidInference) |
 
 ## 默认可独立 { #standalone-by-default }
 
@@ -60,7 +59,6 @@ flowchart TB
     subgraph SUITE["开源套件层 · Apache-2.0"]
         IDENTITY["NI\nSSO · 认证 · RBAC"]
         SPHERE["NS\n门户 · 网关 · 粘合"]
-        MOBILE["NM\nApp · 微信小程序"]
     end
 
     subgraph CORE["开源领域产品 · Apache-2.0"]
@@ -70,22 +68,17 @@ flowchart TB
     end
 
     subgraph SITE["现场 · 本地局域网"]
-        FLEET["NFL\n任务调度 · 远程操作"]
-        ROBOTS["机器人\nAMR · 足式"]
         EDGE["NE\n零触碰 · mTLS · 断点续传"]
         SENSORS["传感器 · 摄像头\n现场网关"]
     end
 
     APPS -->|门户 · SSO · 网关| SPHERE
     IDENTITY <--> SPHERE
-    MOBILE -->|遥测 · 图表 · 告警| LINK
     SPHERE --> CORE
     FORGE -->|模型 / 应用| HORIZON
     HORIZON -->|OTA：NE + 应用 / 模型| EDGE
     EDGE -->|mTLS · 断点续传| LINK
     LINK -->|遥测数据| FORGE
-    FLEET -->|命令| ROBOTS
-    ROBOTS -->|状态| FLEET
     EDGE -->|命令 / 数据| SENSORS
     SPHERE -.->|SSO · 广域网管理| SITE
 ```
@@ -97,7 +90,7 @@ Sphere 提供统一门户、API 网关与跨产品事件粘合，Identity 负责
 ## 平台不变量
 
 - **私有化设计**：所有产品支持完全气隙运行，运行期无强制回连、不依赖互联网。
-- **产品自治**：每个产品端到端拥有自己的领域；Sphere 与 Mobile 是轻量
+- **产品自治**：每个产品端到端拥有自己的领域；Sphere 是轻量
   层，绝不复制或吞并其他产品的功能或业务逻辑。
 - **中立契约**：南向 / 线契约与平台 API 保持协议、技术栈与厂商中立。
 - **多芯片经由模型工厂**：厂商特有的加速、镜像与工具链都隔离在 Forge 流水线

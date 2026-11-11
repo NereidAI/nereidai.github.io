@@ -14,7 +14,6 @@ is a suite-level event, not a local refactor.
 |---|---|---|
 | **Gateway wire protocol v1** | Link ↔ Edge | Topics, frames, and catalogs for the southbound gateway link (`v1/gateway/*`): telemetry, attributes, shadow, commands, discovery, OTA. Implemented; frozen before a release candidate. |
 | **SSO / OIDC federation** | Sphere ↔ Identity ↔ products | How a browser session becomes a product session: either ticket handoff or a direct OIDC client. See [SSO & OIDC](../security/sso-oidc.md). |
-| **Read-only mobile API subset** | Mobile ↔ Link | The narrow read surface a mobile client needs: auth, devices, telemetry, alerts. |
 | **Artifact hand-off** | Forge → Horizon | How produced model / application packages become rollout-ready artifacts. |
 | **Edge distribution channel** | Horizon → Edge | How Edge itself, apps, and models are delivered and updated. The edge OTA channel is owned by Horizon, not by Edge. |
 

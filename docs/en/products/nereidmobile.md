@@ -10,7 +10,8 @@ application for iOS and Android alongside a WeChat Mini Program.
 !!! warning "Tech Preview"
     Mobile is at an early stage. The repository currently contains the
     mobile app and the WeChat Mini Program; treat the surface described here as
-    the target rather than a finished product. The license is not yet declared.
+    the target rather than a finished product. Like the rest of the suite, it is
+    open source under Apache-2.0.
 
 ## What it solves
 
@@ -58,7 +59,7 @@ sign-in.
 
 !!! info "Developer documentation"
     The authoritative, detailed developer documentation for Mobile lives
-    in its own repository — see [NereidAI](https://github.com/NereidAI).
+    in its own repository — see [NereidAI](https://github.com/NereidAI/NereidMobile).
 
 ## Key facts
 
@@ -69,11 +70,11 @@ sign-in.
 | Form factors | iOS and Android app, plus a WeChat Mini Program |
 | Positioning | Thin client in the suite; owns no domain logic |
 | Stack | Flutter (Dart) app plus a native WeChat Mini Program |
-| License | Pending — to be added |
+| License | Apache-2.0 |
 
 ## Resources
 
-- GitHub: [NereidAI](https://github.com/NereidAI)
+- GitHub: [NereidAI](https://github.com/NereidAI/NereidMobile)
 - [Suite overview](index.md)
 - [Architecture overview](../architecture/overview.md)
 - [Community vs Enterprise](../community/community-vs-enterprise.md)

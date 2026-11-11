@@ -20,10 +20,11 @@ hide:
 </div>
 </div>
 
-!!! nr-status "开源状态 · 正在严格验证中"
-    全部代码**尚未发布到 GitHub**，目前正处于严格验证阶段：我们正在逐一审核所有代码与
-    功能，确保开源后**开箱 100% 可用**。兵马未动，粮草先行——待审核通过后才会正式开放
-    仓库。进展可在[路线图](community/roadmap.md)跟踪。
+!!! nr-status "开源状态 · 已开源，处于 dev 开发阶段"
+    NereidAI 全部仓库现已在 GitHub **开源（Apache-2.0）**，并已通过合规性、开源规范与
+    完整性审核。当前代码运行在**开发（dev）通道**，尚无正式 tagged release；商用条款、
+    支持 SLA 与企业交付物将在首个正式版本 **v0.0.1** 发布时于本站补齐。仓库见
+    [github.com/NereidAI](https://github.com/NereidAI)，进展可在[路线图](community/roadmap.md)跟踪。
 
 ## 闭环
 
@@ -33,7 +34,8 @@ NereidAI 以一组专注的产品形态交付，每个产品都可独立部署�
 ```mermaid
 flowchart LR
     subgraph FIELD["现场 / 场地"]
-        DEV["摄像头 · 传感器 · 机器人"] --> EDGE["NE · Edge\n采集数据 · 运行 AI 推理"]
+        DEV["摄像头 · 传感器 · 机器人"] --> EDGE["NE · Edge\n采集并桥接数据"]
+        DEV --> NIN["NIN · Inference\n在网关运行模型推理"]
     end
     FORGE["NF · Forge——模型工厂\n标注 → 训练/微调 → 量化 →\n多芯片导出 → 评估 → 入库"]
     HORIZON["NH · Horizon\n模型与应用 rollout（OTA）"]
@@ -43,12 +45,14 @@ flowchart LR
     LIST_LINK -->|数据集与遥测| FORGE
     FORGE -->|版本化模型| HORIZON
     HORIZON -->|OTA 模型 / 应用| EDGE
-    EDGE -->|推理事件 / 遥测| LIST_LINK
+    HORIZON -->|模型包| NIN
+    NIN -->|推理事件| LIST_LINK
+    EDGE -->|遥测| LIST_LINK
 ```
 
 这个闭环有两半，在 **Forge** 汇合：**IoT 那一半**把现场数据接进来（Edge、Link）
 并对结果采取行动；**AI 那一半**把数据变成模型（Forge），再送回边缘运行（Horizon、
-Edge）。模型在真实遥测中不断迭代，下一轮更准——且不强制上云。
+Edge、Inference）。模型在真实遥测中不断迭代，下一轮更准——且不强制上云。
 
 <div class="grid cards" markdown>
 
@@ -71,13 +75,6 @@ Edge）。模型在真实遥测中不断迭代，下一轮更准——且不强�
 
     同一个训练好的模型导出到 NVIDIA、AMD、Intel、ARM、昇腾、算能、登临、灵汐、
     瑞芯微，在网关上跑低延迟的 CV 或 VLM 推理。
-
-- :material-robot:{ .lg .middle } **具身智能与物理 AI** _路线中_
-
-    ---
-
-    让模型走出屏幕、落到机器人上——NereidFleet 基于 ROS 2 / Open-RMF 编排轮式
-    AMR、四足与人形机器人，迈向视觉-语言-动作（VLA）与物理 AI 负载。
 
 - :material-access-point:{ .lg .middle } **海量设备实时接入**
 
@@ -128,17 +125,9 @@ AI 链路是一等公民，而非附属功能：
 同一条闭环也支撑着商业解决方案——智能制造质检、视频 / 图像分析（NereidSentinel）
 与医疗洞察（NereidMedical）。
 
-### 迈向具身智能与物理 AI
-
-在感知与分析之上，下一步是**在物理世界中行动**。[NereidFleet](products/nereidfleet.md)
-（当前 Tech Preview）已在开放技术栈（ROS 2、Open-RMF、Zenoh、EdgeX）上编排异构具身
-设备——轮式 AMR、四足与人形机器人。路线图上，同一条 Forge→边缘闭环将为这些机器人
-输送**视觉-语言-动作（VLA）**与物理 AI 模型：在 Forge 中训练的感知模型，经 Horizon
-部署，由 Fleet 与 Link 完成回路。
-
 ## 产品套件
 
-两个轻量套件服务把整个家族串联起来，六个领域产品承担实际工作。
+两个轻量套件服务把整个家族串联起来，五个领域产品承担实际工作。
 每个领域产品都是可独立运行的完整系统。**正文用短词**、**图表用缩写**——见
 [命名与简写](reference/naming.md)。
 
@@ -150,8 +139,7 @@ AI 链路是一等公民，而非附属功能：
 | [NereidForge](products/nereidforge.md) | NF | 模型工厂——数据集、训练、优化、多芯片导出、模型仓库。 |
 | [NereidHorizon](products/nereidhorizon.md) | NH | 边缘分发——策略化 rollout、带宽感知投递、OTA。 |
 | [NereidEdge](products/nereidedge.md) | NE | 现场网关上的南向边缘接入——零触碰、mTLS、本地自治。 |
-| [NereidFleet](products/nereidfleet.md) | NFL | 机器人集群管理——任务调度、交通管制、远程操作。 |
-| [NereidMobile](products/nereidmobile.md) | NM | Link 的移动窗口——App 与微信小程序。 |
+| [NereidInference](products/nereidinference.md) | NIN | 边缘推理运行时——相机取流经 KServe/OpenAI 调用模型服务器，结构化事件送入 EdgeX 总线。 |
 
 ## 从哪里开始
 

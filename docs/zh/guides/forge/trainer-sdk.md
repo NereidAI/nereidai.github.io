@@ -20,7 +20,7 @@ title: 训练器 SDK（Python）
 !!! info "开发者文档"
     本页是上手介绍。包源码、完整的 torch 参考训练器与能力 profile 结构位于
     NereidForge 仓库（`app/builders/sdk/`、`app/builders/trainer-torch/`）
-    ——见 [NereidAI](https://github.com/NereidAI)。
+    ——见 [NereidAI](https://github.com/NereidAI/NereidForge)。
 
 ## 什么时候用
 
@@ -44,7 +44,7 @@ pip install ./app/builders/sdk
 
 ```bash
 python -m pip wheel app/builders/sdk --no-deps -w ./wheels
-# -> wheels/nereidforge_trainer-0.0.1-py3-none-any.whl
+# -> wheels/nereidforge_trainer-<version>-py3-none-any.whl
 ```
 
 安装后还会得到脚手架 CLI `nf-trainer`：
@@ -290,7 +290,7 @@ docker run --rm \
   -v ./sample-dataset:/data:ro -v ./out:/out \
   -e INPUT_URI=/data -e OUTPUT_DIR=/out -e ARTIFACT_ID=smoke \
   -e CONFIG_JSON='{"epochs":1,"imgsz":640,"batch":4,"arch":"acme-det"}' \
-  registry.example.internal/forge/acme-detector:v1
+  registry.example.com/forge/acme-detector:v1
 # -> ./out/smoke.onnx、smoke.metadata.json、smoke.metrics.json、progress.json
 ```
 
@@ -314,8 +314,8 @@ SDK **不做自动恢复**。训练器自行保存 checkpoint（`<id>.pt` 式）
 
 ## 当前状态
 
-- SDK 版本 **0.0.1**；内置 torch 视觉训练器（全部视觉任务）与 PaddleX 检测
-  训练器是前两个消费者。
+- SDK 尚无带 tag 的正式版本，当前从 dev 分支消费；请把构建固定到具体提交
+  SHA。内置 torch 视觉训练器（全部视觉任务）与 PaddleX 检测训练器是前两个消费者。
 - LLM/VLM 内置训练器已经遵循同一套环境变量与 `progress.json` /
   `metrics.json` 约定（适配器目录作为 `weights_uri`）；面向 LLM/VLM 自定义
   训练器的 SDK 辅助与 profile 覆盖正在对齐中。

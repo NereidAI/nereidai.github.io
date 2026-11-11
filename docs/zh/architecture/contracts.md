@@ -13,7 +13,6 @@ title: 跨产品契约
 |---|---|---|
 | **网关线协议 v1** | Link ↔ Edge | 南向网关链路（`v1/gateway/*`）的主题、帧与目录：遥测、属性、设备影子、命令、发现、OTA。已实现；在候选发布前冻结。 |
 | **SSO / OIDC 联邦** | Sphere ↔ Identity ↔ 产品 | 浏览器会话如何变成产品会话：要么票据移交，要么直接 OIDC 客户端。见 [SSO 与 OIDC](../security/sso-oidc.md)。 |
-| **移动端只读 API 子集** | Mobile ↔ Link | 移动客户端所需的窄读接口：认证、设备、遥测、告警。 |
 | **产物交接** | Forge → Horizon | 生产出的模型 / 应用包如何成为可 rollout 的产物。 |
 | **边缘分发通道** | Horizon → Edge | Edge 本身、应用与模型如何被交付与更新。边缘 OTA 通道由 Horizon 拥有，而非 Edge。 |
 

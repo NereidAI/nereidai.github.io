@@ -26,8 +26,6 @@ NereidAI 以 **Apache License 2.0** 开源，开发分散在
 | `Forge` | 模型工厂：数据集、训练、导出、模型仓库。 |
 | `Horizon` | 边缘分发与 rollout。 |
 | `Edge` | 现场网关上的南向边缘接入。 |
-| `Fleet` | 机器人集群管理。 |
-| `Mobile` | 移动 App 与微信小程序。 |
 
 讨论通过 GitHub issues 与 Discussions 进行——这就是社区支持渠道。企业相关问题
 见[社区与支持](../community/support.md)。
@@ -80,8 +78,8 @@ NereidAI 以 **Apache License 2.0** 开源，开发分散在
 
 ## 版本与契约
 
-- 仓库级的 `VERSION` 文件是**发布的事实来源**，也是派生镜像标签的来源；未经明确
-  要求不要修改。
+- 每个仓库的发布标识——仓库级 `VERSION` 文件或 git tag，以该仓库自身约定为准——
+  是**发布的事实来源**，也是派生镜像标签的来源；未经明确要求不要修改。
 - 当公共 API、请求/响应结构、WebSocket 帧或线契约发生变化时，在同一改动内更新
   规范与受影响的文档。
 

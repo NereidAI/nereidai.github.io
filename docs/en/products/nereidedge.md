@@ -74,7 +74,7 @@ devices and Link, and it is deployed by Horizon.
 
 !!! info "Developer documentation"
     The authoritative, detailed developer documentation for Edge lives in
-    its own repository — see [NereidAI](https://github.com/NereidAI).
+    its own repository — see [NereidAI](https://github.com/NereidAI/NereidEdge).
 
 ## Key facts
 
@@ -90,7 +90,7 @@ devices and Link, and it is deployed by Horizon.
 
 ## Resources
 
-- GitHub: [NereidAI](https://github.com/NereidAI)
+- GitHub: [NereidAI](https://github.com/NereidAI/NereidEdge)
 - [Suite overview](index.md)
 - [Architecture overview](../architecture/overview.md)
 - [Edge delivery](../deployment/edge-delivery.md)

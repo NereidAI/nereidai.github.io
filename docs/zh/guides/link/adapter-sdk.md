@@ -13,7 +13,7 @@ title: 适配器 SDK（Go）
 
 !!! info "开发者文档"
     本页介绍模型与生命周期。包 API 与完整参考适配器位于 NereidLink 仓库的 `sdk/`
-    与 `adapters/`——见 [NereidAI](https://github.com/NereidAI)。
+    与 `adapters/`——见 [NereidAI](https://github.com/NereidAI/NereidLink)。
 
 ## 包结构
 
@@ -51,7 +51,7 @@ SDK **不依赖服务端的 `internal/` 目录树**。SDK 包的破坏性变更�
 ```bash
 mkdir myadapter && cd myadapter
 go mod init github.com/example/myadapter
-go get github.com/nereidai/nereidlink@v0.0.1
+go get github.com/nereidai/nereidlink@latest
 ```
 
 把 `adapters/template/main.go` 复制为你的 `main.go`。只需要上面列出的 SDK 包——外部

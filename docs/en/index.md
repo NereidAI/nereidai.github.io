@@ -21,12 +21,14 @@ IoT connectivity and AI intelligence in one closed loop — private by design.</
 </div>
 </div>
 
-!!! nr-status "Open-source status — verification in progress"
-    The full codebase has **not been published to GitHub yet**. It is currently in
-    a strict verification phase: we are auditing every component and feature so the
-    open-source release is **100% usable out of the box**. *Supplies before the
-    march* — repositories open only once they pass review. Track progress on the
-    [roadmap](community/roadmap.md).
+!!! nr-status "Open-source status — now open, in active development"
+    Every NereidAI repository is now **open source on GitHub under Apache-2.0**,
+    having passed compliance, open-source standard and completeness review. The
+    code currently ships on its **development (dev) channel** — there is no tagged
+    release yet. Commercial terms, support SLAs and enterprise deliverables will be
+    documented here when the first formal release, **v0.0.1**, is published. Browse
+    the repositories at [github.com/NereidAI](https://github.com/NereidAI) and track
+    progress on the [roadmap](community/roadmap.md).
 
 ## The closed loop
 
@@ -37,7 +39,8 @@ absorbing their domain logic.
 ```mermaid
 flowchart LR
     subgraph FIELD["Site / field"]
-        DEV["cameras · sensors · robots"] --> EDGE["NE · Edge\ncollect data · run AI inference"]
+        DEV["cameras · sensors · robots"] --> EDGE["NE · Edge\ncollect & bridge data"]
+        DEV --> NIN["NIN · Inference\nrun model inference on the gateway"]
     end
     FORGE["NF · Forge — the model factory\nannotate → train/fine-tune → quantize →\nmulti-silicon export → evaluate → register"]
     HORIZON["NH · Horizon\nmodel & app rollout (OTA)"]
@@ -47,12 +50,14 @@ flowchart LR
     LINK -->|datasets & telemetry| FORGE
     FORGE -->|versioned models| HORIZON
     HORIZON -->|OTA models / apps| EDGE
-    EDGE -->|inference events / telemetry| LINK
+    HORIZON -->|model packages| NIN
+    NIN -->|inference events| LINK
+    EDGE -->|telemetry| LINK
 ```
 
 The loop has two halves that meet in **Forge**: the **IoT half** brings field data
 in (Edge, Link) and acts on results; the **AI half** turns that data into models
-(Forge) and ships them back to run at the edge (Horizon, Edge). Models improve from
+(Forge) and ships them back to run at the edge (Horizon, Edge, Inference). Models improve from
 real telemetry, on the next iteration — with no mandatory cloud.
 
 <div class="grid cards" markdown>
@@ -79,14 +84,6 @@ real telemetry, on the next iteration — with no mandatory cloud.
     Export one trained model across NVIDIA, AMD, Intel, ARM, Ascend, SOPHGO,
     MetaX, Enflame and Rockchip, then run low-latency CV or VLM inference on the
     gateway.
-
-- :material-robot:{ .lg .middle } **Embodied & physical AI** _roadmap_
-
-    ---
-
-    Take models off the screen and onto robots — NereidFleet orchestrates
-    wheeled AMRs, quadrupeds and humanoids over ROS 2 / Open-RMF, toward
-    vision-language-action and physical-AI workloads.
 
 - :material-access-point:{ .lg .middle } **Massive device access, in real time**
 
@@ -138,19 +135,9 @@ The AI journey is a first-class path, not a side feature:
 The same loop powers the commercial solutions — smart-manufacturing inspection,
 video/image analytics (NereidSentinel) and medical insights (NereidMedical).
 
-### Toward embodied & physical AI
-
-The next step beyond sensing and analytics is **acting in the physical world**.
-[NereidFleet](products/nereidfleet.md) (currently Tech Preview) already
-orchestrates heterogeneous embodied devices — wheeled AMRs, quadrupeds and
-humanoids — on an open stack (ROS 2, Open-RMF, Zenoh, EdgeX). On the roadmap, the
-same Forge-to-edge loop will feed **vision-language-action (VLA)** and physical-AI
-models to these robots: perception models trained in Forge, deployed over Horizon,
-and closed through Fleet and Link.
-
 ## Product suite
 
-Two thin suite services tie the family together; six domain products do the work.
+Two thin suite services tie the family together; five domain products do the work.
 Every domain product is a complete system that can run on its own. **Short names**
 are used in prose and **abbreviations** in diagrams — see
 [Naming & abbreviations](reference/naming.md).
@@ -163,8 +150,7 @@ are used in prose and **abbreviations** in diagrams — see
 | [NereidForge](products/nereidforge.md) | NF | Model factory — datasets, training, optimization, multi-silicon export, registry. |
 | [NereidHorizon](products/nereidhorizon.md) | NH | Edge distribution — policy-driven rollout, bandwidth-aware delivery, OTA. |
 | [NereidEdge](products/nereidedge.md) | NE | Southbound edge integration on field gateways — zero-touch, mTLS, autonomy. |
-| [NereidFleet](products/nereidfleet.md) | NFL | Robot fleet management — task scheduling, traffic control, teleoperation. |
-| [NereidMobile](products/nereidmobile.md) | NM | Operator's window into Link — mobile app and WeChat Mini Program. |
+| [NereidInference](products/nereidinference.md) | NIN | Edge inference runtime — camera frames to model servers over KServe/OpenAI, structured events to the EdgeX bus. |
 
 ## Where to start
 

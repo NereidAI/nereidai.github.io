@@ -1,12 +1,12 @@
 # NereidFleet 入门
 
 !!! warning "技术预览（Tech Preview）——设计阶段"
-    Fleet 处于早期设计阶段（v0.1 草案）。当前仓库以设计文档、调研与拟议的
+    Fleet 处于早期设计阶段（设计阶段草案）。当前仓库以设计文档、调研与拟议的
     架构决策为主，尚非可运行产品；目前还没有可供安装的运维控制台。本篇描述
     的是预期的首次使用路径与当前的仿真验证，而非已完成的工作流。
 
-NereidFleet 是规划中的具身智能机器人车队管理、操控与协同平台，覆盖轮式
-AMR、四足、人形与平衡机器人。它将提供带实时状态的机器人台账、多机器人任务
+NereidFleet 是面向具身智能机器人车队的管理、操控与协同平台，当前处于技术预览阶段，
+覆盖轮式 AMR、四足、人形与平衡机器人。它将提供带实时状态的机器人台账、多机器人任务
 派发与交通协调、远程操作与急停，构建在 ROS 2、Eclipse Zenoh、Open-RMF 与
 EdgeX Foundry 的开放技术栈之上。
 
@@ -42,5 +42,5 @@ Zenoh 1.5 及以上版本，以及 Open-RMF。与 Edge → Forge → Horizon →
 - [NereidFleet 产品页](../../products/nereidfleet.md)——目标设计与关键事实。
 - [路线图](../../community/roadmap.md)——套件各产品的成熟度。
 - 调研报告、可行性研究与拟议 ADR 位于 NereidFleet 仓库
-  （[NereidAI](https://github.com/NereidAI)）；规划任何集成前，请先在仓库中
+  （[NereidAI](https://github.com/NereidAI/NereidFleet)）；规划任何集成前，请先在仓库中
   确认当前范围。

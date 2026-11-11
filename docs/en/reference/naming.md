@@ -7,7 +7,7 @@ title: Naming & Abbreviations
 Curious where the name comes from and what we are building toward? See
 [About NereidAI](../about/index.md).
 
-NereidAI is a suite of eight products. To keep pages and diagrams readable, this
+NereidAI is a suite of seven products. To keep pages and diagrams readable, this
 site refers to each product three ways:
 
 | Full name (titles) | Short name (prose) | Abbreviation (diagrams / tables) |
@@ -18,8 +18,7 @@ site refers to each product three ways:
 | **NereidForge** | Forge | NF |
 | **NereidHorizon** | Horizon | NH |
 | **NereidEdge** | Edge | NE |
-| **NereidFleet** | Fleet | NFL |
-| **NereidMobile** | Mobile | NM |
+| **NereidInference** | Inference | NIN |
 
 ## How they are used
 
@@ -36,7 +35,7 @@ site refers to each product three ways:
 
 - The commercial industry solutions — **NereidFactory**, **NereidSentinel**,
   **NereidMedical** — are separate commercial offerings, not members of the
-  eight-product open-source suite, and have no short forms.
+  seven-product open-source suite, and have no short forms.
 - `Edge` (the product NereidEdge) is distinct from the generic word "edge"; in
   prose the short name is capitalized as a product name.
 

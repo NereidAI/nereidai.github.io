@@ -20,27 +20,22 @@ flowchart TB
         FORGEC["NF\n模型工厂（Kubeflow）"]
         HORIZONC["NH\n边缘分发"]
         INFRA["PostgreSQL / TimescaleDB · NATS · S3（SeaweedFS）· Harbor"]
-        MOB["NM\nApp + 微信小程序"]
     end
 
     subgraph SITE["现场 / 场地 · 本地局域网"]
         direction TB
         EDGEG["NE\n现场网关（EdgeX）"]
-        FLEETC["NFL\n机器人控制回路"]
         DEVICES["设备 · 传感器 · 摄像头"]
-        ROBOTS["机器人（AMR · 足式）"]
     end
 
     SPHERE --> LINKC
     SPHERE --> FORGEC
     SPHERE --> HORIZONC
     ID <--> SPHERE
-    MOB -->|遥测 · 图表 · 告警| LINKC
     EDGEG -->|遥测 · mTLS · 断点续传| LINKC
     HORIZONC -->|OTA：NE + 应用 / 模型| EDGEG
     LINKC -->|数据集| FORGEC
     FORGEC -->|模型 / 应用| HORIZONC
-    FLEETC <-->|实时局域网命令 / 状态| ROBOTS
     EDGEG -->|南向| DEVICES
     INFRA --- LINKC
     INFRA --- FORGEC
@@ -60,7 +55,6 @@ flowchart TB
 | Link | 设备接入、消息骨干、规则、告警、看板、OTA 编排 |
 | Forge | 数据集 / 标注、训练、优化、多芯片导出、模型仓库（Kubeflow Pipelines） |
 | Horizon | 策略化地把 Edge、应用与模型分发到远程节点 |
-| Mobile | 只读运营窗口：遥测、图表、告警 |
 
 ## 共享基础设施
 
@@ -82,8 +76,6 @@ flowchart TB
 - **Edge** 运行在现场网关上，把南向设备（经 EdgeX 设备服务）桥接进
   Link。它带断点续传缓冲，使遥测能挺过广域网中断，并且由 Horizon
   经同一条广域网交付 / 更新。
-- **Fleet** 运行机器人集群的低延迟本地控制回路（命令 / 状态留在局域网内），
-  而集群管理经管理平面触达它。
 - **设备** 既可直接接入 Link（MQTT / HTTP / CoAP），也可经 Edge 网关。
 
 ## 网络特性
@@ -94,4 +86,3 @@ flowchart TB
 | Edge → Link | 广域网上的 TLS / mTLS，断点续传，可安全重放 |
 | Horizon → Edge | 策略化 rollout、带宽感知、离线对账 |
 | 浏览器 → Sphere → 产品 | 管理平面（广域网）上的 SSO |
-| Fleet ↔ 机器人 | 实时、低延迟局域网 |

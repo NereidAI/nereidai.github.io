@@ -89,21 +89,19 @@ Link 是面向企业私有化部署的 IoT 数据管道平台：多协议设备�
 
 Link 是闭环中的推理与反馈环节。Edge 通过双向认证、断点续传的链路
 把现场设备接入 Link；由此产生的遥测作为训练数据回流至
-[Forge](nereidforge.md)，而 [Mobile](nereidmobile.md) 是运维人员
-查看 Link 的窗口。登录经 Identity 联邦。
+[Forge](nereidforge.md)。登录经 Identity 联邦。
 
 ```mermaid
 flowchart LR
     EDGE["NE"] -->|mTLS · 断点续传| LINK["NL"]
     LINK -->|遥测数据| FORGE["NF"]
-    MOBILE["NM"] -->|遥测 · 告警| LINK
     LINK -->|登录| NI["NI"]
 ```
 
 !!! info "开发者文档"
 
     关于 Link 的权威、详细的开发者文档位于其自身仓库：
-    <https://github.com/NereidAI>。
+    <https://github.com/NereidAI/NereidLink>。
 
 ## 关键事实
 
@@ -121,9 +119,8 @@ flowchart LR
 
 ## 资源
 
-- GitHub：<https://github.com/NereidAI>
-- 套件：[产品总览](index.md) · [Forge](nereidforge.md) ·
-  [Mobile](nereidmobile.md)
+- GitHub：<https://github.com/NereidAI/NereidLink>
+- 套件：[产品总览](index.md) · [Forge](nereidforge.md)
 - [跨产品契约](../architecture/contracts.md) ·
   [边缘分发](../deployment/edge-delivery.md)
 - [Kubernetes 与 Helm](../deployment/kubernetes.md) · [安全](../security/index.md)

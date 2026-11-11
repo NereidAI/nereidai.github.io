@@ -30,7 +30,7 @@
 ## 允许的跳转目标
 
 登录后跳转只接受已配置的精确产品来源（例如
-`https://nereidlink.yiqisoft.cn`），产品内深链只能是相对路径。未知或被篡改
+`https://nereidlink.example.com`），产品内深链只能是相对路径。未知或被篡改
 的地址会被拒绝，以防止开放重定向漏洞。
 
 另见[单点登录（SSO）](glossary/sso.md)、

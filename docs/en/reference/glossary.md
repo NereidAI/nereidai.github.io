@@ -5,7 +5,7 @@ title: Glossary
 # Glossary
 
 Terms used across the suite and this site. Product **short names** and
-**abbreviations** (NS, NF, NFL, …) are listed on
+**abbreviations** (NS, NF, NIN, …) are listed on
 [Naming & abbreviations](naming.md).
 
 ## Suite & products
@@ -13,11 +13,11 @@ Terms used across the suite and this site. Product **short names** and
 | Term | Meaning |
 |---|---|
 | **NereidAI** | The platform / suite and the GitHub organization; never abbreviated. |
-| **Suite** | The eight products used together; each product still works on its own. |
-| **Product suite** | Two thin suite services (Sphere, Identity) plus six domain products. |
-| **Thin layer** | A component that only federates others — portal / SSO / gateway / event glue — and holds no domain logic. Applies to Sphere and Mobile. |
+| **Suite** | The seven products used together; each product still works on its own. |
+| **Product suite** | Two thin suite services (Sphere, Identity) plus five domain products. |
+| **Thin layer** | A component that only federates others — portal / SSO / gateway / event glue — and holds no domain logic. Applies to Sphere. |
 | **Standalone deployment** | Running a single product without the suite layer. It has its own login and data and does not depend on the other products. |
-| **Domain product** | A product that owns a full domain end to end — Link, Forge, Horizon, Edge, Fleet, Mobile. |
+| **Domain product** | A product that owns a full domain end to end — Link, Forge, Horizon, Edge, Inference. |
 | **Commercial solution** | An industry offering (NereidFactory, NereidSentinel, NereidMedical) built on the open platform and licensed separately. |
 
 ## Identity & access
@@ -103,17 +103,17 @@ Terms used across the suite and this site. Product **short names** and
 | **Artifact** | A produced, versioned package (model or application) handed to Horizon for rollout. |
 | **Kubeflow Pipelines** | The workflow engine that runs Forge training/optimization/evaluation. |
 
-## Edge & fleet
+## Edge & inference
 
 | Term | Meaning |
 |---|---|
-| **EdgeX Foundry** | The open edge framework Edge is built on (an EdgeX application service), tracked upstream rather than forked. |
+| **EdgeX Foundry** | The open edge framework Edge and Inference are built on (EdgeX device/application services), tracked upstream rather than forked. |
+| **NereidInference (NIN)** | EdgeX device service for descriptor-driven media inference on field gateways: frame acquisition, KServe/OpenAI model calls, tensor decoding and EdgeX events. |
+| **Model package** | A `*.tar.gz` with a root `nereid-model.json` descriptor and checksummed payloads; produced by Forge, transported by Horizon, unpacked by Inference. |
+| **KServe gRPC v2** | The standard inference protocol Inference uses to call model servers such as OVMS or Triton, alongside OpenAI-compatible HTTP. |
 | **Zero-touch onboarding** | A field gateway comes up and registers securely with no manual per-device setup. |
 | **Local autonomy** | The edge keeps operating and enforcing local logic while the platform link is down. |
 | **Field gateway** | The on-site hardware running Edge and connectors to field devices. |
-| **AMR** | Autonomous mobile robot; one class of robot Fleet schedules. |
-| **Teleoperation** | A human driving a robot remotely; low-latency LAN path. |
-| **WeChat Mini Program** | One of Mobile's two targets, alongside the mobile app. |
 
 ## Releases & open source
 

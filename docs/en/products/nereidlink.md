@@ -96,22 +96,20 @@ engine, alarm notifications and real-time visualization.
 Link is the inference-and-feedback stage of the closed loop. Edge
 connects field devices into Link over mutually authenticated,
 store-and-forward links; the resulting telemetry feeds
-[Forge](nereidforge.md) as training data, and
-[Mobile](nereidmobile.md) is the operator's window into it. Sign-in is
+[Forge](nereidforge.md) as training data. Sign-in is
 federated through Identity.
 
 ```mermaid
 flowchart LR
     EDGE["NE"] -->|mTLS · store-and-forward| LINK["NL"]
     LINK -->|telemetry data| FORGE["NF"]
-    MOBILE["NM"] -->|telemetry · alerts| LINK
     LINK -->|sign-in| NI["NI"]
 ```
 
 !!! info "Developer documentation"
 
     The authoritative, detailed developer documentation for Link lives in
-    its own repository: <https://github.com/NereidAI>.
+    its own repository: <https://github.com/NereidAI/NereidLink>.
 
 ## Key facts
 
@@ -129,9 +127,8 @@ flowchart LR
 
 ## Resources
 
-- GitHub: <https://github.com/NereidAI>
-- Suite: [product overview](index.md) · [Forge](nereidforge.md) ·
-  [Mobile](nereidmobile.md)
+- GitHub: <https://github.com/NereidAI/NereidLink>
+- Suite: [product overview](index.md) · [Forge](nereidforge.md)
 - [Cross-product contracts](../architecture/contracts.md) ·
   [Edge delivery](../deployment/edge-delivery.md)
 - [Kubernetes & Helm](../deployment/kubernetes.md) · [Security](../security/index.md)

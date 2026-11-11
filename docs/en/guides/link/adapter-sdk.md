@@ -16,7 +16,7 @@ ingress connector that runs *with or alongside the platform*.
 !!! info "Developer documentation"
     This page introduces the model and lifecycle. The package API and the
     complete reference adapters live in the NereidLink repository under
-    `sdk/` and `adapters/` — see [NereidAI](https://github.com/NereidAI).
+    `sdk/` and `adapters/` — see [NereidAI](https://github.com/NereidAI/NereidLink).
 
 ## Packages
 
@@ -56,7 +56,7 @@ CoAP adapter (`adapters/coap`) is a full reference implementation.
 ```bash
 mkdir myadapter && cd myadapter
 go mod init github.com/example/myadapter
-go get github.com/nereidai/nereidlink@v0.0.1
+go get github.com/nereidai/nereidlink@latest
 ```
 
 Copy `adapters/template/main.go` as your `main.go`. Only the SDK packages listed

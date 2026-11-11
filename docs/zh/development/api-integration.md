@@ -1,8 +1,9 @@
 # 平台对接指南
 
-本篇面向以编程方式调用 NereidAI 平台的**后端系统与第三方开发者**。每个产品都自带完整的
-OpenAPI 契约，本页不重复罗列端点，只回答决定一次对接的两个问题：**该调哪个产品的 API、如何
-鉴权**，然后给出对应规范的确切入口。
+本篇面向以编程方式调用 NereidAI 平台的**后端系统与第三方开发者**。每个面向 HTTP 的
+产品都自带完整的 OpenAPI 契约，本页不重复罗列端点，只回答决定一次对接的两个问题：**该调
+哪个产品的 API、如何鉴权**，然后给出对应规范的确切入口。没有独立 REST API 的边缘侧服务
+（Edge、Inference）也在表中列出其实际暴露的对接路径。
 
 !!! info "上层文档"
     本页是面向集成方的能力与流程说明。逐端点的请求/响应 schema 见各产品的 OpenAPI 文档，深度
@@ -46,7 +47,7 @@ flowchart TD
 | **NH** partner | 面向第三方的只读边缘交换代理 | `/api/v1/{org}/...` | `X-Api-Key`（`nk_live_…` / `nk_test_…`） | `openapi-partner.yaml` |
 | **NI**（Identity） | 标准 OIDC / OAuth2（Keycloak 兼容 realm `nereidai`） | `/auth/realms/nereidai/protocol/openid-connect/*` | 按已注册客户端进行客户端认证 | OIDC discovery 文档 |
 | **NE**（Edge） | 无独立 REST API | — | 作为 NL 网关走南向线协议 | 见[网关接入](../guides/link/integrate-gateway.md) |
-| **NFL / NM**（Fleet / Mobile） | 本版本无公开 OpenAPI | — | Fleet 为技术预览；Mobile 使用 NL 窄量移动 API 子集 | 各产品仓库 |
+| **NIN**（Inference） | 自身无独立 REST API | — | 经 EdgeX core-metadata 预置（每个推理任务就是一个 EdgeX 设备）；对外以 KServe gRPC v2 / OpenAI 兼容 HTTP 出站调用模型服务器；MJPEG 预览口仅为运维诊断，不是对接 API | 见 [Inference 快速开始](../guides/inference/getting-started.md) |
 
 !!! tip "产品彼此独立"
     你可以单独购买/部署 NL、单独部署 NH 等。套件 SSO 与 `/p/` 网关只存在于以 NS 为入口的
@@ -55,7 +56,7 @@ flowchart TD
 ## 身份平面
 
 - **NI（Identity）**是唯一身份事实源。其 issuer 为 Keycloak 兼容 realm，例如
-  `https://sso.yiqisoft.cn/auth/realms/nereidai`（开发环境：
+  `https://sso.example.com/auth/realms/nereidai`（开发环境：
   `http://localhost:8090/realms/nereidai`）。
 - 标准 OIDC 端点通过 issuer 下的 `/.well-known/openid-configuration` 发布
   （授权、token、JWKS、userinfo）。

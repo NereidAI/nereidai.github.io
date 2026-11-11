@@ -40,7 +40,7 @@ Built-in `nereid-edge` (config/mappings can stay default):
 A typical Modbus TCP connector:
 
 ```json
-{ "host": "192.168.1.10", "port": 502, "unit_id": 1, "byte_order": "BIG" }
+{ "host": "192.0.2.10", "port": 502, "unit_id": 1, "byte_order": "BIG" }
 ```
 
 ```json

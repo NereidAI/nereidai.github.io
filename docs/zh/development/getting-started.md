@@ -28,8 +28,7 @@ NereidAI 是端到端的 AIoT 平台，以**一组专注的产品**形态交付�
 | [Forge](../products/nereidforge.md) | 模型工厂——数据集、训练、优化、多芯片导出。 |
 | [Horizon](../products/nereidhorizon.md) | 边缘分发——策略化 rollout、带宽感知投递、OTA。 |
 | [Edge](../products/nereidedge.md) | 现场网关上的南向边缘接入——零触碰、mTLS、本地自治。 |
-| [Fleet](../products/nereidfleet.md) | 机器人集群管理——任务调度、交通管制、远程操作。 |
-| [Mobile](../products/nereidmobile.md) | Link 的移动窗口——App 与微信小程序。 |
+| [Inference](../products/nereidinference.md) | 边缘推理运行时——KServe/OpenAI 模型调用、描述符驱动解码。 |
 
 !!! note "可独立部署"
     每个领域产品都能单独运行，不依赖其他产品启动。套件服务（Sphere、
@@ -52,8 +51,7 @@ flowchart LR
 
 打开你关心的产品仓库，按其 `README`（以及它链接的 `INSTALL` / `docs` 指南）
 操作。Link 以一套代码交付两种形态——all-in-one 单二进制或 Kubernetes
-微服务；Edge 运行在现场网关上；较新的产品（Fleet、Mobile）
-尚处早期阶段，请以仓库当前范围为准。
+微服务；Edge 运行在现场网关上。
 
 ## 自己跑起来
 

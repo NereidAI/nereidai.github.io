@@ -18,8 +18,8 @@ title: 支持
 | 提问、分享想法、展示你的成果 | GitHub **Discussions** |
 
 !!! tip "发帖之前"
-    请先搜索已有的 issues 与 Discussions。开新帖时，请附上版本（`v0.0.1`）、你的
-    环境，以及清晰的复现步骤。
+    请先搜索已有的 issues 与 Discussions。开新帖时，请附上你运行的 dev 通道版本
+    （提交 SHA 或镜像 tag）、你的环境，以及清晰的复现步骤。
 
 ## 商业支持多了什么
 

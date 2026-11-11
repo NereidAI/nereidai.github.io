@@ -21,7 +21,8 @@ Community support flows through GitHub. There is **no free technical support** a
 
 !!! tip "Before you post"
     Search existing issues and Discussions first. When you open a new one, include
-    the version (`v0.0.1`), your environment, and clear steps to reproduce.
+    the dev-channel revision you run (commit SHA or image tag), your environment,
+    and clear steps to reproduce.
 
 ## What commercial support adds
 

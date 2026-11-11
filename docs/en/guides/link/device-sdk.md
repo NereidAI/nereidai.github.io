@@ -19,7 +19,7 @@ full control of poll cadence, reconnection, hello negotiation, and manifest timi
 !!! info "Developer documentation"
     This page is a hands-on introduction. The full package API, constants, and
     runnable examples live in the NereidLink repository under
-    `sdk/device/go/` — see [NereidAI](https://github.com/NereidAI).
+    `sdk/device/go/` — see [NereidAI](https://github.com/NereidAI/NereidLink).
 
 ## Install
 

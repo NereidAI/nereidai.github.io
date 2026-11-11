@@ -82,7 +82,7 @@ Edge 在各边缘站点独立运行，刻意**不**作为中心门户入口。
 !!! info "开发者文档"
 
     关于 Sphere 的权威、详细的开发者文档位于其自身仓库：
-    <https://github.com/NereidAI>。
+    <https://github.com/NereidAI/NereidSphere>。
 
 ## 关键事实
 
@@ -99,7 +99,7 @@ Edge 在各边缘站点独立运行，刻意**不**作为中心门户入口。
 
 ## 资源
 
-- GitHub：<https://github.com/NereidAI>
+- GitHub：<https://github.com/NereidAI/NereidSphere>
 - 套件：[产品总览](index.md) · [Identity](nereididentity.md)
 - [架构总览](../architecture/overview.md) ·
   [跨产品契约](../architecture/contracts.md)

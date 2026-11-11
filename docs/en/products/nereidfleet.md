@@ -9,7 +9,7 @@ robot fleets — wheeled, quadruped, humanoid, and balancing robots — built on
 open stack of ROS 2, Eclipse Zenoh, Open-RMF, and EdgeX Foundry.
 
 !!! warning "Tech Preview"
-    Fleet is at an early design stage (v0.1 draft). The repository is
+    Fleet is at an early design stage (design-stage draft). The repository is
     currently design documents and research; the implementation follows the
     phased PoC route below. Treat these capabilities as the target design, not
     shipped features.
@@ -79,13 +79,13 @@ the robots themselves, on the local LAN rather than in the central platform.
 
 !!! info "Developer documentation"
     The authoritative, detailed developer documentation for Fleet lives in
-    its own repository — see [NereidAI](https://github.com/NereidAI).
+    its own repository — see [NereidAI](https://github.com/NereidAI/NereidFleet).
 
 ## Key facts
 
 | Aspect | Detail |
 |---|---|
-| Status | Tech Preview — early design stage (v0.1 draft) |
+| Status | Tech Preview — early design stage (design-stage draft) |
 | What it is | Management, control, and collaboration platform for robot fleets |
 | Robot types | Wheeled AMRs, quadrupeds, humanoids, balancing robots |
 | Positioning | Site/field plane of the suite, on the local LAN |
@@ -96,7 +96,7 @@ the robots themselves, on the local LAN rather than in the central platform.
 
 ## Resources
 
-- GitHub: [NereidAI](https://github.com/NereidAI)
+- GitHub: [NereidAI](https://github.com/NereidAI/NereidFleet)
 - [Suite overview](index.md)
 - [Architecture overview](../architecture/overview.md)
 - [Community vs Enterprise](../community/community-vs-enterprise.md)

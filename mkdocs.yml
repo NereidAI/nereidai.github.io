@@ -8,8 +8,8 @@ site_description: >-
   LLM/VLM and vision-model training, quantization, multi-vendor export, offline
   edge distribution and inference feedback. IoT and AI in one private loop.
 site_url: https://nereidai.github.io
-repo_url: https://github.com/NereidAI
-repo_name: NereidAI
+repo_url: https://github.com/NereidAI/nereidai.github.io
+repo_name: NereidAI/nereidai.github.io
 edit_uri: ''
 copyright: Copyright &copy; 2026 YIQISOFT — Apache License 2.0
 
@@ -163,8 +163,7 @@ nav:
     - NereidForge: products/nereidforge.md
     - NereidHorizon: products/nereidhorizon.md
     - NereidEdge: products/nereidedge.md
-    - NereidFleet: products/nereidfleet.md
-    - NereidMobile: products/nereidmobile.md
+    - NereidInference: products/nereidinference.md
 
   - Guides:
     - Overview: guides/index.md
@@ -281,10 +280,8 @@ nav:
       - guides/horizon/bffUsers.md
     - NereidEdge:
       - Getting Started: guides/edge/getting-started.md
-    - NereidFleet:
-      - Getting Started: guides/fleet/getting-started.md
-    - NereidMobile:
-      - Getting Started: guides/mobile/getting-started.md
+    - NereidInference:
+      - Getting Started: guides/inference/getting-started.md
 
   - Solutions:
     - Overview: solutions/index.md

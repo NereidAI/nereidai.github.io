@@ -3,7 +3,7 @@
 !!! warning "Tech Preview"
     Mobile is at an early stage. The repository currently contains the Flutter
     app and the native WeChat Mini Program; the operator surface described here
-    is the target, and the license is not yet declared. Treat it as a preview
+    is the target. It is open source under Apache-2.0 — treat it as a preview
     rather than a finished release.
 
 NereidMobile is the operator's window into Link: a Flutter application for iOS
@@ -52,7 +52,7 @@ The app is a standard Flutter project: run `flutter pub get` then
 `flutter run` inside `app/`. The Mini Program is imported into WeChat DevTools
 from the `miniapp/` directory with your AppID. Toolchain prerequisites
 (Flutter SDK, Xcode for iOS, Android SDK, WeChat DevTools) and build commands
-are documented in the NereidMobile repository ([NereidAI](https://github.com/NereidAI)).
+are documented in the NereidMobile repository ([NereidAI](https://github.com/NereidAI/NereidMobile)).
 
 ## Next steps
 

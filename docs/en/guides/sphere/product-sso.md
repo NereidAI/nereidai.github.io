@@ -33,7 +33,7 @@ immediately; otherwise you first complete the identity-service login.
 ## Allowed destinations
 
 Only exact, configured product origins (for example
-`https://nereidlink.yiqisoft.cn`) are accepted as post-login redirects, and
+`https://nereidlink.example.com`) are accepted as post-login redirects, and
 in-product deep links are relative paths only. Unknown or tampered URLs are
 rejected — this prevents open redirects.
 

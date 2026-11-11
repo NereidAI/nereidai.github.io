@@ -62,21 +62,13 @@ hide:
 
     [:octicons-arrow-right-24: 快速开始](edge/getting-started.md)
 
-- :material-robot:{ .lg .middle } **NereidFleet** _技术预览_
+- :material-brain:{ .lg .middle } **NereidInference**
 
     ---
 
-    机器人集群：名册、状态与任务派发。
+    边缘推理运行时：相机取流到模型服务器，再输出 EdgeX 事件。
 
-    [:octicons-arrow-right-24: 快速开始](fleet/getting-started.md)
-
-- :material-cellphone:{ .lg .middle } **NereidMobile** _技术预览_
-
-    ---
-
-    移动 App 与微信小程序：遥测、图表、告警。
-
-    [:octicons-arrow-right-24: 快速开始](mobile/getting-started.md)
+    [:octicons-arrow-right-24: 快速开始](inference/getting-started.md)
 
 </div>
 

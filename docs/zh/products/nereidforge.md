@@ -80,7 +80,7 @@ flowchart LR
 !!! info "开发者文档"
 
     关于 Forge 的权威、详细的开发者文档位于其自身仓库：
-    <https://github.com/NereidAI>。
+    <https://github.com/NereidAI/NereidForge>。
 
 ## 关键事实
 
@@ -99,7 +99,7 @@ flowchart LR
 
 ## 资源
 
-- GitHub：<https://github.com/NereidAI>
+- GitHub：<https://github.com/NereidAI/NereidForge>
 - 套件：[产品总览](index.md) · [Link](nereidlink.md) ·
   [Horizon](nereidhorizon.md)
 - [架构总览](../architecture/overview.md) ·

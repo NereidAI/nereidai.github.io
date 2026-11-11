@@ -25,7 +25,7 @@ The suite-wide security posture is the contract this approach implements:
 | No mandatory call-home; data stays inside the customer perimeter | Available |
 | mTLS service-to-service and device-to-platform links | Available |
 | Unified SSO and centralized RBAC across all products (Identity) | Available |
-| Signed release artifacts and per-release SBOM | Planned |
+| Signed release artifacts and per-release SBOM | First tagged release |
 | Enterprise SLA on CVE response and backported fixes | Commercial contract |
 | Compliance baselines (e.g. 等保 2.0) and local-OS / accelerator certifications | Per-engagement roadmap |
 
@@ -101,9 +101,10 @@ The offline bundle must include the pieces every product assumes:
 
 ## Supply chain
 
-- Signed release artifacts and a per-release SBOM are on the roadmap (listed as
-  *planned* in the security posture); signed offline bundles and enterprise
-  supply-chain workflows are offered under commercial terms.
+- Signed release artifacts and a per-release SBOM ship with the first tagged
+  release (shown as *First tagged release* in the security posture table);
+  signed offline bundles and enterprise supply-chain workflows are offered
+  under commercial terms.
 - Containers are tracked by manifest digest; mirrored images keep their digests
   through the import.
 

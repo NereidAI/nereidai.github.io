@@ -89,7 +89,7 @@ flowchart LR
 !!! info "Developer documentation"
 
     The authoritative, detailed developer documentation for Identity lives
-    in its own repository: <https://github.com/NereidAI>.
+    in its own repository: <https://github.com/NereidAI/NereidIdentity>.
 
 ## Key facts
 
@@ -107,7 +107,7 @@ flowchart LR
 
 ## Resources
 
-- GitHub: <https://github.com/NereidAI>
+- GitHub: <https://github.com/NereidAI/NereidIdentity>
 - Suite: [product overview](index.md) · [Sphere](nereidsphere.md)
 - [SSO & OIDC](../security/sso-oidc.md) · [RBAC](../security/rbac.md)
 - [Architecture overview](../architecture/overview.md) ·

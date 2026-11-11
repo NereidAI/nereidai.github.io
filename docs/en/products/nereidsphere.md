@@ -96,7 +96,7 @@ the full loop is in the [architecture overview](../architecture/overview.md).
 !!! info "Developer documentation"
 
     The authoritative, detailed developer documentation for Sphere lives
-    in its own repository: <https://github.com/NereidAI>.
+    in its own repository: <https://github.com/NereidAI/NereidSphere>.
 
 ## Key facts
 
@@ -113,7 +113,7 @@ the full loop is in the [architecture overview](../architecture/overview.md).
 
 ## Resources
 
-- GitHub: <https://github.com/NereidAI>
+- GitHub: <https://github.com/NereidAI/NereidSphere>
 - Suite: [product overview](index.md) · [Identity](nereididentity.md)
 - [Architecture overview](../architecture/overview.md) ·
   [Cross-product contracts](../architecture/contracts.md)

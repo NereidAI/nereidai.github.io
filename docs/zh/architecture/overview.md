@@ -12,9 +12,8 @@ NereidAI 是一组可独立部署的产品，组合起来构成一个边缘到�
   Identity（SSO、RBAC）。
 - **领域产品**：Link（IoT 管道）、Forge（模型工厂）、
   Horizon（边缘分发）。
-- **边缘 / 现场**：Edge（现场网关上的南向接入）、Fleet（机器人集群）
+- **边缘 / 现场**：Edge（现场网关上的南向接入）、Inference（现场媒体推理运行时）
   以及现场的设备本身。
-- **轻量客户端**：Mobile。
 
 ## 闭环
 
@@ -47,6 +46,7 @@ flowchart LR
 | 平面 | 工作方式 |
 |---|---|
 | **设备 / 南向** | Edge 是一个 EdgeX Foundry 应用服务，把现场设备经网关 MQTT 协议（`v1/gateway/*`）桥接到 Link。传输为 TLS/mTLS；带断点续传缓冲，因此广域网链路间歇性中断也不会丢数据。 |
+| **边缘推理** | Inference 是一个 EdgeX 设备服务：采集相机帧，经 KServe gRPC v2 或 OpenAI 兼容 HTTP 调用模型服务器（OVMS、Triton、vLLM、MindIE），按模型包描述符解码张量，并在 EdgeX 总线上发出结构化事件。模型包由 Forge 构建、Horizon 分发到网关。 |
 | **接入** | Link 通过统一的信封与 SDK 接收 MQTT、HTTP、CoAP，使各传输行为完全一致。接入按设备令牌限流。 |
 | **服务间（Link）** | 服务之间只经 NATS 通信——绝不跨服务直连数据库。 |
 | **面向客户端的实时** | 所有实时数据（遥测、在线状态、告警、命令进度、OTA 进度……）经单条 WebSocket 连接以多路订阅推送；REST 只用于快照与写入。刻意避免轮询。 |
@@ -70,8 +70,7 @@ Identity 登录一次；随后 Sphere 签发一个短时、单次使用的密封
 | Forge | FastAPI（Python）后端 + worker，React + TS + Ant Design + Vite 前端，Kubeflow Pipelines，Helm charts；镜像来自私有仓库 |
 | Horizon | React 18 / Vite 前端 + Express BFF，PostgreSQL；驱动 Open Horizon Exchange / agbot / 边缘节点 |
 | Edge | Go（EdgeX Foundry App Functions SDK v4），运行在现场网关 |
-| Fleet | 见产品页——早期阶段（Tech Preview） |
-| Mobile | 一套客户端代码同时面向 App 与微信小程序 |
+| Inference | 静态 Go（无 CGo）EdgeX 4.0 设备服务，ffmpeg 子进程；KServe gRPC v2 / OpenAI HTTP；amd64/arm64 |
 
 ## 设计不变量
 

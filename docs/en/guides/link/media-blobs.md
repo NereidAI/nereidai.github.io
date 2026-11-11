@@ -14,7 +14,7 @@ sub-devices behind a gateway.
     This page covers the device-facing contract and the operator-side
     configuration. The storage implementation lives in the NereidLink
     repository under `internal/blob/` and `internal/ingesthttp/media.go` —
-    see [NereidAI](https://github.com/NereidAI).
+    see [NereidAI](https://github.com/NereidAI/NereidLink).
 
 ## How it works
 

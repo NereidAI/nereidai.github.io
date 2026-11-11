@@ -15,7 +15,7 @@ title: 设备 SDK（Go）
 
 !!! info "开发者文档"
     本页是上手介绍。完整包 API、常量与可运行示例位于 NereidLink 仓库的
-    `sdk/device/go/`——见 [NereidAI](https://github.com/NereidAI)。
+    `sdk/device/go/`——见 [NereidAI](https://github.com/NereidAI/NereidLink)。
 
 ## 安装
 

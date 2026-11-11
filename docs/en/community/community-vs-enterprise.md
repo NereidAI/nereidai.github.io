@@ -38,7 +38,8 @@ overview.
 ## Security & delivery posture
 
 The same posture work that underpins the community edition also determines what is
-planned or commercial. From the project overview:
+available today, gated on the first tagged release, or delivered commercially.
+From the project overview:
 
 | Capability | Status |
 |---|---|
@@ -46,7 +47,7 @@ planned or commercial. From the project overview:
 | No mandatory call-home; data stays inside the customer perimeter | Available |
 | mTLS service-to-service and device-to-platform links | Available |
 | Unified SSO and centralized RBAC across all suite products (Identity) | Available |
-| Signed release artifacts and per-release SBOM | Planned |
+| Signed release artifacts and per-release SBOM | First tagged release |
 | Enterprise SLA on CVE response and backported fixes | Commercial contract |
 | Compliance baselines (e.g. 等保 2.0) and local-OS / accelerator certifications | Per-engagement roadmap |
 

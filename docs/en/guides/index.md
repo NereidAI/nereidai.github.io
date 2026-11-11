@@ -67,21 +67,13 @@ Sphere is used as the suite entry point.
 
     [:octicons-arrow-right-24: Getting started](edge/getting-started.md)
 
-- :material-robot:{ .lg .middle } **NereidFleet** _Tech Preview_
+- :material-brain:{ .lg .middle } **NereidInference**
 
     ---
 
-    Robot fleet: roster, status and task dispatch.
+    Edge inference runtime: camera frames to model servers and EdgeX events.
 
-    [:octicons-arrow-right-24: Getting started](fleet/getting-started.md)
-
-- :material-cellphone:{ .lg .middle } **NereidMobile** _Tech Preview_
-
-    ---
-
-    Mobile app and WeChat Mini Program: telemetry, charts, alerts.
-
-    [:octicons-arrow-right-24: Getting started](mobile/getting-started.md)
+    [:octicons-arrow-right-24: Getting started](inference/getting-started.md)
 
 </div>
 
