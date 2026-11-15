@@ -8,8 +8,8 @@ site_description: >-
   LLM/VLM and vision-model training, quantization, multi-vendor export, offline
   edge distribution and inference feedback. IoT and AI in one private loop.
 site_url: https://nereidai.github.io
-repo_url: https://github.com/NereidAI/nereidai.github.io
-repo_name: NereidAI/nereidai.github.io
+repo_url: https://github.com/NereidAI
+repo_name: NereidAI
 edit_uri: ''
 copyright: Copyright &copy; 2026 YIQISOFT — Apache License 2.0
 
