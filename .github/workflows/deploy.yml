@@ -40,6 +40,24 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      # The organization pins GITHUB_TOKEN to read-only, so the mike step
+      # cannot push the gh-pages branch over the token-authenticated HTTPS
+      # remote. A repo-scoped SSH deploy key (secret GH_PAGES_SSH_KEY,
+      # write-enabled) authenticates the fetch/push instead.
+      - name: Configure SSH deploy key for gh-pages
+        env:
+          GH_PAGES_SSH_KEY: ${{ secrets.GH_PAGES_SSH_KEY }}
+        run: |
+          set -euo pipefail
+          mkdir -p ~/.ssh
+          chmod 700 ~/.ssh
+          printf '%s\n' "$GH_PAGES_SSH_KEY" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          ssh-keyscan -t ed25519,rsa github.com >> ~/.ssh/known_hosts 2>/dev/null
+          git config core.sshCommand "ssh -i ~/.ssh/deploy_key -o IdentitiesOnly=yes"
+          git remote set-url origin "git@github.com:${GITHUB_REPOSITORY}.git"
+          ssh -T git@github.com || true
+
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
