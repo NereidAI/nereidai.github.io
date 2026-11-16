@@ -150,7 +150,7 @@ extra:
     provider: google
     property: G-LY0H7TXKXG
   baidu_tongji:
-    id: 269d4b8dfd17fe64f979e29c094ed716
+    id: 470d80c798b8fc27375dc84b62af8305
 
 nav:
   - Home: index.md
