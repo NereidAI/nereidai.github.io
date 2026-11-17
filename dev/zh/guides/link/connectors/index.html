@@ -2169,6 +2169,34 @@ var _hmt = _hmt || [];
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../edge-models/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    边端模型
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -2402,6 +2430,34 @@ var _hmt = _hmt || [];
   
   
     <li class="md-nav__item">
+      <a href="../profile-delivery/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    配置下发
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../rule-chains/" class="md-nav__link">
         
   
@@ -2410,6 +2466,34 @@ var _hmt = _hmt || [];
     
   
     规则链
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../business-orchestration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    业务编排
   
 
     
@@ -2466,6 +2550,34 @@ var _hmt = _hmt || [];
     
   
     数据转发
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../companion-endpoints/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    伴生服务端点
   
 
     
@@ -2890,6 +3002,34 @@ var _hmt = _hmt || [];
     
   
     网关设备接入
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../integrate-api-keys/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    使用用户 API 密钥接入
   
 
     
@@ -3356,6 +3496,146 @@ var _hmt = _hmt || [];
 
           </label>
           <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../glossary/business-expansion/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    业务展开
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../glossary/business-generation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    业务代次
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../glossary/business-instance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    业务实例
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../glossary/business-orchestration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    业务编排
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../glossary/business-template-version/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    业务模板版本
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
                 
@@ -6231,7 +6511,8 @@ var _hmt = _hmt || [];
 </code></pre></div>
 <p>两级配置时，把公共部分（总线设置、点表）放进<strong>配置模板</strong>，实例的 config 只写每台设备的差异（这台 PLC 的 <code>host</code>/<code>port</code>）；对象会深合并，而实例的非空 mappings 数组会整体替换模板数组。</p>
 <h2 id="_3">生命周期状态<a class="headerlink" href="#_3" title="Permanent link">¶</a></h2>
-<p><code>PENDING → DISPATCHED → CREATING → APPLIED</code>，异常结果为 <code>FAILED</code> 或 <code>DEGRADED</code>。期望规格不会丢失：边缘会在重连后自动重试，且下发幂等。悬停状态标签可查看回报的原因。</p>
+<p><code>PENDING → DISPATCHED → CREATING → APPLIED</code>，异常结果为 <code>FAILED</code> 或 <code>DEGRADED</code>。期望规格不会丢失：边缘会在重连后自动重试，且下发幂等。显式删除会先提交带 revision 的持久 tombstone 再尝试下发，并在每次 hello 后及后台周期以有界且公平的批次重放；传输成功、超时、普通 apply ACK 和 manifest 缺项都不构成删除确认。悬停状态标签可查看回报的原因。</p>
+<p>只有当前 desired revision 的状态报告才会被接受。可选任务统计分别保留成功／错误计数和 P50/P95 延迟的可用性：零是真实读数，缺字段表示不可用。manager 资源还可回报观察到的 manager revision 和完整回读 hash；它们与 manifest 对账 hash 相互独立。</p>
 <h2 id="_4">对账<a class="headerlink" href="#_4" title="Permanent link">¶</a></h2>
 <p>网关周期性发送 manifest，列出其实际运行的连接器实例。该页签将 <strong>reported（实际）</strong> 集合与期望集合比较，并对每个规格分类：</p>
 <ul>
@@ -6241,7 +6522,7 @@ var _hmt = _hmt || [];
 <li><strong>Drifted（漂移）</strong> — 存在，但其回报配置与期望不同。</li>
 <li><strong>Extra（额外）</strong> — 网关上运行但未在 NereidLink 声明。</li>
 </ul>
-<p>默认情况下漂移只告警；在 <strong>strict reconcile（强制对账）</strong> 模式下会用期望规格覆盖边缘。在网关发送首个 manifest 之前没有水位线，分类显示为未知，并展示信息提示横幅。该页签没有刷新按钮：它通过 WebSocket 的 <code>connector</code> 流保持实时，当网关回报期望/状态/manifest 变化时会自动重新获取列表与对账视图。</p>
+<p>默认情况下漂移只告警；在 <strong>strict reconcile（强制对账）</strong> 模式下会用期望规格覆盖边缘中缺失、过期或漂移的已声明实例。即使在 strict 模式下，<strong>Extra</strong> 也只观察、不自动删除：无类型的 manifest 身份无法安全授权删除旧连接器、manager 或北向过滤资源。在网关发送首个 manifest 之前没有水位线，分类显示为未知，并展示信息提示横幅。该页签没有刷新按钮：它通过 WebSocket 的 <code>connector</code> 流保持实时，当网关回报期望/状态/manifest 变化时会自动重新获取列表与对账视图。</p>
 <p><strong>设备 Profile / 协议</strong>列显示连接器所用的设备配置（优先取绑定的配置模板，否则回退为绑定子设备的配置），并链接到其详情页；已知协议时在下方显示协议族；无法解析时显示 <code>-</code>。</p>
 <p><strong>绑定子设备</strong>列链接到绑定的设备，名称下方显示其别名；网关级实例则显示网关级标签。</p>
 <h2 id="_5">筛选与搜索<a class="headerlink" href="#_5" title="Permanent link">¶</a></h2>
@@ -6257,7 +6538,7 @@ var _hmt = _hmt || [];
 <li>点击<strong>新增</strong>，选择（或输入）连接器类型，可选地指定类型版本。</li>
 <li>可选地选择<strong>配置模板</strong>（仅列出携带连接器模板的配置），以及/或者绑定一个子设备。</li>
 <li>用结构化表单标签页（或原始 JSON 标签页）编辑配置对象与点位映射；两者合法前保存按钮保持禁用，然后保存。</li>
-<li>可按需编辑或删除某行；删除后边缘会在下次 manifest 对账时移除该实例。</li>
+<li>可按需编辑或删除某行。删除成功响应表示 desired 删除和持久删除意图已提交，并不表示边缘已确认移除；在当前协议下 NL 会持续重放该显式删除。</li>
 </ol>
 <p>若要定义可复用的连接器模板，请编辑设备配置并填写其连接器模板字段，参见「设备配置」帮助主题。</p>
 <h2 id="_7">存活探测（<a href="../glossary/health-check/">健康检查</a>）<a class="headerlink" href="#_7" title="Permanent link">¶</a></h2>

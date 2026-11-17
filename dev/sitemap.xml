@@ -365,11 +365,25 @@
         <xhtml:link rel="alternate" hreflang="zh" href="https://nereidai.github.io/devzh/guides/link/alarms/"/>
     </url>
     <url>
+        <loc>https://nereidai.github.io/dev/guides/link/business-orchestration/</loc>
+        <lastmod>2026-11-17</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://nereidai.github.io/dev/guides/link/business-orchestration/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://nereidai.github.io/devzh/guides/link/business-orchestration/"/>
+    </url>
+    <url>
         <loc>https://nereidai.github.io/dev/guides/link/commands/</loc>
         <lastmod>2026-11-17</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="https://nereidai.github.io/dev/guides/link/commands/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="https://nereidai.github.io/devzh/guides/link/commands/"/>
+    </url>
+    <url>
+        <loc>https://nereidai.github.io/dev/guides/link/companion-endpoints/</loc>
+        <lastmod>2026-11-17</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://nereidai.github.io/dev/guides/link/companion-endpoints/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://nereidai.github.io/devzh/guides/link/companion-endpoints/"/>
     </url>
     <url>
         <loc>https://nereidai.github.io/dev/guides/link/connectors/</loc>
@@ -449,6 +463,13 @@
         <xhtml:link rel="alternate" hreflang="zh" href="https://nereidai.github.io/devzh/guides/link/dlq/"/>
     </url>
     <url>
+        <loc>https://nereidai.github.io/dev/guides/link/edge-models/</loc>
+        <lastmod>2026-11-17</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://nereidai.github.io/dev/guides/link/edge-models/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://nereidai.github.io/devzh/guides/link/edge-models/"/>
+    </url>
+    <url>
         <loc>https://nereidai.github.io/dev/guides/link/edge-profiles/</loc>
         <lastmod>2026-11-17</lastmod>
         <changefreq>daily</changefreq>
@@ -505,6 +526,13 @@
         <xhtml:link rel="alternate" hreflang="zh" href="https://nereidai.github.io/devzh/guides/link/getting-started/"/>
     </url>
     <url>
+        <loc>https://nereidai.github.io/dev/guides/link/integrate-api-keys/</loc>
+        <lastmod>2026-11-17</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://nereidai.github.io/dev/guides/link/integrate-api-keys/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://nereidai.github.io/devzh/guides/link/integrate-api-keys/"/>
+    </url>
+    <url>
         <loc>https://nereidai.github.io/dev/guides/link/integrate-direct-device/</loc>
         <lastmod>2026-11-17</lastmod>
         <changefreq>daily</changefreq>
@@ -559,6 +587,13 @@
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="https://nereidai.github.io/dev/guides/link/probes/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="https://nereidai.github.io/devzh/guides/link/probes/"/>
+    </url>
+    <url>
+        <loc>https://nereidai.github.io/dev/guides/link/profile-delivery/</loc>
+        <lastmod>2026-11-17</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://nereidai.github.io/dev/guides/link/profile-delivery/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://nereidai.github.io/devzh/guides/link/profile-delivery/"/>
     </url>
     <url>
         <loc>https://nereidai.github.io/dev/guides/link/profiles/</loc>
@@ -643,6 +678,41 @@
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="https://nereidai.github.io/dev/guides/link/system-users/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="https://nereidai.github.io/devzh/guides/link/system-users/"/>
+    </url>
+    <url>
+        <loc>https://nereidai.github.io/dev/guides/link/glossary/business-expansion/</loc>
+        <lastmod>2026-11-17</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://nereidai.github.io/dev/guides/link/glossary/business-expansion/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://nereidai.github.io/devzh/guides/link/glossary/business-expansion/"/>
+    </url>
+    <url>
+        <loc>https://nereidai.github.io/dev/guides/link/glossary/business-generation/</loc>
+        <lastmod>2026-11-17</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://nereidai.github.io/dev/guides/link/glossary/business-generation/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://nereidai.github.io/devzh/guides/link/glossary/business-generation/"/>
+    </url>
+    <url>
+        <loc>https://nereidai.github.io/dev/guides/link/glossary/business-instance/</loc>
+        <lastmod>2026-11-17</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://nereidai.github.io/dev/guides/link/glossary/business-instance/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://nereidai.github.io/devzh/guides/link/glossary/business-instance/"/>
+    </url>
+    <url>
+        <loc>https://nereidai.github.io/dev/guides/link/glossary/business-orchestration/</loc>
+        <lastmod>2026-11-17</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://nereidai.github.io/dev/guides/link/glossary/business-orchestration/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://nereidai.github.io/devzh/guides/link/glossary/business-orchestration/"/>
+    </url>
+    <url>
+        <loc>https://nereidai.github.io/dev/guides/link/glossary/business-template-version/</loc>
+        <lastmod>2026-11-17</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://nereidai.github.io/dev/guides/link/glossary/business-template-version/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://nereidai.github.io/devzh/guides/link/glossary/business-template-version/"/>
     </url>
     <url>
         <loc>https://nereidai.github.io/dev/guides/link/glossary/connector/</loc>
@@ -1345,11 +1415,25 @@
         <xhtml:link rel="alternate" hreflang="en" href="https://nereidai.github.io/devguides/link/alarms/"/>
     </url>
     <url>
+        <loc>https://nereidai.github.io/dev/zh/guides/link/business-orchestration/</loc>
+        <lastmod>2026-11-17</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://nereidai.github.io/dev/zh/guides/link/business-orchestration/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://nereidai.github.io/devguides/link/business-orchestration/"/>
+    </url>
+    <url>
         <loc>https://nereidai.github.io/dev/zh/guides/link/commands/</loc>
         <lastmod>2026-11-17</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="https://nereidai.github.io/dev/zh/guides/link/commands/"/>
         <xhtml:link rel="alternate" hreflang="en" href="https://nereidai.github.io/devguides/link/commands/"/>
+    </url>
+    <url>
+        <loc>https://nereidai.github.io/dev/zh/guides/link/companion-endpoints/</loc>
+        <lastmod>2026-11-17</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://nereidai.github.io/dev/zh/guides/link/companion-endpoints/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://nereidai.github.io/devguides/link/companion-endpoints/"/>
     </url>
     <url>
         <loc>https://nereidai.github.io/dev/zh/guides/link/connectors/</loc>
@@ -1429,6 +1513,13 @@
         <xhtml:link rel="alternate" hreflang="en" href="https://nereidai.github.io/devguides/link/dlq/"/>
     </url>
     <url>
+        <loc>https://nereidai.github.io/dev/zh/guides/link/edge-models/</loc>
+        <lastmod>2026-11-17</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://nereidai.github.io/dev/zh/guides/link/edge-models/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://nereidai.github.io/devguides/link/edge-models/"/>
+    </url>
+    <url>
         <loc>https://nereidai.github.io/dev/zh/guides/link/edge-profiles/</loc>
         <lastmod>2026-11-17</lastmod>
         <changefreq>daily</changefreq>
@@ -1485,6 +1576,13 @@
         <xhtml:link rel="alternate" hreflang="en" href="https://nereidai.github.io/devguides/link/getting-started/"/>
     </url>
     <url>
+        <loc>https://nereidai.github.io/dev/zh/guides/link/integrate-api-keys/</loc>
+        <lastmod>2026-11-17</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://nereidai.github.io/dev/zh/guides/link/integrate-api-keys/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://nereidai.github.io/devguides/link/integrate-api-keys/"/>
+    </url>
+    <url>
         <loc>https://nereidai.github.io/dev/zh/guides/link/integrate-direct-device/</loc>
         <lastmod>2026-11-17</lastmod>
         <changefreq>daily</changefreq>
@@ -1539,6 +1637,13 @@
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="https://nereidai.github.io/dev/zh/guides/link/probes/"/>
         <xhtml:link rel="alternate" hreflang="en" href="https://nereidai.github.io/devguides/link/probes/"/>
+    </url>
+    <url>
+        <loc>https://nereidai.github.io/dev/zh/guides/link/profile-delivery/</loc>
+        <lastmod>2026-11-17</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://nereidai.github.io/dev/zh/guides/link/profile-delivery/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://nereidai.github.io/devguides/link/profile-delivery/"/>
     </url>
     <url>
         <loc>https://nereidai.github.io/dev/zh/guides/link/profiles/</loc>
@@ -1623,6 +1728,41 @@
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="https://nereidai.github.io/dev/zh/guides/link/system-users/"/>
         <xhtml:link rel="alternate" hreflang="en" href="https://nereidai.github.io/devguides/link/system-users/"/>
+    </url>
+    <url>
+        <loc>https://nereidai.github.io/dev/zh/guides/link/glossary/business-expansion/</loc>
+        <lastmod>2026-11-17</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://nereidai.github.io/dev/zh/guides/link/glossary/business-expansion/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://nereidai.github.io/devguides/link/glossary/business-expansion/"/>
+    </url>
+    <url>
+        <loc>https://nereidai.github.io/dev/zh/guides/link/glossary/business-generation/</loc>
+        <lastmod>2026-11-17</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://nereidai.github.io/dev/zh/guides/link/glossary/business-generation/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://nereidai.github.io/devguides/link/glossary/business-generation/"/>
+    </url>
+    <url>
+        <loc>https://nereidai.github.io/dev/zh/guides/link/glossary/business-instance/</loc>
+        <lastmod>2026-11-17</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://nereidai.github.io/dev/zh/guides/link/glossary/business-instance/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://nereidai.github.io/devguides/link/glossary/business-instance/"/>
+    </url>
+    <url>
+        <loc>https://nereidai.github.io/dev/zh/guides/link/glossary/business-orchestration/</loc>
+        <lastmod>2026-11-17</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://nereidai.github.io/dev/zh/guides/link/glossary/business-orchestration/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://nereidai.github.io/devguides/link/glossary/business-orchestration/"/>
+    </url>
+    <url>
+        <loc>https://nereidai.github.io/dev/zh/guides/link/glossary/business-template-version/</loc>
+        <lastmod>2026-11-17</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://nereidai.github.io/dev/zh/guides/link/glossary/business-template-version/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://nereidai.github.io/devguides/link/glossary/business-template-version/"/>
     </url>
     <url>
         <loc>https://nereidai.github.io/dev/zh/guides/link/glossary/connector/</loc>

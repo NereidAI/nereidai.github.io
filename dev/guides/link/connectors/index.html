@@ -2169,6 +2169,34 @@ var _hmt = _hmt || [];
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../edge-models/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Edge models
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -2402,6 +2430,34 @@ var _hmt = _hmt || [];
   
   
     <li class="md-nav__item">
+      <a href="../profile-delivery/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Profile Delivery
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../rule-chains/" class="md-nav__link">
         
   
@@ -2410,6 +2466,34 @@ var _hmt = _hmt || [];
     
   
     Rule Chains
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../business-orchestration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Business orchestration
   
 
     
@@ -2466,6 +2550,34 @@ var _hmt = _hmt || [];
     
   
     Data Forwarders
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../companion-endpoints/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Companion Endpoints
   
 
     
@@ -2890,6 +3002,34 @@ var _hmt = _hmt || [];
     
   
     Gateway Integration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../integrate-api-keys/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Integrate with user API keys
   
 
     
@@ -3356,6 +3496,146 @@ var _hmt = _hmt || [];
 
           </label>
           <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../glossary/business-expansion/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Business expansion
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../glossary/business-generation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Business generation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../glossary/business-instance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Business instance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../glossary/business-orchestration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Business orchestration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../glossary/business-template-version/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Business template version
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
                 
@@ -6231,7 +6511,8 @@ var _hmt = _hmt || [];
 </code></pre></div>
 <p>With two-level configuration, put the common part (bus settings, point table) in the <strong>profile template</strong> and only the per-device differences (this PLC's <code>host</code>/<code>port</code>) in the instance config; objects are deep-merged and a non-empty instance mappings array replaces the template array.</p>
 <h2 id="lifecycle-state">Lifecycle state<a class="headerlink" href="#lifecycle-state" title="Permanent link">¶</a></h2>
-<p><code>PENDING → DISPATCHED → CREATING → APPLIED</code>, with <code>FAILED</code> or <code>DEGRADED</code> as terminal/degraded outcomes. Desired specs are never dropped: the edge retries on reconnect, and dispatch is idempotent. Hover a state tag to see the reported reason.</p>
+<p><code>PENDING → DISPATCHED → CREATING → APPLIED</code>, with <code>FAILED</code> or <code>DEGRADED</code> as terminal/degraded outcomes. Desired specs are never dropped: the edge retries on reconnect, and dispatch is idempotent. Explicit deletes are committed as durable revisioned tombstones before dispatch and replayed in bounded fair batches after hello and from the periodic sweep; transport success, timeout, an ordinary apply acknowledgement, and manifest absence do not acknowledge deletion. Hover a state tag to see the reported reason.</p>
+<p>Status reports are accepted only for the current desired revision. Optional job statistics preserve availability independently for success/error counters and P50/P95 latency: zero is a real reading, while an omitted field is unavailable. Manager resources can additionally report the observed manager revision and complete-readback hash; these are separate from manifest reconciliation hashes.</p>
 <h2 id="reconciliation">Reconciliation<a class="headerlink" href="#reconciliation" title="Permanent link">¶</a></h2>
 <p>The gateway periodically sends a manifest listing the connector instances it actually runs. The tab compares that <strong>reported</strong> set against the desired set and classifies each spec:</p>
 <ul>
@@ -6241,7 +6522,7 @@ var _hmt = _hmt || [];
 <li><strong>Drifted</strong> — present, but its reported config differs from desired.</li>
 <li><strong>Extra</strong> — running on the gateway but not declared in NereidLink.</li>
 </ul>
-<p>By default drift only raises an alert; in <strong>strict reconcile</strong> mode the desired spec overrides the edge. Until the gateway sends its first manifest there is no watermark, so classification shows as unknown and an informational banner is displayed. The tab has no refresh button: it stays live over the WebSocket <code>connector</code> stream, re-fetching the list and reconcile view whenever the gateway reports a desired/status/manifest change.</p>
+<p>By default drift only raises an alert; in <strong>strict reconcile</strong> mode the desired spec overrides missing, stale, or drifted desired instances. <strong>Extra</strong> entries remain observational even in strict mode: a type-less manifest identity cannot safely authorize deletion of legacy, manager, or northbound-filter resources. Until the gateway sends its first manifest there is no watermark, so classification shows as unknown and an informational banner is displayed. The tab has no refresh button: it stays live over the WebSocket <code>connector</code> stream, re-fetching the list and reconcile view whenever the gateway reports a desired/status/manifest change.</p>
 <p>The <strong>Device profile / protocol</strong> column names the device profile behind the connector (the bound profile template, falling back to the bound sub-device's profile) with a link to its detail page, and its protocol family underneath when known; it shows <code>-</code> when no profile resolves.</p>
 <p>The <strong>Bound sub-device</strong> column links to the bound device with its alias underneath; gateway-level instances show a gateway-level tag instead.</p>
 <h2 id="filtering-and-searching">Filtering and searching<a class="headerlink" href="#filtering-and-searching" title="Permanent link">¶</a></h2>
@@ -6257,7 +6538,7 @@ var _hmt = _hmt || [];
 <li>Click <strong>Add</strong>, choose (or type) the connector type, and optionally a type version.</li>
 <li>Optionally pick a <strong>profile template</strong> — only profiles carrying a connector template are listed — and/or a bound sub-device.</li>
 <li>Edit the config object and point mappings using the structured Form tab (or raw JSON tab); the save button stays disabled until both are valid, then save.</li>
-<li>Edit or delete a row as needed; after deletion the edge removes the instance on the next manifest reconciliation.</li>
+<li>Edit or delete a row as needed. A successful delete response means desired removal and durable delete intent were committed, not that the edge acknowledged removal; NL keeps replaying the explicit delete under the current protocol.</li>
 </ol>
 <p>To define a reusable connector template, edit a device profile and fill its connector template fields; see the <strong>Device Profiles</strong> help topic.</p>
 <h2 id="liveness-probe-health-check">Liveness probe (<a href="../glossary/health-check/">health check</a>)<a class="headerlink" href="#liveness-probe-health-check" title="Permanent link">¶</a></h2>

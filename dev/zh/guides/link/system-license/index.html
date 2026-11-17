@@ -2026,6 +2026,34 @@ var _hmt = _hmt || [];
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../edge-models/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    边端模型
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -2259,6 +2287,34 @@ var _hmt = _hmt || [];
   
   
     <li class="md-nav__item">
+      <a href="../profile-delivery/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    配置下发
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../rule-chains/" class="md-nav__link">
         
   
@@ -2267,6 +2323,34 @@ var _hmt = _hmt || [];
     
   
     规则链
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../business-orchestration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    业务编排
   
 
     
@@ -2323,6 +2407,34 @@ var _hmt = _hmt || [];
     
   
     数据转发
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../companion-endpoints/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    伴生服务端点
   
 
     
@@ -2747,6 +2859,34 @@ var _hmt = _hmt || [];
     
   
     网关设备接入
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../integrate-api-keys/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    使用用户 API 密钥接入
   
 
     
@@ -3295,6 +3435,146 @@ var _hmt = _hmt || [];
 
           </label>
           <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../glossary/business-expansion/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    业务展开
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../glossary/business-generation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    业务代次
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../glossary/business-instance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    业务实例
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../glossary/business-orchestration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    业务编排
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../glossary/business-template-version/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    业务模板版本
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
                 
@@ -6082,6 +6362,11 @@ var _hmt = _hmt || [];
 Ed25519 签名。安装会立即替换当前许可证；同一文件也可用 <code>nereidlink license</code>
 命令行安装，因此无需运行控制台即可为部署授权。签名验证失败的许可证会被拒绝，
 当前许可证保持不变。</p>
+<p>标准 Kubernetes <code>deploy.sh install|upgrade</code> 命令会在部署就绪后检查许可证状态。
+仅在尚未安装部署许可证时，才使用厂商离线私钥签名并安装默认许可证；如果已有许可证，
+重复部署绝不会覆盖它。签名文件保存在部署主机权限为 0700 的
+<code>../.deployment/deploy-values/nereidlink/</code> 目录中，部署日志单独保存在权限为 0700 的
+<code>../.deployment/deploy-logs/nereidlink/</code> 目录中；敏感文件权限均为 0600。</p>
 <h2 id="_3">字段<a class="headerlink" href="#_3" title="Permanent link">¶</a></h2>
 <ul>
 <li><strong>状态</strong> — 已安装或未安装。</li>
