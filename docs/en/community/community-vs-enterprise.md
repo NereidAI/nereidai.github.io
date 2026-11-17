@@ -21,7 +21,7 @@ overview.
 | Audit, hardening, compliance baselines (等保 / MLPS etc.) | — | Compliance and audit readiness for regulated industries and SOE / multinational procurement |
 | Signed release artifacts and per-release SBOM | ✓ | Plus signed offline bundles and enterprise supply-chain workflows |
 | CVE response SLA and backported fixes | — | Contractual response commitment with fixes backported to LTS versions |
-| Air-gapped delivery, private POC, training | self-service | Turnkey delivery and knowledge transfer on the customer's premises |
+| Air-gapped delivery, private POC, training | self-service | Turnkey delivery and knowledge transfer on the customer's premises; vendor-run POCs are scoped per engagement and may be chargeable |
 | Support | GitHub issues / Discussions (community only, no SLA) | 7×24 LTS with a named engineer |
 
 ## How to read this table

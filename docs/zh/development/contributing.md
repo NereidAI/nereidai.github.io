@@ -28,7 +28,7 @@ NereidAI 以 **Apache License 2.0** 开源，开发分散在
 | `Edge` | 现场网关上的南向边缘接入。 |
 
 讨论通过 GitHub issues 与 Discussions 进行——这就是社区支持渠道。企业相关问题
-见[社区与支持](../community/support.md)。
+见[支持](../community/support.md)。
 
 ## 贡献流程
 

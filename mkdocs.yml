@@ -25,7 +25,6 @@ theme:
   features:
     - navigation.tabs
     - navigation.tabs.sticky
-    - navigation.sections
     - navigation.top
     - navigation.tracking
     - navigation.footer
@@ -96,6 +95,7 @@ plugins:
             Products: 产品
             Suite Overview: 套件总览
             Solutions: 商业解决方案
+            Custom Development: 定制开发
             Architecture: 架构
             Overview: 概览
             Topology: 部署拓扑
@@ -113,9 +113,10 @@ plugins:
             Getting Started: 快速开始
             Contributing: 贡献指南
             Conventions: 代码规范
-            Community & Support: 社区与支持
+            Community & Commercial: 社区与商业
             License: 开源许可
             Community vs Enterprise: 社区版与企业版
+            Pricing & Purchase: 价格与购买
             Roadmap: 路线图
             Support: 支持
             Reference: 参考
@@ -283,12 +284,6 @@ nav:
     - NereidInference:
       - Getting Started: guides/inference/getting-started.md
 
-  - Solutions:
-    - Overview: solutions/index.md
-    - NereidFactory: solutions/nereidfactory.md
-    - NereidSentinel: solutions/nereidsentinel.md
-    - NereidMedical: solutions/nereidmedical.md
-
   - Architecture:
     - Overview: architecture/overview.md
     - Topology: architecture/topology.md
@@ -312,11 +307,18 @@ nav:
     - Contributing: development/contributing.md
     - Conventions: development/conventions.md
 
-  - Community & Support:
-    - License: community/license.md
+  - Community & Commercial:
     - Community vs Enterprise: community/community-vs-enterprise.md
-    - Roadmap: community/roadmap.md
+    - Pricing & Purchase: community/pricing.md
+    - Solutions:
+      - Overview: solutions/index.md
+      - NereidFactory: solutions/nereidfactory.md
+      - NereidSentinel: solutions/nereidsentinel.md
+      - NereidMedical: solutions/nereidmedical.md
+      - Custom Development: solutions/custom-development.md
+    - License: community/license.md
     - Support: community/support.md
+    - Roadmap: community/roadmap.md
 
   - Reference:
     - Naming & Abbreviations: reference/naming.md

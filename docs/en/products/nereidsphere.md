@@ -4,77 +4,93 @@ title: NereidSphere
 
 # NereidSphere
 
-Sphere is the thin suite layer for NereidAI: one portal, single sign-on
-(SSO), a unified API gateway, and the closed-loop event glue between products.
-It holds no domain logic of its own.
+NereidSphere is the **front door to the whole NereidAI suite**: one portal,
+one login, and one security checkpoint in front of every product. Sign in once
+and open Forge, Horizon or Link without logging in again. It deliberately
+contains no business logic of its own — it only federates the products, which
+keep running perfectly well on their own.
 
-## What it solves
+Sphere answers questions that come up as soon as a second product is
+installed:
 
-- **One login for the whole suite.** Without Sphere every product still
-  authenticates and runs standalone; with it enabled, a user signs in once and
-  opens any integrated product without re-authenticating.
-- **No unified entry point.** It provides a single portal that lists the central
-  products in closed-loop order — Forge → Horizon → Link.
-- **Cross-product access control.** A session proves identity, not product
-  authorization; entry is default-deny and decided by suite assignments.
-- **Fragmented edge concerns.** It centralizes sign-in, access control and the
-  shared protections in front of every product, so each product does not have to
-  solve them alone.
-- **Account governance.** It hosts the built-in account administration console,
-  which manages identity-service accounts without storing a master password.
+- "Do our people really need a separate account and password for every
+  system?"
+- "Where is the single entry point that shows what we actually bought?"
+- "How do we make sure a user cannot walk from one product into another they
+  were never granted?"
+- "Who is blocking brute-force sign-ins, cross-site requests and spoofed
+  headers?"
+- "If the identity system is down, is there a safe way for an administrator to
+  get back in?"
 
-## Core capabilities
+## What Sphere helps you do
 
-**Suite SSO and sessions**
+### Give every user one login
 
-- A standards-based OIDC/OAuth2 relying party to Identity: users sign in on
-  the identity provider's own login page, so Sphere never handles the
-  upstream password.
-- A single, sealed session keeps the user signed in across the suite, with idle
-  and absolute timeouts and transparent renewal while the session is valid.
-- Signing out clears the suite session and, where supported, ends the upstream
-  session as well.
+Sphere is a standards-based relying party (OIDC/OAuth2) in front of
+[NereidIdentity](nereididentity.md): users enter their credentials on the
+identity provider's own login page, so Sphere itself never sees or stores the
+upstream password. A single sealed session then keeps them signed in across
+the suite, with idle and absolute timeouts and transparent renewal while the
+session is valid; signing out clears the suite session and, where supported,
+the upstream one too.
 
-**Cross-product entry**
+### Offer one portal instead of a bookmark collection
 
-- One sign-in serves every integrated product. Moving into a product is a
-  default-deny decision: a user needs an explicit assignment for that product,
-  with the suite administrator as the single implicit exception.
-- Product entry is handed off with a short-lived, single-use ticket that the
-  product exchanges for the verified identity and then manages its own session.
-- Each product can integrate through the suite handoff (default) or as a
-  standalone identity-provider client, chosen per product.
-- Multi-replica deployments share a replay store so a ticket can be consumed
-  only once, and entry fails closed if that cannot be guaranteed.
+A bilingual portal lists the central products in closed-loop order — Forge →
+Horizon → Link — and launches each of them. Moving into a product is a
+default-deny decision: a user needs an explicit assignment for that product,
+with the suite administrator as the single implicit exception. Entry is handed
+off with a short-lived, single-use ticket, and in multi-replica deployments a
+replay store guarantees the ticket can be consumed only once.
 
-**Unified API gateway**
+### Enforce access at the boundary
 
-- One reverse proxy fronts every integrated product: it authenticates the
-  session, discards any client-supplied identity headers, and forwards a
-  verified identity to the product.
-- Cross-cutting protections live here in one place: an exact-origin allowlist,
-  per-client rate limiting (with a stricter limit on sign-in), protection
-  against cross-site request forgery, upstream timeouts and browser security
-  headers.
+One reverse proxy fronts every integrated product. It authenticates the
+session, discards any identity headers supplied by the client (so they cannot
+be forged), and forwards only a verified identity. The cross-cutting
+protections live here once, rather than being reimplemented per product: an
+exact-origin allowlist, per-client rate limiting with a stricter limit on
+sign-in, cross-site request forgery protection, upstream timeouts and browser
+security headers.
 
-**Account console and emergency access**
+### Administer accounts without a master password
 
-- A built-in administration console manages identity accounts: create,
-  enable/disable, reset passwords and assign suite roles. It uses a dedicated
-  service account rather than a master administrator password, and protects
-  against locking out the last administrator. Federated accounts are read-only.
-- Per-product tenant and role assignments are managed from the same console.
-- An emergency local-account mode keeps administration reachable when the
-  identity service is unavailable; it is clearly labelled as break-glass and is
-  not the default.
+The built-in administration console manages identity accounts — create,
+enable or disable, reset passwords, assign suite roles and per-product tenant
+access — using a dedicated service account rather than an all-powerful
+administrator password. It also protects against locking out the last
+administrator; federated accounts remain read-only because their lifecycle
+belongs to the customer's own identity provider.
 
-**Portal and delivery**
+### Keep a break-glass path, clearly labelled
 
-- A bilingual portal presents the products and launches each of them.
-- Ships as a self-contained binary and container image plus a Helm chart for
-  Kubernetes; there is no suite business database to operate.
+When the identity service is unavailable, an emergency local-account mode
+keeps administration reachable. It is explicitly marked as break-glass, is not
+the default path, and does not weaken normal operation.
 
-## How it fits in the suite
+### Stay optional
+
+Every product can run standalone with its own login. Sphere earns its place
+when you operate several products together and want one entry point and one
+policy; single-product deployments simply do not install it. There is no suite
+business database to operate.
+
+## How one sign-in reaches every product
+
+1. **Sign in** — the user authenticates on Identity's login page through
+   Sphere.
+2. **Establish a session** — Sphere holds one sealed, expiring suite session.
+3. **Choose a product** — the portal checks the user's explicit product
+   assignment.
+4. **Hand off with a ticket** — a single-use, short-lived ticket is exchanged
+   by the product for the verified identity.
+5. **Work inside the product** — the product establishes its own session; the
+   gateway keeps enforcing identity and traffic protections on every request.
+6. **Sign out once** — the suite session is cleared and the upstream session
+   ends where supported.
+
+## Where Sphere sits in the suite
 
 Sphere federates the domain products without absorbing them. It is the
 **only** suite component that speaks OIDC to Identity, and it hands each
@@ -89,24 +105,32 @@ flowchart LR
     NS -->|product entry| LINK["NL"]
 ```
 
-Edge runs independently at each edge site and is intentionally **not** a
-central portal entry. The identity plane is [Identity](nereididentity.md);
-the full loop is in the [architecture overview](../architecture/overview.md).
+[NereidEdge](nereidedge.md) runs independently at each edge site and is
+intentionally **not** a central portal entry. The identity plane is
+[Identity](nereididentity.md); the full loop is in the
+[architecture overview](../architecture/overview.md).
 
 !!! info "Developer documentation"
 
     The authoritative, detailed developer documentation for Sphere lives
     in its own repository: <https://github.com/NereidAI/NereidSphere>.
 
-## Key facts
+## Technical overview
+
+This section is for technical evaluators; nothing above it requires an
+identity-and-access background.
 
 | Aspect | Detail |
 |---|---|
 | Role | Thin suite layer — unified portal, SSO, API gateway and cross-product glue |
 | Scope | Federates the domain products; holds no domain logic of its own |
 | Products it fronts | Forge, Horizon, Link (closed-loop order) |
-| Identity | Delegates authentication to Identity; optional emergency local accounts |
-| Delivery form | Self-contained binary / container image plus a Helm chart for Kubernetes |
+| Identity | OIDC/OAuth2 relying party delegating authentication to Identity; optional emergency local accounts |
+| Sessions | Sealed suite session with idle and absolute timeouts, transparent renewal, single sign-out |
+| Product entry | Default-deny with explicit assignments; single-use short-lived tickets; replay store in multi-replica deployments, fail-closed |
+| Gateway | Reverse proxy stripping client identity headers; exact-origin allowlist, per-client rate limiting, CSRF protection, upstream timeouts, browser security headers |
+| Account console | Create, enable/disable, password reset and role assignment via a dedicated service account; last-admin lockout protection; federated accounts read-only |
+| Delivery form | Self-contained binary / container image plus a Helm chart for Kubernetes; no suite business database |
 | Optionality | Each product runs standalone; Sphere is optional for single-product deployments |
 | Language / stack | Go backend with an embedded React single-page frontend |
 | License | Apache-2.0 |

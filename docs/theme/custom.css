@@ -86,6 +86,19 @@
   border-radius: 2rem;
 }
 
+/* Material has no built-in accent button modifier; style it explicitly. */
+.md-typeset a.md-button--accent {
+  background-color: var(--md-accent-fg-color);
+  border-color: var(--md-accent-fg-color);
+  color: var(--md-accent-bg-color, #fff);
+}
+
+.md-typeset a.md-button--accent:hover {
+  background-color: var(--md-accent-fg-color--dark);
+  border-color: var(--md-accent-fg-color--dark);
+  color: var(--md-accent-bg-color, #fff);
+}
+
 .md-typeset .grid.cards > ul > li {
   border-top: 3px solid var(--md-accent-fg-color);
 }

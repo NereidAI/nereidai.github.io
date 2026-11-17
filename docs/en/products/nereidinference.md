@@ -4,97 +4,104 @@ title: NereidInference
 
 # NereidInference
 
-NereidInference (Inference, **NIN**) is the edge inference runtime of the
-suite: an EdgeX Foundry **device service** that runs on a field gateway,
-acquires frames from cameras and image sources, calls standards-based model
-servers, and publishes normalized structured events back onto the EdgeX
-message bus. It turns the models produced by Forge and delivered by Horizon
-into live, on-site inference — without binding the gateway to any model
-format, chip vendor or vendor SDK.
+NereidInference (**NIN**) is the **AI inspector that works next to the
+camera**. It runs on the field gateway, takes the models produced by
+[NereidForge](nereidforge.md), and puts them to work on live video and images
+on site — detecting, classifying, reading text, recognizing faces and more —
+then sends structured results into the platform. Video stays on the premises,
+answers come back in milliseconds, and no cloud round-trip is involved.
 
-## What it solves
+NIN is what you reach for when these questions come up:
 
-- Models trained in the factory must run on inexpensive field gateways, close
-  to the cameras; round-tripping video to a cloud datacenter is too slow and
-  often impossible on air-gapped sites.
-- A site may mix cameras (RTSP, ONVIF, MJPEG) and model servers (OpenVINO,
-  Triton, vLLM, MindIE); integrating each combination by hand does not scale.
-- Field teams need one neutral runtime: new models should arrive as packages,
-  not as new code, and a slow model must never stall the other jobs on the
-  same gateway.
+- "Sending every camera stream to a cloud AI service is too slow, too
+  expensive and often forbidden — can the model run on site?"
+- "We buy gateways from different vendors with different chips. Will one AI
+  runtime cover them all?"
+- "Upgrading a model currently means a software project. Can it just be a
+  file we drop in?"
+- "One heavy model is slowing everything else on the gateway. How do we keep
+  the other inspections on time?"
+- "How do operators see what the AI is actually looking at?"
 
-## Core capabilities
+## What NIN helps you do
 
-**Descriptor-driven media inference**
+### Run AI at the edge, not in a distant datacenter
 
-- One service instance per node runs any number of inference **jobs** (one per
-  provisioned device); a job binds a frame source, a model package, a schedule
-  and output options.
-- Model and silicon neutral: no vendor SDK, no hard-coded tensor layouts, no
-  business logic. Classification, detection, segmentation, pose/keypoint,
-  embedding, dense-map, image-to-image and CTC-sequence models differ only by
-  their package descriptor and registered decoder.
-- Talks two standard inference protocols: **KServe gRPC v2** and
-  **OpenAI-compatible HTTP**, against independently deployed model servers
-  (OpenVINO Model Server, Triton, vLLM, MindIE, …).
+Inference happens on the gateway beside the camera, so results come back in
+real time and video never needs to leave the site. This is what makes
+air-gapped factories, campuses and security deployments possible at all.
 
-**Frame acquisition at the edge**
+### One runtime for every kind of vision and language task
 
-- Sources: RTSP (via a per-URL ffmpeg child process, H.264/H.265 decode),
-  ONVIF camera and ONVIF snapshot, MJPEG and JPEG (a pure-Go frame source).
-- Each job samples at its own FPS with at most one in-flight inference and
-  drop-oldest semantics: a slow model only lowers that job's frame rate —
-  latency stays bounded and nothing queues.
-- ONVIF stream URIs and secrets are federated from EdgeX
-  core-metadata/core-command/secret-store data registered by the ONVIF camera
-  device service, rather than typed per job.
+The same service handles classification, object detection, segmentation,
+pose and keypoints, embeddings, dense maps, image-to-image, OCR, CTC text
+sequences and LLM/VLM responses. Task differences live in the model package,
+not in separate software forks — there is no vendor SDK and no hard-coded
+model layout inside the runtime.
 
-**Generic decoding and events**
+### Add a model by delivering a package, not deploying code
 
-- A family of tensor-shape decoders is selected by the model package
-  descriptor, never by a vendor or task fork: YOLO-style anchor and row
-  detectors, YuNet face detection, classifiers, regressors, semantic/instance
-  segmentation, keypoints, embeddings, dense maps, image tensors, CTC
-  sequences, composites, and passthrough text for OpenAI chat/VLM responses.
-- Results are published as normalized structured events on the EdgeX message
-  bus, with an optional local annotated MJPEG preview for operators.
+A model arrives as one versioned package containing a descriptor that
+explains its inputs, outputs and decoding rules. NIN validates and unpacks
+it, and the new model is available as a running job. Packages travel through
+[NereidHorizon](nereidhorizon.md) or a simple watched inbox; the runtime
+never invents or repairs model contracts itself.
 
-**Local model acquisition**
+### Keep every inspection on schedule
 
-- The distributable unit is one gzip tar package (`*.tar.gz`) carrying a root
-  `nereid-model.json` descriptor and checksummed payloads. The service watches
-  an Open Horizon ESS local object directory and/or an inbox directory,
-  validates and unpacks packages into a read-only active model root shared
-  with the model server.
-- Division of labor is explicit: **Forge owns model conversion and all
-  model-specific parameters, Horizon only transports the package, and
-  Inference unpacks it and follows the descriptor** — it never generates,
-  repairs or guesses a model contract.
+Each job samples its camera at its own pace with at most one inference in
+flight and a drop-oldest policy: a slow model only lowers its own frame rate.
+Latency for every other job stays bounded, queues do not pile up, and a
+single node can run up to its configured job limit (64 by default).
 
-**Operations**
+### Use the chips and model servers you already have
 
-- Pure Go, statically built (`CGO_ENABLED=0`); ffmpeg runs as a
-  credential-dropped child process. Multi-arch OCI images (`linux/amd64`,
-  `linux/arm64`).
-- Follows EdgeX 4.0 conventions and the device-service configuration layout;
-  the preview port is an unauthenticated operator diagnostic and is meant to
-  be restricted by network policy.
+NIN is a client of independently deployed model servers — OpenVINO Model
+Server, Triton, vLLM, MindIE and similar — over two standard protocols
+(KServe gRPC v2 and OpenAI-compatible HTTP). It can manage its own OpenVINO
+and Triton servers, while central or customer-provided servers are observed
+read-only. Switching hardware does not rewrite your application.
 
-## How it fits in the suite
+### Watch the AI at work
 
-Inference is the on-site execution step of the model loop, alongside Edge:
+Every job exposes health counters, success/error totals, latency percentiles
+and a readable state (applied, degraded, failed) with the last error. An
+optional annotated preview draws boxes and labels directly on the frames, so
+operators can verify behavior visually; the preview is an unauthenticated
+diagnostic port and is meant to be restricted by network policy.
 
-- **Forge → Inference:** Forge produces the model package (ONNX or OpenVINO IR
+## A model goes to work
+
+1. **Deliver** — Forge builds the package and Horizon (or a local inbox)
+   places it on the gateway.
+2. **Validate and unpack** — NIN checks the descriptor and checksums, then
+   installs the model into a read-only active model root.
+3. **Provision a job** — a camera source, model, schedule and output mode are
+   bound together as one EdgeX device, through the platform or a simple
+   configuration file.
+4. **Acquire frames** — RTSP, ONVIF, MJPEG or JPEG sources are sampled, with
+   per-camera decoding shared across jobs.
+5. **Infer and decode** — the model server answers, and the descriptor-selected
+   decoder turns raw tensors into normalized, structured events.
+6. **Publish and preview** — events enter the EdgeX message bus (and can flow
+   north through [NereidEdge](nereidedge.md)), while the annotated preview
+   shows what was detected.
+
+## Where NIN sits in the suite
+
+NIN is the on-site execution step of the model loop, alongside Edge:
+
+- **Forge → NIN:** Forge produces the model package (ONNX or OpenVINO IR
   today; other artifact formats can be declared by descriptor).
-- **Horizon → Inference:** Horizon distributes packages to the gateway's
-  Open Horizon ESS local object store; Inference watches and activates them.
-- **Inference ↔ model servers:** OVMS, Triton, vLLM or MindIE run as
-  independent services; Inference is their client over KServe gRPC v2 or
-  OpenAI-compatible HTTP.
-- **Inference → EdgeX / Edge:** structured events enter the EdgeX bus and can
-  flow north through the same edge integration Edge provides toward Link.
+- **Horizon → NIN:** Horizon distributes packages to the gateway's local
+  object store; NIN watches and activates them.
+- **NIN ↔ model servers:** OVMS, Triton, vLLM or MindIE run as independent
+  services; NIN is their client over KServe gRPC v2 or OpenAI-compatible HTTP.
+- **NIN → EdgeX / Edge:** structured events enter the EdgeX bus and can flow
+  north through the same edge integration Edge provides toward Link.
 
 !!! info "Developer documentation"
+
     The full configuration, descriptor reference, decoder catalog and
     provisioning API live in the NereidInference repository — see
     [NereidInference](https://github.com/NereidAI/NereidInference).
@@ -113,18 +120,24 @@ GPU/OpenVINO-backend Triton, other-vendor acceptance) remain open; the
 [roadmap](../community/roadmap.md) tracks the release gates that apply to the
 whole suite.
 
-## Key facts
+## Technical overview
+
+This section is for technical evaluators; nothing above it requires a machine
+learning background.
 
 | Aspect | Detail |
 |---|---|
 | What it is | EdgeX device service for descriptor-driven media inference on field gateways |
 | Positioning | On-site inference runtime of the model closed loop |
-| Frame sources | RTSP, ONVIF camera/snapshot, MJPEG, JPEG |
+| Frame sources | RTSP (H.264/H.265 via per-URL ffmpeg), ONVIF camera/snapshot, MJPEG, JPEG |
 | Inference protocols | KServe gRPC v2, OpenAI-compatible HTTP |
-| Model servers | OpenVINO Model Server, Triton, vLLM, MindIE (independently deployed) |
-| Model packaging | Tar package with `nereid-model.json` descriptor, delivered via Horizon ESS/inbox |
-| Output | Structured EdgeX events; optional annotated MJPEG preview |
-| Stack | Static Go binary on EdgeX Foundry 4.0, ffmpeg child process; amd64/arm64 |
+| Model servers | OpenVINO Model Server, Triton, vLLM, MindIE (independently deployed); managed OVMS/Triton plus read-only external servables |
+| Model packaging | Gzip tar package with a root `nereid-model.json` descriptor, delivered via Horizon ESS or a watched inbox |
+| Decoder coverage | Detection, classification, segmentation, pose, embeddings, dense maps, image output, OCR/CTC, LLM/VLM text, composites — selected purely by descriptor |
+| Scheduling | Per-job FPS/periodic/event/manual triggers, one in-flight inference, drop-oldest semantics, default 64-job node limit |
+| Output | Structured EdgeX events; optional unauthenticated annotated MJPEG preview (container port 18080, host 28080) |
+| Service ports | 59992 service port (provisional, pending EdgeX TSC assignment) |
+| Stack | Static Go binary on EdgeX Foundry 4.0 (`CGO_ENABLED=0`), credential-dropped ffmpeg child process; linux/amd64 and linux/arm64 images |
 | License | Apache-2.0 |
 
 ## Resources

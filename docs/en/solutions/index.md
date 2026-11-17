@@ -90,8 +90,18 @@ integration, and private training — without forking the platform.
     integration surface, delivery model, and support terms of each solution are
     defined in a commercial agreement, not on this site.
 
+## Custom development
+
+Not every need fits a packaged solution. Vendor-run **[custom
+development](custom-development.md)** covers device and connector integration,
+multi-vendor silicon/NPU acceleration, and industry-specific adaptation, scoped
+per project under a separate statement of work. Extending the platform yourself
+remains free under Apache-2.0; this service is for teams that want the maintainer
+to carry delivery responsibility.
+
 ## Next steps
 
+- [Custom development](custom-development.md) — vendor-run integration and adaptation under a statement of work.
 - [Compare community and enterprise](../community/community-vs-enterprise.md) — what
   is open source and what is commercial.
 - [License & Support](../community/license.md) — Apache-2.0 and commercial options.

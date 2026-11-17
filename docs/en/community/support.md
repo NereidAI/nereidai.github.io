@@ -31,7 +31,7 @@ Community support flows through GitHub. There is **no free technical support** a
 | Channel | GitHub issues / Discussions | Named engineer |
 | Response | Best effort, no SLA | Contractual response commitment |
 | Fixes | Latest release | Backported to LTS versions |
-| Deployment | Self-service | Turnkey air-gapped delivery and on-premises private POC |
+| Deployment | Self-service | Turnkey air-gapped delivery and scoped on-premises private POC (may be chargeable) |
 | Knowledge transfer | Docs and community | Private training |
 
 Commercial support is defined and delivered under a **separate commercial

@@ -16,6 +16,7 @@ hide:
 
 <div class="nr-cta" markdown>
 [了解产品套件](products/index.md){ .md-button .md-button--primary }
+[价格与购买](community/pricing.md){ .md-button .md-button--accent }
 [架构总览](architecture/overview.md){ .md-button }
 </div>
 </div>

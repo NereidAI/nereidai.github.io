@@ -17,6 +17,7 @@ IoT connectivity and AI intelligence in one closed loop — private by design.</
 
 <div class="nr-cta" markdown>
 [Explore the suite](products/index.md){ .md-button .md-button--primary }
+[Pricing & Purchase](community/pricing.md){ .md-button .md-button--accent }
 [Architecture](architecture/overview.md){ .md-button }
 </div>
 </div>

@@ -32,7 +32,7 @@ not a license to fix it elsewhere.
 
 Discussion happens through GitHub issues and Discussions — that is the community
 support channel. For enterprise questions, see
-[Community & Support](../community/support.md).
+[Support](../community/support.md).
 
 ## The contribution flow
 

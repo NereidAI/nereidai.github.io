@@ -40,9 +40,11 @@ search existing issues and Discussions before opening a new one.
 The following are available **separately under commercial terms**:
 
 - **Enterprise LTS** — with backported fixes and a contractual CVE response SLA.
-- **Turnkey air-gapped deployment** — and an on-premises private POC.
-- **Custom development** — device/connector integration, multi-vendor silicon/NPU
-  acceleration, and industry-specific adaptation.
+- **Turnkey air-gapped deployment** — and an on-premises private POC, scoped
+  per engagement and chargeable depending on scope.
+- **[Custom development](../solutions/custom-development.md)** — device/connector
+  integration, multi-vendor silicon/NPU acceleration, and industry-specific
+  adaptation, scoped per project under a statement of work.
 - **Private training** — and knowledge transfer.
 
 ```mermaid
