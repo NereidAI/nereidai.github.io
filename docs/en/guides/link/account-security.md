@@ -16,6 +16,27 @@ sessions.
   code.
 - Choose **Disable** to remove the second factor.
 
+## User API keys
+
+API keys are long-lived credentials for external integrations acting on your
+behalf. Send one in the `X-Api-Key` header instead of an interactive bearer
+token. A key uses the format `nlk_` followed by 52 lowercase unpadded base32
+characters.
+
+- Create a key with a descriptive name. Leave **Permission scopes** empty to
+  inherit your current role permissions, or enter explicit permission points.
+  An explicit scope must already be held by your account; if your role is later
+  narrowed, the key can no longer use that permission.
+- The full key is displayed exactly once after creation or rotation. The list
+  only shows a non-secret prefix, state, scope, expiry and last-used time.
+  Revoked or expired keys cannot be rotated; create a replacement instead.
+- Revoke a key to disable it immediately while retaining its audit history.
+  Hard delete removes the stored row; audit events keep the key id and prefix.
+- API-key management requires an interactive login session. A key cannot create,
+  rotate, revoke or delete other keys.
+- See [Integrate with user API keys](integrate-api-keys.md) for request
+  examples and permission behavior.
+
 ## Login sessions
 
 The session list shows every session created with your credentials: client

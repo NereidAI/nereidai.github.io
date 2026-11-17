@@ -70,6 +70,24 @@ A device that belongs to neither a customer nor a group is visible only to a
 - **Remove** — deletes this tenant's membership; the login account is also
 deleted only when it has no membership left in any tenant.
 
+## User API keys
+
+Open the **API keys** tab to inspect long-lived `X-Api-Key` credentials owned by
+users in this tenant. The table shows the owner, non-secret key prefix, name,
+permission scopes, state, expiry and last-used time. Full key material is never
+shown here.
+
+- Search by owner, key name or prefix, and filter by active, revoked or expired
+  state.
+- **Revoke** disables a key immediately while retaining its database row and
+  audit history.
+- **Delete** removes the row. Append-only audit events still retain the key id
+  and public prefix.
+- Tenant administrators do not create keys on behalf of another user. Each user
+  creates and rotates their own key on **Account Security**. See
+  [Integrate with user API keys](integrate-api-keys.md) for the request
+  contract and permission behavior.
+
 ## Protected accounts
 
 Platform administrator accounts cannot be modified here — not their roles,

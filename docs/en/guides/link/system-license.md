@@ -14,6 +14,14 @@ replaces the current license immediately; the same file is accepted by the
 running console. A license that fails signature verification is rejected and the
 current license is kept.
 
+The standard Kubernetes `deploy.sh install|upgrade` command checks license
+status after rollout. If no deployment license exists, it signs and installs a
+default license using the vendor's offline key; if one already exists, the
+command leaves it unchanged. The signed hand-off is stored in mode-0700
+`../.deployment/deploy-values/nereidlink/` on the deploy host, with deployment
+logs kept separately in mode-0700 `../.deployment/deploy-logs/nereidlink/`.
+Sensitive files in both locations are mode 0600.
+
 ## Fields
 
 - **Status** — Installed, or Not installed.

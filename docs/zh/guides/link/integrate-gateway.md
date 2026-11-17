@@ -41,8 +41,9 @@ NereidLink，并在其后管理大量**[子设备](glossary/subdevice.md)**（Mo
   "proto": {"min": "1.0", "max": "1.4"},
   "features": {
     "required": ["telemetry", "presence"],
-    "optional": ["ota", "shadow", "blob-relay", "command"]
+    "optional": ["ota", "shadow", "blob-relay", "command", "secrets", "profiles"]
   },
+  "profile_formats": ["edgex-device-profile/3", "nereid-neutral/1"],
   "connectors": [
     {"type": "modbus", "type_version": "2.1",
      "config_schema": {"type": "object", "required": ["host"],
@@ -55,7 +56,10 @@ NereidLink，并在其后管理大量**[子设备](glossary/subdevice.md)**（Mo
 - `features.required` 必须全部被服务端支持，否则协商失败
   （`incompatible_features`）；`features.optional` 中服务端不支持的项会被
   降级移除。可用特性：`telemetry`、`presence`、`ota`、`shadow`、
-  `blob-relay`、`command`。
+  `blob-relay`、`command`、`secrets`、`profiles`。
+- `profile_formats`（可选）按**偏好顺序**列出本网关能落地的设备 profile 文档
+  格式（见 §10.1）；ack 的 `profile_formats` 回显协商后的**交集**。省略或为空
+  表示仅支持中立格式。
 - `connectors[]` 可选，用于登记本网关能运行的连接器类型的**内联自包含** JSON
   Schema（draft 2020-12，不支持外部 `$ref`）。单条 schema 非法不会导致握手
   失败，其结果在 ack 中逐条回告。
@@ -70,6 +74,7 @@ NereidLink，并在其后管理大量**[子设备](glossary/subdevice.md)**（Mo
   "selected": "1.4",
   "server": {"min": "1.0", "max": "2.0", "version": "nereidlink-..."},
   "features": ["telemetry", "presence", "command"],
+  "profile_formats": ["edgex-device-profile/3"],
   "limits": {"heartbeat_s": 30, "hello_timeout_s": 10,
              "upload": {"max_mb": 256, "qps": 20}},
   "time": {"server_time": 1727360000456, "offset_ms": -312, "clock_warning": false}
@@ -290,11 +295,17 @@ _ = gw.ReportSubdeviceShadow(ctx, []device.GatewayShadowReport{
   `v1/gateway/connectors/spec` 接收（`spec_id`、`connector_type`、
   `type_version`、`config`、`mappings`、`health_check`、`revision`），删除从
   `v1/gateway/connectors/delete` 接收。
-- 每次 hello 后平台都会**幂等地重发完整 desired 集合**；按
-  `(spec_id, revision)` 去重。
+- 每次 hello 后平台都会**幂等地重发完整 desired 集合，以及一批有界且公平的未确认显式删除**；
+  领导者选举出的后台周期扫描会继续分批重放删除。按 `(spec_id, revision)` 去重。NL 会先原子提交
+  desired 删除与持久 tombstone，再尝试下发。当前没有 delete-ACK 契约：传输成功、
+  REST `204`、超时、普通 `APPLIED` 和 manifest 缺项都不会退休 tombstone。
 - 在 `v1/gateway/connectors/status` 上按状态机
-  `CREATING → APPLIED / FAILED / DEGRADED` 回报，回显 `spec_id` 与
-  `revision`。
+  `CREATING → APPLIED / FAILED / DEGRADED` 回报，回显 `spec_id` 与当前 desired
+  `revision`；旧 revision 或未知的未来 revision 会被忽略。
+- 可选 `stats` 字段（`success_total`、`error_total`、`p50_ms`、`p95_ms`）彼此独立。
+  显式零计数是真实读数，缺字段表示不可用；每个被接受的状态都会整体替换而非合并
+  旧 stats 投影。`APPLIED` 还可携带 manager GET 的 `observed_revision` 和
+  `observed_hash`；该 hash 不是 manifest 配置 hash。
 
 ### 实例存活探测（`health_check`）
 
@@ -313,6 +324,16 @@ _ = gw.ReportSubdeviceShadow(ctx, []device.GatewayShadowReport{
 
 控制台侧的操作流程见帮助中心的**连接器**篇。
 
+### 7.1 业务编排展开
+
+[业务实例](glossary/business-instance.md)生成确定性的[业务展开](glossary/business-expansion.md)，把摄像头、pipeline、伴生服务和规则装配映射到同一套连接器 desired/reported 生命周期，不新增第二套连接器传输通道。`inference_binding` 展开物因此仍以普通 `edge-inference` spec 下发，并回报普通连接器状态。
+
+pipeline 注册和仅引用式外部 servable 注册使用完整的 `edge-manager-resource` v1 连接器封套，配置位于嵌套的 `spec.config`；外部条目使用 `entry_id` 和 `id_field=servableId`。manager 的 `APPLIED` 只有同时携带当前 `observed_revision` 和非空 `observed_hash` 才能证明健康；`DEGRADED/manager-entry-missing` 仍为降级。在 NI 提供 runtime-only 的对称资源前，带 definition 的托管 `ExternalServablesJSON` 一律失败关闭。伴生服务订阅仍由其独立回签的投递契约门控。
+
+北向上传与 NI 的 `PublishMode`/`PublishReadings` 分别声明。网关出口必须执行已回签的通道与字段白名单契约，即使错误的北向声明请求 embedding，也必须在出口丢弃。
+
+北向节点还必须提供精确的原始 EdgeX 选择器：`edgex_device_name`、`edgex_profile_name` 和非空的 `edgex_resource_names` 数组。这些名称来自网关上的 EdgeX 名称，不是 NereidLink UUID 或规范名称。NL 将每个 `northbound_channel` 保留为一个贡献输入，再协调出一个网关级 `edge-northbound-filter` v1 连接器，其 `device_id` 为空。每个贡献会生成一条显式 allow 规则，以及同设备／同 profile 的 deny 规则；模式匹配、`PipelineJSON` 和大小写敏感的 `Embedding*` 资源都会被拒绝。不同实例的 active 与 pending 展开共享这个单例。最后一个贡献移除后，NL 会将其静默为 `enabled=false`、`default_action="allow"`、`rules=[]`，而不是硬删除。转发封套携带 `channel` 元数据，`forwarder_id` 仍负责选择 stream 和 sink。
+
 ## 8. 可选能力
 
 | 能力 | 下行 | 上行 | 说明 |
@@ -320,12 +341,74 @@ _ = gw.ReportSubdeviceShadow(ctx, []device.GatewayShadowReport{
 | 按需探测 | `v1/gateway/probe` | `v1/gateway/probe/response` | 按子设备做可达性测试；逐设备或用 `responses[]` 批量回报 |
 | 发现 / 自动开通 | `v1/gateway/discovery/result` | `v1/gateway/discovery` | 上报扫描候选，平台将本地 ID 映射为 UUID |
 | OTA | `v1/gateway/ota/task` | `v1/gateway/ota/progress` | 外部固件 URL，有序进度状态 |
-| Profile 库 | — | `v1/gateway/profiles` | 上报本地设备 profile 供控制台采用 |
+| Profile 库 | `v1/gateway/profiles/spec` | `v1/gateway/profiles`、`v1/gateway/profiles/status` | 上报本地 profile 供采用；接收库共享下发的 profile（见 §10.1） |
 | 属性推送 | `v1/gateway/attributes/push`、`v1/gateway/attributes/get/ack` | `v1/gateway/attributes`、`v1/gateway/attributes/get` | SERVER/SHARED 下发 + CLIENT 上报；`null` 表示删除 |
 | 设备影子 | `v1/gateway/shadow/desired` | `v1/gateway/shadow/report` | desired/reported 影子状态 |
 | 网关操作 | `v1/gateway/operations/invoke` | `v1/gateway/operations/result` | 同步网关整机动作；见第 9 节 |
+| 边端模型推理 | （无——复用既有 topic） | `v1/gateway/manifest`（`models`）、`v1/gateway/connectors/status`、影子 reported `inference` | 上报本地模型库存、运行 `edge-inference` 连接器；见 §8.1 |
 
 只在 hello 的 `features`（会话级特性）中声明实际实现的能力，其余不要发布。
+
+### 8.1 边端模型推理（可选，ADR-0039）
+
+能在本地提供 AI 模型推理的网关通过协商 `inference` 能力并上报模型库存接入。平台不中转
+模型文件、也不发起推理调用，只保存上报视图、通过通用连接器把摄像头绑定到模型，并在
+模型/运行时/绑定三个状态面产生告警。完整契约见对接协议 v1 §15，边端侧要点：
+
+1. **Hello**：在 `features.optional` 加 `"inference"`，并发送顶层
+   `"inference": {"contract": "model/1", "backends": ["kserve", "openai"]}`。只有当 Ack
+   回显 `inference` 块时才启用（contract 必须等于 `model/1`；`backends` 为按边缘声明顺序
+   的交集）。Ack 未回显时绝不发送 `models` 段，也不支持 `edge-inference` spec。
+2. **库存**：在既有 `v1/gateway/manifest` 帧中，与 `devices`/`connectors` 并列加入可选的
+   全量 `models[]` 段，按既有节奏发送（变化即发（去抖）、每 5 分钟全量、(re)hello 后
+   重放）。字段缺省表示保留平台已存库存不动；发送 `[]` 表示权威的零库存。每项为
+   `{id, version, revision?, task, family?, backend, server_family?, model_name?, state, reason?, labels?, active_bindings?}`，
+   `state` 取 `EXTRACTING/VALIDATING/READY/FAILED/REMOVED`；模型从非空列表中消失会被平台
+   删除。hello 之前或非网关身份不要发送该段。可选的 `server_family` 是具体模型服务器产品
+   标识（如 `ovms`/`triton`/`external`），与协议族 `backend` 不同；未知时省略即可，旧平台
+   会忽略该未知键。
+3. **连接器**：在 hello `connectors[]` 自注册 `connector_type="edge-inference"`、
+   `type_version="1"` 及其 config JSON Schema。desired spec 走正常的
+   `v1/gateway/connectors/spec`，`device_id` 必填（一台虚拟输出子设备），config 不透明，含
+   `source`（ONVIF 托管摄像头：`{device, resource:"snapshot_jpeg", mode?, profile?}`，`mode` ∈ `snapshot`|`stream`；
+   stream 映射为联邦 RTSP/ffmpeg，URL 与凭据不出边缘；`profile` 为可选的 ONVIF Media
+   ProfileToken（仅 stream），正则 `^[A-Za-z0-9_.:,-]+$`、≤64，缺省为摄像头默认；token 通过
+   只读 operation `camera.profiles` v1 枚举（入参 `{source}`，返回
+   `{profiles:[{token,name,encoding,width,height,fps}]}`，走 core-command `GetProfiles`，
+   回退 `Profiles`，结果不含 URL/地址）；非 ONVIF 硬件走第三个模式 `mode:"url"` 逃生舱，
+   不带 device/resource：`{mode:"url", transport, url, secret_name?}`，其中 `transport` ∈
+   `rtsp`|`rtsp-udp`|`mpjpeg`|`jpeg`，`url` 长度 8–1024（RTSP 类必须 `rtsp://`，mpjpeg/jpeg
+   必须 `http(s)://`，必须带 host，内嵌 userinfo 拒绝并回报 config-invalid），可选
+   `secret_name`（≤128，`^[A-Za-z0-9_.:,-]+$`）指向由运维在 NI 密钥库预置的密钥——URL
+   会被平台存储，凭据绝不入云）、`model_ref`、`trigger`
+   （`event`|`periodic`|`continuous`）/`period_ms`/`max_idle_ms`/`fps`（0.1–60）、阈值、
+   证据帧开关 `emit_frame`/`annotate_preview`（布尔，默认 true，取缺省时不下发）、
+   stream/直连 URL 的 `ffmpeg_extra`（≤256，白名单 argv：`-re` 或带值的
+   -r/-ss/-t/-threads/-fflags/-flags，如 `-fflags nobuffer -flags low_delay`，
+   非法回报 config-invalid），站点本地的 `decode_accel`（缺省 `software` 不下发 /
+   `vaapi`，仅 ONVIF RTSP 与直连 rtsp/rtsp-udp）及可选 `vaapi_device`
+   （`renderD<N>` 或 `/dev/dri/renderD<N>`，缺省由 NI 使用 renderD128），映射为 NI
+   `DecodeAccel`/`VAAPIDevice`；VA-API 设备缺失时明确失败且不回退软解，以及
+   可选的 `target_device`（默认 `CPU`；可取 `GPU`/`GPU.0`/`NPU`/`AUTO` 或 OVMS 的
+   `MULTI:..`/`HETERO:..` 形式，正则 `^[A-Za-z0-9_.:,-]+$`、长度 ≤64——请在自注册的 config
+   JSON Schema 中同时声明 `mode`/`profile`/`fps`/`continuous`/`emit_frame`/`annotate_preview`/`ffmpeg_extra`/`decode_accel`/`vaapi_device`/`url`/`transport`/`secret_name`
+   能力与该属性；`mode` 缺省等价 snapshot，
+   字段缺省等价于 `CPU`）。视频流/直连源无可用信号或 401 时必须回报 `source-no-frame`，不得偷偷切换取流方式。
+   `target_device` 是硬性部署要求：做不到
+   时必须回报 FAILED + `target-device-unavailable`，不得静默回退 CPU。在
+   `v1/gateway/connectors/status` 回报 `APPLIED/DEGRADED/FAILED` 与传输安全的 `reason`；不
+   配置 `health_check`，活性由 `max_idle_ms`/`period_ms`/`fps` 自管（`idle-no-inference` 属于
+   DEGRADED 而非故障），绑定模型缺失/未 READY 时回报 `model-not-ready`。
+4. **运行时健康**：持续刷新设备影子 reported 的 `inference` 块：
+   `{state: ONLINE|DEGRADED|OFFLINE|UNKNOWN, endpoint?, protocol, models_ready,
+   models_total, active_bindings, checked_at（RFC3339）, probe_interval_s, latency_ms?}`。
+   静默超过三个探测周期会被平台判为 UNKNOWN/过期。
+5. **结果与自检**：推理结果作为**普通遥测**归属到绑定的虚拟子设备，使用 `detection/v1`
+   系统 profile 的规范点（`detection_count`、`top1_label`、`top1_score`、
+   `infer_latency_ms`、`detections_json`）；证据图片走既有 Blob 机制。注册 `inference.diag`
+   v1 操作以支持按需故障定位。失败原因使用协议 v1 §15.6 的统一错误码表（`model-not-ready`、
+   `runtime-unreachable`、`inference-timeout`、`source-no-frame`、`idle-no-inference`、
+   `package-invalid` 等）。
 
 ## 9. 网关操作（网关整机动作）
 
@@ -372,13 +455,54 @@ _ = gw.SubscribeOperations(ctx, 1, func(inv device.OperationInvoke) {
 网关 → 平台：`v1/gateway/hello`、`heartbeat`、`goodbye`、`linkhealth`、
 `connect`、`disconnect`、`manifest`、`telemetry`、`attributes`、
 `shadow/report`、`command/response`、`ota/progress`、`probe/response`、
-`connectors/status`、`profiles`、`discovery`、`operations/result`。
+`connectors/status`、`secrets/status`、`profiles`、`profiles/status`、
+`discovery`、`operations/result`。
 
 平台 → 网关：`hello/ack`、`linkhealth/ack`、`command`、`attributes/push`、
 `shadow/desired`、`ota/task`、`probe`、`connectors/spec`、
-`connectors/delete`、`discovery/result`、`operations/invoke`。
+`connectors/delete`、`secrets/sync`、`profiles/spec`、`discovery/result`、
+`operations/invoke`。
 
 上行 QoS 由网关选择（建议 QoS 1）；下行帧均为 QoS 0、非 retained。
+
+### 10.1 设备 Profile 下发（库共享）
+
+租户内任何位置建模或上报的 profile 都会成为**库资产**；平台可把它投递给任何需要
+它的网关，无需重新编写（例如 A 网关上报了 `A1`，B 网关直接接收）。在 hello
+`features` 中声明 `profiles`，可选地在 `profile_formats` 中给出偏好文档格式；ack
+回显协商后的 `profile_formats`。
+
+订阅 `v1/gateway/profiles/spec`。每帧是该网关的**全量期望集**，并在每次 hello 后
+重放：
+
+```json
+{"tenant_id": "…", "gateway_id": "…", "entries": [
+  {"profile_id": "…", "name": "A1", "revision": 2,
+   "format": "edgex-device-profile/3",
+   "target": {"service": "device-modbus"},
+   "document": {"name": "A1", "deviceResources": [ /* 已渲染 */ ]}},
+  {"profile_id": "…", "name": "Old", "revision": 1,
+   "format": "edgex-device-profile/3", "removing": true}
+]}
+```
+
+- `document` **已在云端按 `format` 渲染完成**（双方都支持的第一个格式）。目前支持
+  `nereid-neutral/1`（始终可用；即你上报时的 `{name,protocol?,points[]}` 结构）与
+  `edgex-device-profile/3`（EdgeX `deviceResources`/`deviceCommands`）。
+- 幂等落地，以 `(name, revision)` 去重。`target` 为可选、不透明提示（如托管该
+  profile 的 device service 名）。
+- `removing: true` 时**不携带** `document`：删除本地该 profile。
+- 通过 `v1/gateway/profiles/status` 回报：
+
+```json
+{"reports": [{"name": "A1", "revision": 2, "status": "APPLIED", "reason": ""}]}
+```
+
+  状态 ∈ `APPLIED`、`FAILED`、`REJECTED`、`REMOVED`；失败时在 `reason` 给出简短、
+  传输安全的说明。平台侧状态为 `PENDING → DISPATCHED → APPLIED(/FAILED)`，长时间未
+  生效或持续失败会触发告警。
+- 文档由云端渲染；平台**不会**把 profile 落到你的 device service——那是 agent 的
+  职责。
 
 ## 11. 接入检查清单
 
@@ -400,3 +524,5 @@ _ = gw.SubscribeOperations(ctx, 1, func(inv device.OperationInvoke) {
   `device` 分发；desired 全量替换，切勿按增量合并。
 - 在 hello `operations[]` 中广告操作；每条请求-响应调用都在 `timeout_ms` 内按
   `id` 回复 `operations/result`；结果中不含密码。
+- 若启用 `profiles`：已订阅 `v1/gateway/profiles/spec`，条目按 `(name, revision)`
+  幂等落地，每个已应用（或已删除）条目都在 `v1/gateway/profiles/status` 回报。

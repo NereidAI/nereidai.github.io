@@ -19,3 +19,7 @@ The Overview is the tenant operational dashboard. It answers "what is happening 
 ## How updates work
 
 The first load is a single REST snapshot. After that, values update through one wildcard WebSocket subscription per resource — there is no polling. Panels can be dragged by their title bar and resized from the bottom-right corner; the layout is stored locally in your browser.
+
+## Console navigation
+
+The left navigation scrolls independently when its entries exceed the available height. The version footer remains at the bottom of the sidebar, including when the navigation is collapsed.
