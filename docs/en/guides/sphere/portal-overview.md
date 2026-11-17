@@ -14,7 +14,9 @@ business logic of its own.
 ## The product grid
 
 Each card links to one product. Clicking a card while you have a valid
-session takes you straight into the product. See
+session opens the product in a new window and keeps the portal available in
+its original window. Product descriptions and common suite role labels
+follow the selected portal language. See
 [Opening products with SSO](product-sso.md).
 
 ## Related terms

@@ -10,7 +10,7 @@ every edge site and is not a central portal entry.
 
 1. Sign in to NereidSphere (the NereidIdentity login page in oidc mode, or
    the emergency local form).
-2. Click a product card (it always opens `/auth/enter/{product}`).
+2. Click a product card. It opens `/auth/enter/{product}` in a new window, so the portal remains available in the original window.
 3. Products in **ticket mode (`ns`)** receive a one-time, 30-second sealed
    [NS ticket](glossary/ns-ticket.md) and exchange it server to server for
    your verified identity, then open their own session — the ticket works only

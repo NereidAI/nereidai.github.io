@@ -54,7 +54,9 @@ With two-level configuration, put the common part (bus settings, point table) in
 
 ## Lifecycle state
 
-`PENDING → DISPATCHED → CREATING → APPLIED`, with `FAILED` or `DEGRADED` as terminal/degraded outcomes. Desired specs are never dropped: the edge retries on reconnect, and dispatch is idempotent. Hover a state tag to see the reported reason.
+`PENDING → DISPATCHED → CREATING → APPLIED`, with `FAILED` or `DEGRADED` as terminal/degraded outcomes. Desired specs are never dropped: the edge retries on reconnect, and dispatch is idempotent. Explicit deletes are committed as durable revisioned tombstones before dispatch and replayed in bounded fair batches after hello and from the periodic sweep; transport success, timeout, an ordinary apply acknowledgement, and manifest absence do not acknowledge deletion. Hover a state tag to see the reported reason.
+
+Status reports are accepted only for the current desired revision. Optional job statistics preserve availability independently for success/error counters and P50/P95 latency: zero is a real reading, while an omitted field is unavailable. Manager resources can additionally report the observed manager revision and complete-readback hash; these are separate from manifest reconciliation hashes.
 
 ## Reconciliation
 
@@ -66,7 +68,7 @@ The gateway periodically sends a manifest listing the connector instances it act
 - **Drifted** — present, but its reported config differs from desired.
 - **Extra** — running on the gateway but not declared in NereidLink.
 
-By default drift only raises an alert; in **strict reconcile** mode the desired spec overrides the edge. Until the gateway sends its first manifest there is no watermark, so classification shows as unknown and an informational banner is displayed. The tab has no refresh button: it stays live over the WebSocket `connector` stream, re-fetching the list and reconcile view whenever the gateway reports a desired/status/manifest change.
+By default drift only raises an alert; in **strict reconcile** mode the desired spec overrides missing, stale, or drifted desired instances. **Extra** entries remain observational even in strict mode: a type-less manifest identity cannot safely authorize deletion of legacy, manager, or northbound-filter resources. Until the gateway sends its first manifest there is no watermark, so classification shows as unknown and an informational banner is displayed. The tab has no refresh button: it stays live over the WebSocket `connector` stream, re-fetching the list and reconcile view whenever the gateway reports a desired/status/manifest change.
 
 The **Device profile / protocol** column names the device profile behind the connector (the bound profile template, falling back to the bound sub-device's profile) with a link to its detail page, and its protocol family underneath when known; it shows `-` when no profile resolves.
 
@@ -87,7 +89,7 @@ Filtering never changes the data; clear a dropdown or the search box to return t
 2. Click **Add**, choose (or type) the connector type, and optionally a type version.
 3. Optionally pick a **profile template** — only profiles carrying a connector template are listed — and/or a bound sub-device.
 4. Edit the config object and point mappings using the structured Form tab (or raw JSON tab); the save button stays disabled until both are valid, then save.
-5. Edit or delete a row as needed; after deletion the edge removes the instance on the next manifest reconciliation.
+5. Edit or delete a row as needed. A successful delete response means desired removal and durable delete intent were committed, not that the edge acknowledged removal; NL keeps replaying the explicit delete under the current protocol.
 
 To define a reusable connector template, edit a device profile and fill its connector template fields; see the **Device Profiles** help topic.
 

@@ -45,8 +45,9 @@ State machine: `UNIDENTIFIED → NEGOTIATED → CLOSED`.
   "proto": {"min": "1.0", "max": "1.4"},
   "features": {
     "required": ["telemetry", "presence"],
-    "optional": ["ota", "shadow", "blob-relay", "command"]
+    "optional": ["ota", "shadow", "blob-relay", "command", "secrets", "profiles"]
   },
+  "profile_formats": ["edgex-device-profile/3", "nereid-neutral/1"],
   "connectors": [
     {"type": "modbus", "type_version": "2.1",
      "config_schema": {"type": "object", "required": ["host"],
@@ -59,7 +60,11 @@ State machine: `UNIDENTIFIED → NEGOTIATED → CLOSED`.
 - `features.required` must all be supported by the server or negotiation
   fails (`incompatible_features`); `features.optional` are downgraded away
   when unsupported. Available features: `telemetry`, `presence`, `ota`,
-  `shadow`, `blob-relay`, `command`.
+  `shadow`, `blob-relay`, `command`, `secrets`, `profiles`.
+- `profile_formats` (optional) lists, in preference order, the device-profile
+  document formats you can apply (see §10.1); the ack echoes the negotiated
+  intersection in `profile_formats`. Omitted or empty means the neutral
+  format only.
 - `connectors[]` optionally registers inline, self-contained JSON Schemas
   (draft 2020-12; no external `$ref`) for the connector types this gateway
   can run. An invalid schema never fails the handshake; its result is
@@ -76,6 +81,7 @@ State machine: `UNIDENTIFIED → NEGOTIATED → CLOSED`.
   "selected": "1.4",
   "server": {"min": "1.0", "max": "2.0", "version": "nereidlink-..."},
   "features": ["telemetry", "presence", "command"],
+  "profile_formats": ["edgex-device-profile/3"],
   "limits": {"heartbeat_s": 30, "hello_timeout_s": 10,
              "upload": {"max_mb": 256, "qps": 20}},
   "time": {"server_time": 1727360000456, "offset_ms": -312, "clock_warning": false}
@@ -323,11 +329,22 @@ applies desired state and reports what it actually runs.
   arrive on `v1/gateway/connectors/spec`
   (`spec_id`, `connector_type`, `type_version`, `config`, `mappings`,
   `health_check`, `revision`), removals on `v1/gateway/connectors/delete`.
-- After every hello the **full desired set is re-sent idempotently**;
-  de-duplicate by `(spec_id, revision)`.
+- After every hello the **full desired set and one bounded fair batch of
+  unacknowledged explicit deletes are re-sent idempotently**; a leader-elected
+  periodic sweep continues replaying delete batches. De-duplicate by
+  `(spec_id, revision)`. NL commits desired removal and its durable delete
+  tombstone before dispatch. There is no delete-ACK contract: transport
+  success, REST `204`, timeout, ordinary `APPLIED`, and manifest absence never
+  retire the tombstone.
 - Report state on `v1/gateway/connectors/status` using the state machine
-  `CREATING → APPLIED / FAILED / DEGRADED`, echoing `spec_id` and
-  `revision`.
+  `CREATING → APPLIED / FAILED / DEGRADED`, echoing `spec_id` and the current
+  desired `revision`; stale or unknown-future revisions are ignored.
+- Optional `stats` fields (`success_total`, `error_total`, `p50_ms`, `p95_ms`)
+  are independent. Explicit zero counters are real readings, omitted fields
+  are unavailable, and every accepted status replaces rather than merges the
+  previous stats projection. `APPLIED` may additionally carry manager GET
+  `observed_revision` and `observed_hash`; this hash is not the manifest
+  config hash.
 
 ### Instance liveness probe (`health_check`)
 
@@ -350,6 +367,16 @@ A spec bound to one sub-device may carry `health_check`:
 
 The console-side workflow is documented in the **Connectors** help topic.
 
+### 7.1 Business orchestration expansion
+
+[Business instances](glossary/business-instance.md) produce a deterministic [business expansion](glossary/business-expansion.md) that maps camera/pipeline/companion/rule assemblies into the same connector desired/reported lifecycle; they do not introduce a second connector transport. `inference_binding` artifacts therefore arrive as ordinary `edge-inference` specs and must report ordinary connector status.
+
+Pipeline registration and reference-only external-servable registration use complete `edge-manager-resource` v1 connector envelopes with nested `spec.config`; external entries use `entry_id` plus `id_field=servableId`. A manager `APPLIED` report proves health only when it also carries the current `observed_revision` and a non-empty `observed_hash`; `DEGRADED/manager-entry-missing` remains degraded. Managed `ExternalServablesJSON` definitions fail closed until NI provides a runtime-only symmetric resource. Companion subscriptions remain separately gated by their signed delivery contract.
+
+Northbound upload is declared independently from NI `PublishMode`/`PublishReadings`. The gateway egress must apply the signed channel and field-whitelist contract and must drop embeddings even if a misconfigured northbound declaration requests them.
+
+A northbound node also supplies exact raw EdgeX selectors: `edgex_device_name`, `edgex_profile_name`, and a non-empty `edgex_resource_names` array. These are gateway-reported EdgeX names, not NereidLink UUIDs or canonical names. NL keeps each `northbound_channel` as a contribution, then reconciles one gateway-level `edge-northbound-filter` v1 connector with an empty `device_id`. Each contribution produces an explicit allow rule followed by a same device/profile deny rule; patterns, `PipelineJSON`, and case-sensitive `Embedding*` resources are rejected. Active and pending expansions across instances share the singleton. When the final contributor leaves, NL quiesces it with `enabled=false`, `default_action="allow"`, and `rules=[]` rather than hard-deleting it. Forward envelopes carry `channel` as metadata, while `forwarder_id` still selects the stream and sink.
+
 ## 8. Optional capabilities
 
 | Capability | Downlink | Uplink | Notes |
@@ -357,13 +384,97 @@ The console-side workflow is documented in the **Connectors** help topic.
 | On-demand probe | `v1/gateway/probe` | `v1/gateway/probe/response` | Reachability test per sub-device; answer per device or one `responses[]` batch |
 | Discovery / auto-provisioning | `v1/gateway/discovery/result` | `v1/gateway/discovery` | Report scan candidates; platform maps local IDs to UUIDs |
 | OTA | `v1/gateway/ota/task` | `v1/gateway/ota/progress` | External firmware URL; ordered progress states |
-| Profiles library | — | `v1/gateway/profiles` | Report local device profiles for adoption in the console |
+| Profiles library | `v1/gateway/profiles/spec` | `v1/gateway/profiles`, `v1/gateway/profiles/status` | Report local profiles for adoption; receive shared library profiles (see §10.1) |
 | Attribute push | `v1/gateway/attributes/push`, `v1/gateway/attributes/get/ack` | `v1/gateway/attributes`, `v1/gateway/attributes/get` | SERVER/SHARED delivered + CLIENT reported; `null` deletes; see section 5 |
 | Shadow | `v1/gateway/shadow/desired` | `v1/gateway/shadow/report` | Desired/reported device shadow |
 | Gateway operations | `v1/gateway/operations/invoke` | `v1/gateway/operations/result` | Synchronous whole-gateway actions; see section 9 |
+| Edge model inference | (none — uses existing topics) | `v1/gateway/manifest` (`models`), `v1/gateway/connectors/status`, shadow reported `inference` | Report local model inventory; run the `edge-inference` connector; see section 8.1 |
 
 Advertise only what you implement in the hello `features` list (for the
 session-level features) and simply do not publish the rest.
+
+### 8.1 Edge model inference (optional, ADR-0039)
+
+A gateway that can serve local AI models negotiates the `inference` feature and
+reports its inventory. The platform never transfers model bytes or initiates an
+inference call; it stores the reported view, binds cameras to models through a
+generic connector, and alarms on the model/runtime/binding planes. The full
+contract is protocol v1 §15; the edge side is:
+
+1. **Hello.** Add `"inference"` to `features.optional` and send a top-level
+   `"inference": {"contract": "model/1", "backends": ["kserve", "openai"]}`
+   block. Enable the feature only when the ack echoes an `inference` block
+   (contract must equal `model/1`; `backends` is the intersection in your
+   declared order). With no echoed block, never send a `models` segment and
+   treat `edge-inference` specs as unsupported.
+2. **Inventory.** In the existing `v1/gateway/manifest` frame add an optional
+   full-replacement `models[]` segment alongside `devices`/`connectors`. Send
+   the complete current set on the same cadence (debounced on change, full list
+   every 5 minutes, replayed after (re)hello). Omit the field to keep the stored
+   inventory untouched; send `[]` to authoritatively report zero models. Each
+   entry is
+   `{id, version, revision?, task, family?, backend, server_family?, model_name?, state, reason?, labels?, active_bindings?}`
+   with `state` one of `EXTRACTING/VALIDATING/READY/FAILED/REMOVED`; a model that
+   disappears from a present list is deleted server-side. Do not send this
+   segment before hello or from a non-gateway identity. The optional
+   `server_family` is the concrete model-server product token (e.g.
+   `ovms`/`triton`/`external`), distinct from the `backend` protocol family;
+   omit it when unknown — older platforms ignore the unknown key.
+3. **Connector.** Self-register `connector_type="edge-inference"`,
+   `type_version="1"` with its config JSON Schema in hello `connectors[]`. Desired
+   specs arrive on the normal `v1/gateway/connectors/spec` topic with a mandatory
+   `device_id` (a virtual output child device) and an opaque config carrying
+   `source` (`{device, resource:"snapshot_jpeg", mode?, profile?}`, `mode` ∈
+   `snapshot`|`stream`; stream maps to federated RTSP/ffmpeg, URL/credentials
+   edge-local; `profile` is an optional ONVIF Media ProfileToken for stream
+   mode, pattern `^[A-Za-z0-9_.:,-]+$`, ≤64, absent = camera default; enumerate
+   tokens with the read-only `camera.profiles` v1 operation
+   (`{source}` → `{profiles:[{token,name,encoding,width,height,fps}]}`),
+   core-command `GetProfiles` with `Profiles` fallback, no URLs/addresses in
+   the result; a third `mode:"url"` escape hatch binds non-ONVIF hardware
+   without device/resource: `{mode:"url", transport, url, secret_name?}`
+   with `transport` ∈ `rtsp`|`rtsp-udp`|`mpjpeg`|`jpeg`, `url` 8–1024 chars
+   (`rtsp://` for RTSP transports, `http(s)://` for mpjpeg/jpeg, host
+   required, embedded userinfo rejected → config-invalid), and optional
+   `secret_name` (≤128, `^[A-Za-z0-9_.:,-]+$`) naming an operator-provisioned
+   NI secret — the URL is platform-stored, credentials never are), `model_ref`,
+   `trigger` (`event`|`periodic`|`continuous`)/
+   `period_ms`/`max_idle_ms`/`fps` (0.1–60), thresholds, evidence-frame
+   toggles `emit_frame`/`annotate_preview` (boolean default true, omitted in
+   that case), ffmpeg tuning `ffmpeg_extra` for stream/direct-URL modes (≤256,
+   allowlisted argv: -re or
+   -r/-ss/-t/-threads/-fflags/-flags with a value, e.g. `-fflags nobuffer
+   -flags low_delay`; invalid → config-invalid), site-local `decode_accel`
+   (`software` default omitted / `vaapi`, ONVIF RTSP and direct rtsp/rtsp-udp
+   only) plus optional `vaapi_device` (`renderD<N>` or `/dev/dri/renderD<N>`,
+   omitted for NI's renderD128 default), mapped to NI `DecodeAccel` and
+   `VAAPIDevice`; a missing VA-API device fails without software fallback, and
+   the optional `target_device` (default `CPU`; `GPU`/`GPU.0`/`NPU`/`AUTO` or OVMS
+   `MULTI:..`/`HETERO:..` forms, pattern `^[A-Za-z0-9_.:,-]+$`, ≤64 chars —
+   declare the `mode`/`profile`/`fps`/`continuous`/`emit_frame`/`annotate_preview`/`ffmpeg_extra`/`decode_accel`/`vaapi_device`/`url`/`transport`/`secret_name`
+   capabilities as well as this property
+   in the self-registered config JSON Schema; absent `mode` means snapshot,
+   absent `target_device` means `CPU`). A stream with no usable feed reports
+   `source-no-frame` rather than silently switching acquisition;
+   `target_device` is a hard placement requirement: report FAILED
+   with `target-device-unavailable` instead of silently falling back to CPU.
+   Report `APPLIED/DEGRADED/FAILED` plus a transport-safe `reason` on
+   `v1/gateway/connectors/status`; there is no `health_check` — manage liveness
+   from `max_idle_ms`/`period_ms`/`fps` (`idle-no-inference` is DEGRADED, not a fault),
+   and report `model-not-ready` when a bound model is absent/not READY.
+4. **Runtime health.** Keep the device-shadow reported `inference` block fresh:
+   `{state: ONLINE|DEGRADED|OFFLINE|UNKNOWN, endpoint?, protocol, models_ready,
+   models_total, active_bindings, checked_at (RFC3339), probe_interval_s,
+   latency_ms?}`. Silence longer than three probe intervals is treated as
+   UNKNOWN/stale server-side.
+5. **Results & self-check.** Publish inference results as ordinary telemetry
+   attributed to the bound virtual child device using the `detection/v1` system
+   profile points (`detection_count`, `top1_label`, `top1_score`,
+   `infer_latency_ms`, `detections_json`); evidence images use the existing Blob
+   mechanism. Register the `inference.diag` v1 operation for on-demand fault
+   isolation. Failure reasons use the shared code table in protocol v1 §15.6
+   (`model-not-ready`, `runtime-unreachable`, `inference-timeout`,
+   `source-no-frame`, `idle-no-inference`, `package-invalid`, …).
 
 ## 9. Gateway operations (whole-gateway actions)
 
@@ -424,16 +535,59 @@ _ = gw.SubscribeOperations(ctx, 1, func(inv device.OperationInvoke) {
 Gateway → platform: `v1/gateway/hello`, `heartbeat`, `goodbye`,
 `linkhealth`, `connect`, `disconnect`, `manifest`, `telemetry`,
 `attributes`, `shadow/report`, `command/response`, `ota/progress`,
-`probe/response`, `connectors/status`, `profiles`, `discovery`,
-`operations/result`.
+`probe/response`, `connectors/status`, `secrets/status`, `profiles`,
+`profiles/status`, `discovery`, `operations/result`.
 
 Platform → gateway: `hello/ack`, `linkhealth/ack`, `command`,
 `attributes/push`, `shadow/desired`, `ota/task`, `probe`,
-`connectors/spec`, `connectors/delete`, `discovery/result`,
-`operations/invoke`.
+`connectors/spec`, `connectors/delete`, `secrets/sync`,
+`profiles/spec`, `discovery/result`, `operations/invoke`.
 
 Uplink QoS is the gateway's choice (QoS 1 recommended); downlink frames are
 QoS 0 and non-retained.
+
+### 10.1 Device profiles delivered down (shared library)
+
+A profile authored or reported anywhere in the tenant becomes a **library
+asset**; the platform can hand it to any gateway that needs it, with no
+re-authoring (e.g. gateway A reported `A1`, gateway B receives it). Opt in by
+listing `profiles` in hello `features` and (optionally) your preferred
+document formats in `profile_formats`; the ack returns the negotiated
+`profile_formats`.
+
+Subscribe `v1/gateway/profiles/spec`. Each frame is the **full desired set**
+for this gateway and is re-sent after every hello:
+
+```json
+{"tenant_id": "…", "gateway_id": "…", "entries": [
+  {"profile_id": "…", "name": "A1", "revision": 2,
+   "format": "edgex-device-profile/3",
+   "target": {"service": "device-modbus"},
+   "document": {"name": "A1", "deviceResources": [ /* rendered */ ]}},
+  {"profile_id": "…", "name": "Old", "revision": 1,
+   "format": "edgex-device-profile/3", "removing": true}
+]}
+```
+
+- `document` is **already rendered** in `format` (the first format both sides
+  support). Supported today: `nereid-neutral/1` (always available; the
+  `{name,protocol?,points[]}` shape you already report) and
+  `edgex-device-profile/3` (EdgeX `deviceResources`/`deviceCommands`).
+- Apply idempotently, de-duplicating by `(name, revision)`. `target` is an
+  optional opaque hint (e.g. the device service to own the profile).
+- `removing: true` carries **no** `document`: delete your local copy.
+- Report back on `v1/gateway/profiles/status`:
+
+```json
+{"reports": [{"name": "A1", "revision": 2, "status": "APPLIED", "reason": ""}]}
+```
+
+  Status is one of `APPLIED`, `FAILED`, `REJECTED`, `REMOVED`; put a short,
+  transport-safe explanation in `reason` for failures. The platform tracks
+  `PENDING → DISPATCHED → APPLIED(/FAILED)` and raises alarms when a revision
+  stays unapplied or keeps failing.
+- The platform renders documents cloud-side; it never lands a profile into
+  your device service — that is the agent's job.
 
 ## 11. Integration checklist
 
@@ -459,3 +613,6 @@ QoS 0 and non-retained.
 - Operations advertised in hello `operations[]`; every request-response
   invoke answered on `operations/result` by `id` within `timeout_ms`;
   results contain no passwords.
+- If you opt into `profiles`: `v1/gateway/profiles/spec` subscribed, entries
+  applied idempotently by `(name, revision)`, every applied (or removed) entry
+  reported on `v1/gateway/profiles/status`.

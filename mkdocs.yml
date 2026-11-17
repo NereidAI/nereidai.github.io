@@ -201,6 +201,7 @@ nav:
         - guides/link/connectors.md
         - guides/link/edge-profiles.md
         - guides/link/link-health.md
+        - guides/link/edge-models.md
       - Configuration:
         - guides/link/profiles.md
         - guides/link/device-services.md
@@ -208,9 +209,12 @@ nav:
         - guides/link/edge-secrets.md
         - guides/link/gateway-operations.md
         - guides/link/data-quality.md
+        - guides/link/profile-delivery.md
         - guides/link/rule-chains.md
+        - guides/link/business-orchestration.md
         - guides/link/rule-chain-editor.md
         - guides/link/forwarders.md
+        - guides/link/companion-endpoints.md
         - guides/link/escalation-chains.md
         - guides/link/storage-hooks.md
       - Operations:
@@ -224,6 +228,7 @@ nav:
       - Integration:
         - guides/link/integrate-direct-device.md
         - guides/link/integrate-gateway.md
+        - guides/link/integrate-api-keys.md
         - guides/link/media-blobs.md
       - SDK (Go):
         - guides/link/device-sdk.md
@@ -237,6 +242,11 @@ nav:
         - guides/link/system-users.md
         - guides/link/account-security.md
       - Glossary:
+        - guides/link/glossary/business-expansion.md
+        - guides/link/glossary/business-generation.md
+        - guides/link/glossary/business-instance.md
+        - guides/link/glossary/business-orchestration.md
+        - guides/link/glossary/business-template-version.md
         - guides/link/glossary/connector.md
         - guides/link/glossary/edge-secret.md
         - guides/link/glossary/gateway.md

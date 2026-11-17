@@ -9,7 +9,7 @@
 
 1. 登录 NereidSphere（oidc 模式下为 NereidIdentity 登录页，本地模式下为
    应急表单）。
-2. 点击某个产品卡片（统一打开 `/auth/enter/{product}`）。
+2. 点击某个产品卡片。它会在新窗口打开 `/auth/enter/{product}`，原窗口继续保留门户。
 3. **票据模式（`ns`）**的产品会收到一张 30 秒有效的一次性密封
    [NS 票据](glossary/ns-ticket.md)，由其后端在服务端换取已验证身份并建立
    自己的会话；票据只能使用一次。
