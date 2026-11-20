@@ -1,6 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
     <url>
+        <loc>https://nereidai.github.io/dev/blog/</loc>
+        <lastmod>2026-11-20</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://nereidai.github.io/dev/blog/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://nereidai.github.io/devzh/blog/"/>
+    </url>
+    <url>
+        <loc>https://nereidai.github.io/dev/blog/2026/11/20/edge-model-inventory-explained/</loc>
+        <lastmod>2026-11-20</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://nereidai.github.io/dev/blog/2026/11/20/edge-model-inventory-explained/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://nereidai.github.io/devzh/blog/2026/11/20/edge-model-inventory-explained/"/>
+    </url>
+    <url>
+        <loc>https://nereidai.github.io/dev/blog/2026/11/20/introducing-nereidai/</loc>
+        <lastmod>2026-11-20</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://nereidai.github.io/dev/blog/2026/11/20/introducing-nereidai/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://nereidai.github.io/devzh/blog/2026/11/20/introducing-nereidai/"/>
+    </url>
+    <url>
+        <loc>https://nereidai.github.io/dev/blog/2026/11/20/open-core-without-hidden-features/</loc>
+        <lastmod>2026-11-20</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://nereidai.github.io/dev/blog/2026/11/20/open-core-without-hidden-features/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://nereidai.github.io/devzh/blog/2026/11/20/open-core-without-hidden-features/"/>
+    </url>
+    <url>
         <loc>https://nereidai.github.io/dev/</loc>
         <lastmod>2026-11-20</lastmod>
         <changefreq>daily</changefreq>
@@ -1051,6 +1079,62 @@
         <xhtml:link rel="alternate" hreflang="zh" href="https://nereidai.github.io/devzh/solutions/nereidsentinel/"/>
     </url>
     <url>
+        <loc>https://nereidai.github.io/dev/blog/archive/2026/</loc>
+        <lastmod>2026-11-20</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://nereidai.github.io/dev/blog/archive/2026/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://nereidai.github.io/devzh/blog/archive/2026/"/>
+    </url>
+    <url>
+        <loc>https://nereidai.github.io/dev/blog/category/engineering/</loc>
+        <lastmod>2026-11-20</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://nereidai.github.io/dev/blog/category/engineering/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://nereidai.github.io/devzh/blog/category/engineering/"/>
+    </url>
+    <url>
+        <loc>https://nereidai.github.io/dev/blog/category/product-updates/</loc>
+        <lastmod>2026-11-20</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://nereidai.github.io/dev/blog/category/product-updates/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://nereidai.github.io/devzh/blog/category/product-updates/"/>
+    </url>
+    <url>
+        <loc>https://nereidai.github.io/dev/blog/category/perspectives/</loc>
+        <lastmod>2026-11-20</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://nereidai.github.io/dev/blog/category/perspectives/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://nereidai.github.io/devzh/blog/category/perspectives/"/>
+    </url>
+    <url>
+        <loc>https://nereidai.github.io/dev/zh/blog/</loc>
+        <lastmod>2026-11-20</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://nereidai.github.io/devblog/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://nereidai.github.io/dev/zh/blog/"/>
+    </url>
+    <url>
+        <loc>https://nereidai.github.io/dev/zh/blog/2026/11/20/edge-model-inventory-explained/</loc>
+        <lastmod>2026-11-20</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://nereidai.github.io/devblog/2026/11/20/edge-model-inventory-explained/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://nereidai.github.io/dev/zh/blog/2026/11/20/edge-model-inventory-explained/"/>
+    </url>
+    <url>
+        <loc>https://nereidai.github.io/dev/zh/blog/2026/11/20/introducing-nereidai/</loc>
+        <lastmod>2026-11-20</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://nereidai.github.io/devblog/2026/11/20/introducing-nereidai/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://nereidai.github.io/dev/zh/blog/2026/11/20/introducing-nereidai/"/>
+    </url>
+    <url>
+        <loc>https://nereidai.github.io/dev/zh/blog/2026/11/20/open-core-without-hidden-features/</loc>
+        <lastmod>2026-11-20</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://nereidai.github.io/devblog/2026/11/20/open-core-without-hidden-features/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://nereidai.github.io/dev/zh/blog/2026/11/20/open-core-without-hidden-features/"/>
+    </url>
+    <url>
         <loc>https://nereidai.github.io/dev/zh/</loc>
         <lastmod>2026-11-20</lastmod>
         <changefreq>daily</changefreq>
@@ -2099,5 +2183,33 @@
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="https://nereidai.github.io/dev/zh/solutions/nereidsentinel/"/>
         <xhtml:link rel="alternate" hreflang="en" href="https://nereidai.github.io/devsolutions/nereidsentinel/"/>
+    </url>
+    <url>
+        <loc>https://nereidai.github.io/dev/zh/blog/archive/2026/</loc>
+        <lastmod>2026-11-20</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://nereidai.github.io/devblog/archive/2026/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://nereidai.github.io/dev/zh/blog/archive/2026/"/>
+    </url>
+    <url>
+        <loc>https://nereidai.github.io/dev/zh/blog/category/engineering/</loc>
+        <lastmod>2026-11-20</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://nereidai.github.io/devblog/category/engineering/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://nereidai.github.io/dev/zh/blog/category/engineering/"/>
+    </url>
+    <url>
+        <loc>https://nereidai.github.io/dev/zh/blog/category/product-updates/</loc>
+        <lastmod>2026-11-20</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://nereidai.github.io/devblog/category/product-updates/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://nereidai.github.io/dev/zh/blog/category/product-updates/"/>
+    </url>
+    <url>
+        <loc>https://nereidai.github.io/dev/zh/blog/category/perspectives/</loc>
+        <lastmod>2026-11-20</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://nereidai.github.io/devblog/category/perspectives/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://nereidai.github.io/dev/zh/blog/category/perspectives/"/>
     </url>
 </urlset>
