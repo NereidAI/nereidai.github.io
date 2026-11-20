@@ -24,6 +24,7 @@ theme:
   favicon: assets/favicon.png
   features:
     - navigation.tabs
+    - navigation.indexes
     - navigation.tabs.sticky
     - navigation.top
     - navigation.tracking
@@ -74,7 +75,17 @@ markdown_extensions:
       emoji_index: !!python/name:material.extensions.emoji.twemoji
       emoji_generator: !!python/name:material.extensions.emoji.to_svg
 
+hooks:
+  - hooks/material_blog_i18n.py
+
 plugins:
+  - blog:
+      post_excerpt: required
+      categories_allowed:
+        - Product updates
+        - Engineering
+        - Perspectives
+        - Community
   - search
   - glightbox
   - i18n:
@@ -124,6 +135,7 @@ plugins:
             Glossary: 术语表
             About: 关于
             About NereidAI: 关于 NereidAI
+            Blog: 博客
             Guides: 使用指南
             Monitoring: 监控
             Devices: 设备
@@ -327,6 +339,8 @@ nav:
     - Support: community/support.md
     - Roadmap: community/roadmap.md
 
+  - Blog:
+    - blog/index.md
   - About:
     - About NereidAI: about/index.md
     - Naming & Abbreviations: reference/naming.md
