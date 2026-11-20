@@ -107,7 +107,8 @@ plugins:
             Security: 安全
             SSO & OIDC: SSO 与 OIDC
             RBAC: RBAC 权限模型
-            Development: 开发
+            Developers: 开发者
+            API & Contributing: API 与贡献
             API Integration: API 对接
             Authentication Flows: 认证流程
             Getting Started: 快速开始
@@ -119,7 +120,6 @@ plugins:
             Pricing & Purchase: 价格与购买
             Roadmap: 路线图
             Support: 支持
-            Reference: 参考
             Naming & Abbreviations: 命名与简写
             Glossary: 术语表
             About: 关于
@@ -294,28 +294,25 @@ nav:
     - NereidInference:
       - Getting Started: guides/inference/getting-started.md
 
-  - Architecture:
-    - Overview: architecture/overview.md
-    - Topology: architecture/topology.md
-    - Cross-Product Contracts: architecture/contracts.md
-
-  - Deployment:
-    - Air-Gapped Install: deployment/air-gapped.md
-    - Kubernetes & Helm: deployment/kubernetes.md
-    - Edge Delivery: deployment/edge-delivery.md
-
-  - Security:
-    - Overview: security/index.md
-    - SSO & OIDC: security/sso-oidc.md
-    - RBAC: security/rbac.md
-
-  - Development:
-    - API Integration:
-      - Overview: development/api-integration.md
+  - Developers:
+    - Architecture:
+      - Overview: architecture/overview.md
+      - Topology: architecture/topology.md
+      - Cross-Product Contracts: architecture/contracts.md
+    - Deployment:
+      - Air-Gapped Install: deployment/air-gapped.md
+      - Kubernetes & Helm: deployment/kubernetes.md
+      - Edge Delivery: deployment/edge-delivery.md
+    - Security:
+      - Overview: security/index.md
+      - SSO & OIDC: security/sso-oidc.md
+      - RBAC: security/rbac.md
+    - API & Contributing:
+      - API Integration: development/api-integration.md
       - Authentication Flows: development/authentication-flows.md
-    - Getting Started: development/getting-started.md
-    - Contributing: development/contributing.md
-    - Conventions: development/conventions.md
+      - Getting Started: development/getting-started.md
+      - Contributing: development/contributing.md
+      - Conventions: development/conventions.md
 
   - Community & Commercial:
     - Community vs Enterprise: community/community-vs-enterprise.md
@@ -330,9 +327,7 @@ nav:
     - Support: community/support.md
     - Roadmap: community/roadmap.md
 
-  - Reference:
-    - Naming & Abbreviations: reference/naming.md
-    - Glossary: reference/glossary.md
-
   - About:
     - About NereidAI: about/index.md
+    - Naming & Abbreviations: reference/naming.md
+    - Glossary: reference/glossary.md
